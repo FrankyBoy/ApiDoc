@@ -5,12 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PosApiOnlineDoc.Tests")]
+[assembly: AssemblyTitle("ApiDoc.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("bwin AG")]
-[assembly: AssemblyProduct("PosApiOnlineDoc.Tests")]
-[assembly: AssemblyCopyright("Copyright © bwin AG 2013")]
+[assembly: AssemblyProduct("ApiDoc.Tests")]
+[assembly: AssemblyCopyright("Copyright © Immanuel Hayden 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -1,16 +1,14 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PosApiOnlineDoc")]
+[assembly: AssemblyTitle("ApiDoc")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("bwin AG")]
-[assembly: AssemblyProduct("PosApiOnlineDoc")]
-[assembly: AssemblyCopyright("Copyright © bwin AG 2013")]
+[assembly: AssemblyProduct("ApiDoc")]
+[assembly: AssemblyCopyright("Copyright © Immanuel Hayden 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

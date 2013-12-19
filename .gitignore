@@ -1,5 +1,7 @@
 bin
 obj
-bin
-obj
+/ApiDoc.Tests/bin
+/ApiDoc.Tests/obj
 /ApiDoc/ApiDoc.csproj.user
+
+/*.suo
