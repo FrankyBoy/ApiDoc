@@ -1,0 +1,11 @@
+﻿@model ApiDoc.Models.ApiDescription
+
+@{
+    ViewBag.Title = "Edit API";
+}
+
+<h3>ViewBag.Title</h3>
+@using (Html.BeginForm()){
+    @Html.EditorFor(m => m)
+    <input type="submit" value="Update" />
+}

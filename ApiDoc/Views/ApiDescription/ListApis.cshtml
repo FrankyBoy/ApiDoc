@@ -1,0 +1,16 @@
+﻿@using ApiDoc.Models
+@using ApiDoc.Utility
+@{
+    ViewBag.Title = "APIs";
+}
+<h3>ViewBag.Title</h3>
+<ul>
+    @foreach (ApiDescription item in ViewBag.ApiDescriptions)
+    {
+        <li class="apiDescription"><a href="@Request.Url.AbsoluteUri@item.Name.ToWikiUrlString()"><h4>@item.Name</h4>@item.Description</a>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new {@class = "editButton"})
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new {@class = "deleteButton"})
+        </li>
+    }
+</ul>
+@Html.ActionLink("Create", "Create")

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PosDocumentation" Class="PosDocumentationDbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=AT03W00340\SQLEXPRESS;Initial Catalog=PosDocumentation;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PosDocumentationConnectionString" Provider="System.Data.SqlClient" />
+  <Function Name="dbo.GetAPIs" Method="GetAPIs">
+    <ElementType Name="GetAPIsResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fApiName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="fDescription" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetMethodDetails" Method="GetMethodDetails">
+    <Parameter Name="methodId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetMethodDetailsResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="frServiceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fMethodName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthentication" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthorization" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequestSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fResponseSampe" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fDescription" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetMethodsForService" Method="GetMethodsForService">
+    <Parameter Name="serviceId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetMethodsForServiceResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fMethodName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetModulesForApi" Method="GetModulesForApi">
+    <Parameter Name="ApiId" Parameter="apiId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetModulesForApiResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fServiceName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+</Database>

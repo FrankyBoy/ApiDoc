@@ -1,0 +1,53 @@
+﻿* {
+    box-sizing: content-box;
+    font-family: Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+
+}
+
+html {
+    background-color: #f4f4f4;
+}
+
+#body {
+    margin: 0 auto 2em auto;
+    width: 90%;
+    padding: 2em 1em;
+    background-color: white;
+    border: 1px solid #eee;
+}
+
+.apiDescription {
+    border: 1px solid #888;
+    list-style-type: none;
+    margin: 1em;
+    padding: .5em;
+    background-color: #f4f4f4;
+    position: relative;
+}
+
+.editButton, .deleteButton {
+    position: absolute;
+    top: .5em;
+    width: 1.5em;
+    height: 1.5em;
+    overflow: hidden;
+    color: transparent;
+}
+
+.editButton {
+    right: 2.5em;
+    background-image: url(images/Cogs_Sprite.png);
+    background-size: 3em 1.5em;
+}
+
+.deleteButton {
+    right: .5em;
+    background-image: url(images/Trashcan_Sprite.png);
+    background-size: 3em 1.5em;
+}
+
+.editButton:hover, .deleteButton:hover {
+    background-position: right;
+}

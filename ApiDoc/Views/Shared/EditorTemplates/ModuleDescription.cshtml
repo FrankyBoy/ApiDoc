@@ -1,0 +1,6 @@
+﻿@model ApiDoc.Models.ModuleDescription
+
+@Html.HiddenFor(m => m.Id)
+<table>
+    <tr><td>@Html.LabelFor(m => m.Name)</td><td>@Html.TextBoxFor(m => m.Name)</td></tr>
+</table>
