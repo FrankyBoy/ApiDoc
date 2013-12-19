@@ -69,13 +69,6 @@ namespace ApiDoc.DataAccess
 			return ((ISingleResult<GetAPIsResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetMethodDetails")]
-		public ISingleResult<GetMethodDetailsResult> GetMethodDetails([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> methodId)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), methodId);
-			return ((ISingleResult<GetMethodDetailsResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetMethodsForService")]
 		public ISingleResult<GetMethodsForServiceResult> GetMethodsForService([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> serviceId)
 		{
@@ -88,6 +81,41 @@ namespace ApiDoc.DataAccess
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId);
 			return ((ISingleResult<GetModulesForApiResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetApiByName")]
+		public ISingleResult<GetApiByNameResult> GetApiByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(1)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((ISingleResult<GetApiByNameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetHttpVerbs")]
+		public ISingleResult<GetHttpVerbsResult> GetHttpVerbs()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetHttpVerbsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetMethodDetails")]
+		public ISingleResult<GetMethodDetailsResult> GetMethodDetails([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> methodId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), methodId);
+			return ((ISingleResult<GetMethodDetailsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetModuleByName")]
+		public ISingleResult<GetModuleByNameResult> GetModuleByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(1)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, apiId);
+			return ((ISingleResult<GetModuleByNameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetMethodByName")]
+		public ISingleResult<GetMethodByNameResult> GetMethodByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> moduleId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(1)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), moduleId, name);
+			return ((ISingleResult<GetMethodByNameResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -153,6 +181,218 @@ namespace ApiDoc.DataAccess
 		}
 	}
 	
+	public partial class GetMethodsForServiceResult
+	{
+		
+		private int _fID;
+		
+		private string _fMethodName;
+		
+		private int _frHttpVerb;
+		
+		public GetMethodsForServiceResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fMethodName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string fMethodName
+		{
+			get
+			{
+				return this._fMethodName;
+			}
+			set
+			{
+				if ((this._fMethodName != value))
+				{
+					this._fMethodName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frHttpVerb", DbType="Int NOT NULL")]
+		public int frHttpVerb
+		{
+			get
+			{
+				return this._frHttpVerb;
+			}
+			set
+			{
+				if ((this._frHttpVerb != value))
+				{
+					this._frHttpVerb = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetModulesForApiResult
+	{
+		
+		private int _fID;
+		
+		private string _fServiceName;
+		
+		public GetModulesForApiResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fServiceName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fServiceName
+		{
+			get
+			{
+				return this._fServiceName;
+			}
+			set
+			{
+				if ((this._fServiceName != value))
+				{
+					this._fServiceName = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetApiByNameResult
+	{
+		
+		private int _fID;
+		
+		private string _fApiName;
+		
+		private string _fDescription;
+		
+		public GetApiByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fApiName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fApiName
+		{
+			get
+			{
+				return this._fApiName;
+			}
+			set
+			{
+				if ((this._fApiName != value))
+				{
+					this._fApiName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string fDescription
+		{
+			get
+			{
+				return this._fDescription;
+			}
+			set
+			{
+				if ((this._fDescription != value))
+				{
+					this._fDescription = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetHttpVerbsResult
+	{
+		
+		private int _fID;
+		
+		private string _fHttpVerb;
+		
+		public GetHttpVerbsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fHttpVerb", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fHttpVerb
+		{
+			get
+			{
+				return this._fHttpVerb;
+			}
+			set
+			{
+				if ((this._fHttpVerb != value))
+				{
+					this._fHttpVerb = value;
+				}
+			}
+		}
+	}
+	
 	public partial class GetMethodDetailsResult
 	{
 		
@@ -170,7 +410,7 @@ namespace ApiDoc.DataAccess
 		
 		private string _fRequestSample;
 		
-		private string _fResponseSampe;
+		private string _fResponseSample;
 		
 		private string _fDescription;
 		
@@ -290,18 +530,18 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fResponseSampe", DbType="VarChar(MAX)")]
-		public string fResponseSampe
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fResponseSample", DbType="VarChar(MAX)")]
+		public string fResponseSample
 		{
 			get
 			{
-				return this._fResponseSampe;
+				return this._fResponseSample;
 			}
 			set
 			{
-				if ((this._fResponseSampe != value))
+				if ((this._fResponseSample != value))
 				{
-					this._fResponseSampe = value;
+					this._fResponseSample = value;
 				}
 			}
 		}
@@ -323,16 +563,14 @@ namespace ApiDoc.DataAccess
 		}
 	}
 	
-	public partial class GetMethodsForServiceResult
+	public partial class GetModuleByNameResult
 	{
 		
 		private int _fID;
 		
-		private string _fMethodName;
+		private string _fServiceName;
 		
-		private int _frHttpVerb;
-		
-		public GetMethodsForServiceResult()
+		public GetModuleByNameResult()
 		{
 		}
 		
@@ -348,6 +586,80 @@ namespace ApiDoc.DataAccess
 				if ((this._fID != value))
 				{
 					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fServiceName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fServiceName
+		{
+			get
+			{
+				return this._fServiceName;
+			}
+			set
+			{
+				if ((this._fServiceName != value))
+				{
+					this._fServiceName = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetMethodByNameResult
+	{
+		
+		private int _fID;
+		
+		private int _frServiceId;
+		
+		private string _fMethodName;
+		
+		private int _frHttpVerb;
+		
+		private bool _fRequiresAuthentication;
+		
+		private bool _fRequiresAuthorization;
+		
+		private string _fRequestSample;
+		
+		private string _fResponseSample;
+		
+		private string _fDescription;
+		
+		public GetMethodByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frServiceId", DbType="Int NOT NULL")]
+		public int frServiceId
+		{
+			get
+			{
+				return this._frServiceId;
+			}
+			set
+			{
+				if ((this._frServiceId != value))
+				{
+					this._frServiceId = value;
 				}
 			}
 		}
@@ -383,47 +695,83 @@ namespace ApiDoc.DataAccess
 				}
 			}
 		}
-	}
-	
-	public partial class GetModulesForApiResult
-	{
 		
-		private int _fID;
-		
-		private string _fServiceName;
-		
-		public GetModulesForApiResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
-		public int fID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthentication", DbType="Bit NOT NULL")]
+		public bool fRequiresAuthentication
 		{
 			get
 			{
-				return this._fID;
+				return this._fRequiresAuthentication;
 			}
 			set
 			{
-				if ((this._fID != value))
+				if ((this._fRequiresAuthentication != value))
 				{
-					this._fID = value;
+					this._fRequiresAuthentication = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fServiceName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string fServiceName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthorization", DbType="Bit NOT NULL")]
+		public bool fRequiresAuthorization
 		{
 			get
 			{
-				return this._fServiceName;
+				return this._fRequiresAuthorization;
 			}
 			set
 			{
-				if ((this._fServiceName != value))
+				if ((this._fRequiresAuthorization != value))
 				{
-					this._fServiceName = value;
+					this._fRequiresAuthorization = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequestSample", DbType="VarChar(MAX)")]
+		public string fRequestSample
+		{
+			get
+			{
+				return this._fRequestSample;
+			}
+			set
+			{
+				if ((this._fRequestSample != value))
+				{
+					this._fRequestSample = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fResponseSample", DbType="VarChar(MAX)")]
+		public string fResponseSample
+		{
+			get
+			{
+				return this._fResponseSample;
+			}
+			set
+			{
+				if ((this._fResponseSample != value))
+				{
+					this._fResponseSample = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string fDescription
+		{
+			get
+			{
+				return this._fDescription;
+			}
+			set
+			{
+				if ((this._fDescription != value))
+				{
+					this._fDescription = value;
 				}
 			}
 		}

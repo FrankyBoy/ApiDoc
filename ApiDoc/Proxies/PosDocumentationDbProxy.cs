@@ -8,11 +8,20 @@ namespace ApiDoc.Proxies
 {
     public class PosDocumentationDbProxy : IPosDocumentationDbProxy
     {
-        public IList<ApiDescription> GetApiDescriptions ()
+        
+        public IList<ApiDescription> GetApis ()
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return context.GetAPIs().Select(MapApiDescriptions).ToList();
+                return context.GetAPIs().Select(DbTypeConverter.MapApiDescription).ToList();
+            }
+        }
+
+        public ApiDescription GetApiByName(string name)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                return DbTypeConverter.MapApiDescription((GetApiByNameResult)context.GetApiByName(name).ReturnValue);
             }
         }
 
@@ -20,27 +29,57 @@ namespace ApiDoc.Proxies
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return context.GetModulesForApi(apiId).Select(MapModuleDescription).ToList();
+                return context.GetModulesForApi(apiId).Select(DbTypeConverter.MapModuleDescription).ToList();
             }
         }
 
-        private static ModuleDescription MapModuleDescription(GetModulesForApiResult input)
+        public ModuleDescription GetModuleByName(int apiId, string name)
         {
-            return new ModuleDescription
-                {
-                    Id = input.fID,
-                    Name = input.fServiceName
-                };
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                return DbTypeConverter.MapModuleDescription((GetModuleByNameResult)context.GetModuleByName(name, apiId).ReturnValue);
+            }
         }
 
-        private static ApiDescription MapApiDescriptions(GetAPIsResult input)
+        public IList<MethodDescription> GetMethods(int moduleId)
         {
-            return new ApiDescription
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                return context.GetMethodsForService(moduleId).Select(DbTypeConverter.MapMethodDescription).ToList();
+            }
+        }
+
+        public MethodDescription GetMethodById(int methodId)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                return DbTypeConverter.MapMethodDescription((GetMethodDetailsResult) context.GetMethodDetails(methodId).ReturnValue);
+            }
+        }
+
+        public MethodDescription GetMethodByName(int moduleId, string name)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                return DbTypeConverter.MapMethodDescription((GetMethodByNameResult) context.GetMethodByName(moduleId, name).ReturnValue);
+            }
+        }
+
+        private IDictionary<int, string> _cachedHttpMethods;
+        private DateTime _cachedHttpMethodsExpiry;
+
+        public IDictionary<int, string> GetHttpMethods()
+        {
+            if (_cachedHttpMethods == null && DateTime.UtcNow < _cachedHttpMethodsExpiry)
+            {
+                using (var context = new PosDocumentationDbDataContext())
                 {
-                    Id = input.fID,
-                    Name = input.fApiName,
-                    Description = input.fDescription
-                };
+                    _cachedHttpMethods = context.GetHttpVerbs().ToDictionary(x => x.fID, x => x.fHttpVerb);
+                }
+                _cachedHttpMethodsExpiry = DateTime.UtcNow.AddHours(1);
+            }
+
+            return _cachedHttpMethods;
         }
     }
 }

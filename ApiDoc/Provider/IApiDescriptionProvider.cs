@@ -5,7 +5,7 @@ namespace ApiDoc.Provider
 {
     public interface IApiDescriptionProvider
     {
-        IList<ApiDescription> GetApiDescriptions();
+        IList<ApiDescription> GetApis();
         ApiDescription GetApiDescription(int id);
     }
 }

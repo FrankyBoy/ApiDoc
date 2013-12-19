@@ -7,20 +7,6 @@
       <Column Name="fDescription" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
     </ElementType>
   </Function>
-  <Function Name="dbo.GetMethodDetails" Method="GetMethodDetails">
-    <Parameter Name="methodId" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetMethodDetailsResult">
-      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="frServiceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fMethodName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fRequiresAuthentication" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="fRequiresAuthorization" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="fRequestSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="fResponseSampe" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="fDescription" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.GetMethodsForService" Method="GetMethodsForService">
     <Parameter Name="serviceId" Type="System.Int32" DbType="Int" />
     <ElementType Name="GetMethodsForServiceResult">
@@ -34,6 +20,57 @@
     <ElementType Name="GetModulesForApiResult">
       <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="fServiceName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetApiByName" Method="GetApiByName">
+    <Parameter Name="name" Type="System.String" DbType="VarChar(1)" />
+    <ElementType Name="GetApiByNameResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fApiName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetHttpVerbs" Method="GetHttpVerbs">
+    <ElementType Name="GetHttpVerbsResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fHttpVerb" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetMethodDetails" Method="GetMethodDetails">
+    <Parameter Name="methodId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetMethodDetailsResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="frServiceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fMethodName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthentication" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthorization" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequestSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fResponseSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fDescription" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetModuleByName" Method="GetModuleByName">
+    <Parameter Name="name" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="apiId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetModuleByNameResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fServiceName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetMethodByName" Method="GetMethodByName">
+    <Parameter Name="moduleId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="name" Type="System.String" DbType="VarChar(1)" />
+    <ElementType Name="GetMethodByNameResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="frServiceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fMethodName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthentication" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthorization" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequestSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fResponseSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fDescription" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
 </Database>

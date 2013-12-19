@@ -5,7 +5,7 @@ namespace ApiDoc.Provider
 {
     public interface IContextProvider
     {
-        ApiDescription GetApiId(string apiUrl);
-        Tuple<ApiDescription, ModuleDescription> GetModuleId(string apiUrl, string moduleUrl);
+        ApiDescription GetApiByName(string apiUrl);
+        Tuple<ApiDescription, ModuleDescription> GetModuleByName(string apiUrl, string moduleUrl);
     }
 }

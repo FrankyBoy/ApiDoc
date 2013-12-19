@@ -19,7 +19,7 @@ namespace ApiDoc.Controllers
 
         public ActionResult List(string apiName)
         {
-            var api = _contextProvider.GetApiId(apiName);
+            var api = _contextProvider.GetApiByName(apiName);
 
             ViewBag.ApiDescription = api;
             ViewBag.ModuleDescriptions = _modulesProvider.GetModules(api.Id);

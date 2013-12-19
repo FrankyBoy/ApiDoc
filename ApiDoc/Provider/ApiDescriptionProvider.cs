@@ -14,14 +14,14 @@ namespace ApiDoc.Provider
             _proxy = proxy;
         }
 
-        public IList<ApiDescription> GetApiDescriptions()
+        public IList<ApiDescription> GetApis()
         {
-            return _proxy.GetApiDescriptions();
+            return _proxy.GetApis();
         }
 
         public ApiDescription GetApiDescription(int id)
         {
-            return GetApiDescriptions().First(x => x.Id == id);
+            return GetApis().First(x => x.Id == id);
         }
     }
 }

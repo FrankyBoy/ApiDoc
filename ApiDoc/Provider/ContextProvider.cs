@@ -1,37 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using ApiDoc.Models;
+using ApiDoc.Proxies;
 using ApiDoc.Utility;
 
 namespace ApiDoc.Provider
 {
     public class ContextProvider : IContextProvider
     {
-        private readonly IModulesProvider _modulesProvider;
-        private readonly IApiDescriptionProvider _apiDescriptionProvider;
+        private readonly IPosDocumentationDbProxy _proxy;
 
-        public ContextProvider(IModulesProvider modulesProvider, IApiDescriptionProvider apiDescriptionProvider)
+        public ContextProvider(IPosDocumentationDbProxy proxy)
         {
-            _modulesProvider = modulesProvider;
-            _apiDescriptionProvider = apiDescriptionProvider;
+            _proxy = proxy;
         }
 
-        public ApiDescription GetApiId(string apiUrl)
+        public ApiDescription GetApiByName(string apiUrl)
         {
             apiUrl = apiUrl.FromWikiUrlString();
-            var apis = _apiDescriptionProvider.GetApiDescriptions();
-
-            return apis.First(x => x.Name.EqualsIgnoreCase(apiUrl));
+            return _proxy.GetApiByName(apiUrl);
         }
 
-        public Tuple<ApiDescription, ModuleDescription> GetModuleId(string apiUrl, string moduleUrl)
+        public Tuple<ApiDescription, ModuleDescription> GetModuleByName(string apiUrl, string moduleUrl)
         {
-            var api = GetApiId(apiUrl);
+            var api = GetApiByName(apiUrl);
 
             moduleUrl = moduleUrl.FromWikiUrlString();
-            var module = _modulesProvider.GetModules(api.Id).First(x => x.Name.EqualsIgnoreCase(moduleUrl));
+            var module = _proxy.GetModuleByName(api.Id, moduleUrl);
 
             return new Tuple<ApiDescription, ModuleDescription>(api, module);
         }
