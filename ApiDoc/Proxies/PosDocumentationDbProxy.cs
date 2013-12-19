@@ -45,7 +45,7 @@ namespace ApiDoc.Proxies
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return context.GetMethodsForService(moduleId).Select(DbTypeConverter.MapMethodDescription).ToList();
+                return context.GetMethodsForService(moduleId).Select(x => DbTypeConverter.MapMethodDescription(x,GetHttpMethods())).ToList();
             }
         }
 
@@ -53,7 +53,7 @@ namespace ApiDoc.Proxies
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return DbTypeConverter.MapMethodDescription(context.GetMethodById(methodId).First());
+                return DbTypeConverter.MapMethodDescription(context.GetMethodById(methodId).First(), GetHttpMethods());
             }
         }
         
@@ -61,7 +61,7 @@ namespace ApiDoc.Proxies
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return DbTypeConverter.MapMethodDescription(context.GetMethodByName(moduleId, name, null).First());
+                return DbTypeConverter.MapMethodDescription(context.GetMethodByName(moduleId, name, null).First(), GetHttpMethods());
             }
         }
 
@@ -70,7 +70,7 @@ namespace ApiDoc.Proxies
 
         public IDictionary<int, string> GetHttpMethods()
         {
-            if (_cachedHttpMethods == null && DateTime.UtcNow < _cachedHttpMethodsExpiry)
+            if (_cachedHttpMethods == null || DateTime.UtcNow > _cachedHttpMethodsExpiry)
             {
                 using (var context = new PosDocumentationDbDataContext())
                 {

@@ -50,8 +50,7 @@ namespace ApiDoc.Proxies
             return new MethodDescription
                 {
                     Id = input.fID,
-                    HttpMethod = httpMethods[input.frHttpVerb],
-                    Name = input.fMethodName
+                    Name = GetMethodName(httpMethods[input.frHttpVerb],input.fMethodName)
                 };
         }
 
@@ -61,12 +60,11 @@ namespace ApiDoc.Proxies
                 {
                     Id = input.fID,
                     Desciption = input.fDescription,
-                    Name = input.fMethodName,
+                    Name = GetMethodName(httpMethods[input.frHttpVerb],input.fMethodName),
                     Request = input.fRequestSample,
                     Response = input.fResponseSample,
                     Authenticated = input.fRequiresAuthentication,
                     Authorized = input.fRequiresAuthorization,
-                    HttpMethod = httpMethods[input.frHttpVerb],
                     ServiceId = input.frServiceId
                 };
         }
@@ -77,14 +75,18 @@ namespace ApiDoc.Proxies
             {
                 Id = input.fID,
                 Desciption = input.fDescription,
-                Name = input.fMethodName,
+                Name = GetMethodName(httpMethods[input.frHttpVerb],input.fMethodName),
                 Request = input.fRequestSample,
                 Response = input.fResponseSample,
                 Authenticated = input.fRequiresAuthentication,
                 Authorized = input.fRequiresAuthorization,
-                HttpMethod = httpMethods[input.frHttpVerb],
                 ServiceId = input.frServiceId
             };
+        }
+
+        private static string GetMethodName(string method, string name)
+        {
+            return string.Format("{0} {1}", method, name);
         }
     }
 }
