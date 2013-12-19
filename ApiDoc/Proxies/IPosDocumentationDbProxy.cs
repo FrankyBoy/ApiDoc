@@ -13,7 +13,7 @@ namespace ApiDoc.Proxies
 
         IList<MethodDescription> GetMethods(int moduleId);
         MethodDescription GetMethodById(int methodId);
-        MethodDescription GetMethodByName(int moduleId, string name);
+        MethodDescription GetMethodByName(int moduleId, string name, int? revision = null);
 
         IDictionary<int, string> GetHttpMethods();
     }

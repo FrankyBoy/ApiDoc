@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int HttpMethod { get; set; }
+        public string HttpMethod { get; set; }
         public string Desciption { get; set; }
         public string Response { get; set; }
         public string Request { get; set; }

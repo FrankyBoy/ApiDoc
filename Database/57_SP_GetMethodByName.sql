@@ -21,17 +21,17 @@ AS
 BEGIN
 	DECLARE @AllVersions TABLE
 	(
-		fID int,
-		frServiceId int,
-		fMethodName nvarchar(100),
-		frHttpVerb int,
-		fRequiresAuthentication bit,
-		fRequiresAuthorization bit,
+		fID int not null,
+		frServiceId int not null,
+		fMethodName nvarchar(100) not null,
+		frHttpVerb int not null,
+		fRequiresAuthentication bit not null,
+		fRequiresAuthorization bit not null,
 		fRequestSample nvarchar(max),
 		fResponseSample nvarchar(max),
-		fDescription nvarchar(max),
-		fChangeDate datetime,
-		fAuthor nvarchar(50),
+		fDescription nvarchar(max) not null,
+		fChangeDate datetime not null,
+		fAuthor nvarchar(50) not null,
 		fRevisionNumber int
 	);
 

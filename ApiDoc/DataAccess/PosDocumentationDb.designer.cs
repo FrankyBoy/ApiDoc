@@ -679,17 +679,17 @@ namespace ApiDoc.DataAccess
 	public partial class GetMethodByNameResult
 	{
 		
-		private System.Nullable<int> _fID;
+		private int _fID;
 		
-		private System.Nullable<int> _frServiceId;
+		private int _frServiceId;
 		
 		private string _fMethodName;
 		
-		private System.Nullable<int> _frHttpVerb;
+		private int _frHttpVerb;
 		
-		private System.Nullable<bool> _fRequiresAuthentication;
+		private bool _fRequiresAuthentication;
 		
-		private System.Nullable<bool> _fRequiresAuthorization;
+		private bool _fRequiresAuthorization;
 		
 		private string _fRequestSample;
 		
@@ -697,7 +697,7 @@ namespace ApiDoc.DataAccess
 		
 		private string _fDescription;
 		
-		private System.Nullable<System.DateTime> _fChangeDate;
+		private System.DateTime _fChangeDate;
 		
 		private string _fAuthor;
 		
@@ -707,8 +707,8 @@ namespace ApiDoc.DataAccess
 		{
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int")]
-		public System.Nullable<int> fID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
 		{
 			get
 			{
@@ -723,8 +723,8 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frServiceId", DbType="Int")]
-		public System.Nullable<int> frServiceId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frServiceId", DbType="Int NOT NULL")]
+		public int frServiceId
 		{
 			get
 			{
@@ -739,7 +739,7 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fMethodName", DbType="NVarChar(100)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fMethodName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
 		public string fMethodName
 		{
 			get
@@ -755,8 +755,8 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frHttpVerb", DbType="Int")]
-		public System.Nullable<int> frHttpVerb
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frHttpVerb", DbType="Int NOT NULL")]
+		public int frHttpVerb
 		{
 			get
 			{
@@ -771,8 +771,8 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthentication", DbType="Bit")]
-		public System.Nullable<bool> fRequiresAuthentication
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthentication", DbType="Bit NOT NULL")]
+		public bool fRequiresAuthentication
 		{
 			get
 			{
@@ -787,8 +787,8 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthorization", DbType="Bit")]
-		public System.Nullable<bool> fRequiresAuthorization
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthorization", DbType="Bit NOT NULL")]
+		public bool fRequiresAuthorization
 		{
 			get
 			{
@@ -835,7 +835,7 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="NVarChar(MAX)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
 		public string fDescription
 		{
 			get
@@ -851,8 +851,8 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> fChangeDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeDate", DbType="DateTime NOT NULL")]
+		public System.DateTime fChangeDate
 		{
 			get
 			{
@@ -867,7 +867,7 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fAuthor", DbType="NVarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fAuthor", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
 		public string fAuthor
 		{
 			get

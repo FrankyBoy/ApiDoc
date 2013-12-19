@@ -1,4 +1,4 @@
-﻿using System.Data.Linq;
+﻿using System.Collections.Generic;
 using ApiDoc.DataAccess;
 using ApiDoc.Models;
 
@@ -45,17 +45,17 @@ namespace ApiDoc.Proxies
             };
         }
 
-        public static MethodDescription MapMethodDescription(GetMethodsForServiceResult input)
+        public static MethodDescription MapMethodDescription(GetMethodsForServiceResult input, IDictionary<int, string> httpMethods)
         {
             return new MethodDescription
                 {
                     Id = input.fID,
-                    HttpMethod = input.frHttpVerb,
+                    HttpMethod = httpMethods[input.frHttpVerb],
                     Name = input.fMethodName
                 };
         }
 
-        public static MethodDescription MapMethodDescription(GetMethodDetailsResult input)
+        public static MethodDescription MapMethodDescription(GetMethodByIdResult input, IDictionary<int, string> httpMethods)
         {
             return new MethodDescription
                 {
@@ -66,12 +66,12 @@ namespace ApiDoc.Proxies
                     Response = input.fResponseSample,
                     Authenticated = input.fRequiresAuthentication,
                     Authorized = input.fRequiresAuthorization,
-                    HttpMethod = input.frHttpVerb,
+                    HttpMethod = httpMethods[input.frHttpVerb],
                     ServiceId = input.frServiceId
                 };
         }
 
-        public static MethodDescription MapMethodDescription(GetMethodByNameResult input)
+        public static MethodDescription MapMethodDescription(GetMethodByNameResult input, IDictionary<int, string> httpMethods)
         {
             return new MethodDescription
             {
@@ -82,7 +82,7 @@ namespace ApiDoc.Proxies
                 Response = input.fResponseSample,
                 Authenticated = input.fRequiresAuthentication,
                 Authorized = input.fRequiresAuthorization,
-                HttpMethod = input.frHttpVerb,
+                HttpMethod = httpMethods[input.frHttpVerb],
                 ServiceId = input.frServiceId
             };
         }

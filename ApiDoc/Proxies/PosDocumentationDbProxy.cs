@@ -53,15 +53,15 @@ namespace ApiDoc.Proxies
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return DbTypeConverter.MapMethodDescription(context.GetMethodDetails(methodId).First());
+                return DbTypeConverter.MapMethodDescription(context.GetMethodById(methodId).First());
             }
         }
-
-        public MethodDescription GetMethodByName(int moduleId, string name)
+        
+        public MethodDescription GetMethodByName(int moduleId, string name, int? revision = null)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return DbTypeConverter.MapMethodDescription(context.GetMethodByName(moduleId, name).First());
+                return DbTypeConverter.MapMethodDescription(context.GetMethodByName(moduleId, name, null).First());
             }
         }
 
