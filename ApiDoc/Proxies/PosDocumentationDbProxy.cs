@@ -21,7 +21,7 @@ namespace ApiDoc.Proxies
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return DbTypeConverter.MapApiDescription((GetApiByNameResult)context.GetApiByName(name).ReturnValue);
+                return DbTypeConverter.MapApiDescription(context.GetApiByName(name).First());
             }
         }
 
@@ -37,7 +37,7 @@ namespace ApiDoc.Proxies
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return DbTypeConverter.MapModuleDescription((GetModuleByNameResult)context.GetModuleByName(name, apiId).ReturnValue);
+                return DbTypeConverter.MapModuleDescription(context.GetModuleByName(name, apiId).First());
             }
         }
 
@@ -53,7 +53,7 @@ namespace ApiDoc.Proxies
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return DbTypeConverter.MapMethodDescription((GetMethodDetailsResult) context.GetMethodDetails(methodId).ReturnValue);
+                return DbTypeConverter.MapMethodDescription(context.GetMethodDetails(methodId).First());
             }
         }
 
@@ -61,7 +61,7 @@ namespace ApiDoc.Proxies
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return DbTypeConverter.MapMethodDescription((GetMethodByNameResult) context.GetMethodByName(moduleId, name).ReturnValue);
+                return DbTypeConverter.MapMethodDescription(context.GetMethodByName(moduleId, name).First());
             }
         }
 

@@ -21,8 +21,8 @@ namespace ApiDoc.Controllers
         {
             var api = _contextProvider.GetApiByName(apiName);
 
-            ViewBag.ApiDescription = api;
-            ViewBag.ModuleDescriptions = _modulesProvider.GetModules(api.Id);
+            ViewBag.Api = api;
+            ViewBag.Modules = _modulesProvider.GetModules(api.Id);
             return View("ListModules");
         }
 

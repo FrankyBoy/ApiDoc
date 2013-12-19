@@ -46,7 +46,11 @@ namespace ApiDoc
                    .As<IModulesProvider>()
                    .SingleInstance();
 
-            builder.Register(c => new ContextProvider(c.Resolve <IModulesProvider>(), c.Resolve<IApiDescriptionProvider>()))
+            builder.Register(c => new MethodProvider(c.Resolve<IPosDocumentationDbProxy>()))
+                   .As<IMethodProvider>()
+                   .SingleInstance();
+
+            builder.Register(c => new ContextProvider(c.Resolve <IPosDocumentationDbProxy>()))
                    .As<IContextProvider>()
                    .SingleInstance();
 

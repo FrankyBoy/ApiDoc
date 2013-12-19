@@ -15,7 +15,7 @@ namespace ApiDoc.Controllers
 
         public ActionResult List()
         {
-            ViewBag.ApiDescriptions = _apiDescriptionProvider.GetApis();
+            ViewBag.Apis = _apiDescriptionProvider.GetApis();
             return View("ListApis");
         }
 

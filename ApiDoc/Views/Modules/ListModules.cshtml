@@ -4,9 +4,9 @@
     ViewBag.Title = "Modules";
 }
 
-<h3>Modules for @ViewBag.ApiDescription.Name</h3>
+<h3>Modules for @ViewBag.Api.Name</h3>
 <ul>
-    @foreach (ModuleDescription item in ViewBag.ModuleDescriptions)
+    @foreach (ModuleDescription item in ViewBag.Modules)
     {
         <li class="apiDescription"><a href="@Request.Url.AbsoluteUri/@item.Name.ToWikiUrlString()"><h4>@item.Name</h4></a>
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new {@class = "editButton"})

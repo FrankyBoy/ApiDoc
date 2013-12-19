@@ -29,5 +29,16 @@ namespace ApiDoc.Provider
 
             return new Tuple<ApiDescription, ModuleDescription>(api, module);
         }
+
+
+        public Tuple<ApiDescription, ModuleDescription, MethodDescription> GetMethodByName(string apiUrl, string moduleUrl, string methodUrl)
+        {
+            var module = GetModuleByName(apiUrl, moduleUrl);
+
+            methodUrl = methodUrl.FromWikiUrlString();
+            var method = _proxy.GetMethodByName(module.Item2.Id, methodUrl);
+
+            return new Tuple<ApiDescription, ModuleDescription, MethodDescription>(module.Item1, module.Item2, method);
+        }
     }
 }
