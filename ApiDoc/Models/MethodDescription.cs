@@ -10,5 +10,7 @@
         public bool Authenticated { get; set; }
         public bool Authorized { get; set; }
         public int ServiceId { get; set; }
+
+        public string HttpMethod { get; set; }
     }
 }

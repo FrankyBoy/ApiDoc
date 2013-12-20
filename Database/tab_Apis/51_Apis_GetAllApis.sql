@@ -13,16 +13,20 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[GetAPIs]
+CREATE PROCEDURE [dbo].[Apis_GetAllApis]
+	@alsoDeleted bit = 'FALSE'
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
+	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
-    -- Insert statements for procedure here
-	SELECT fID, fApiName, fDescription
-	FROM tab_Apis
+    SELECT fID, fApiName, fDescription, fDeleted
+	FROM (
+		SELECT *, ROW_NUMBER() OVER (PARTITION BY fApiName ORDER BY fChangeDate DESC) AS InverseRevision
+		from tab_Apis
+	) x
+	where x.InverseRevision=1
+	AND (fDeleted = 'FALSE' OR @alsoDeleted = 'TRUE')
 END
 
 GO

@@ -8,10 +8,12 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[tab_APIs](
+CREATE TABLE [dbo].[tab_Apis](
 	[fID] [int] NOT NULL IDENTITY(1,1),
 	[fApiName] [nvarchar](50) NOT NULL,
-	[fDescription] [nvarchar](max) NOT NULL,
+	[fDescription] [nvarchar](max),
+	[fChangeDate] datetime NOT NULL,
+	[fAuthor] [nvarchar](50) NOT NULL,
 	[fDeleted] [bit] NOT NULL,
  CONSTRAINT [PK_tab_APIs] PRIMARY KEY CLUSTERED 
 (
