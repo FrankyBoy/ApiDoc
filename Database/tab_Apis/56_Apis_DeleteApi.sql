@@ -14,12 +14,18 @@ GO
 -- Description:	<Description,,>
 -- =============================================
 CREATE PROCEDURE [dbo].[Apis_DeleteApi]
-	@moduleId int,
-	@methodName nvarchar(100)
+	@apiId int
+	
 AS
 BEGIN
 	SET NOCOUNT ON;
-	--TODO write this thing!
+	
+	DECLARE @latestDate = SELECT MAX(fChangeDate) FROM tab_Apis where fID = @apiId
+	
+	UPDATE tab_Apis
+ 	SET fDeleted='True'
+ 	WHERE fID = @apiId AND fChangeDate = @latestDate
+			
 END
 
 GO

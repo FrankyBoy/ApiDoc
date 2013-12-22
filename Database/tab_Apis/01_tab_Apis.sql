@@ -9,18 +9,17 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[tab_Apis](
-	[fID] [int] NOT NULL IDENTITY(1,1),
+	[fID] [int] NOT NULL,
 	[fApiName] [nvarchar](50) NOT NULL,
 	[fDescription] [nvarchar](max),
 	[fChangeDate] datetime NOT NULL,
 	[fAuthor] [nvarchar](50) NOT NULL,
 	[fDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_tab_APIs] PRIMARY KEY CLUSTERED 
-(
-	[fID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
+CREATE INDEX [IN_tab_Apis_fChangeDate] ON [tab_Apis] (fChangeDate)
+CREATE INDEX [IN_tab_Apis_fApiName] ON [tab_Apis] (fApiName)
+ 
 GO
 
 
