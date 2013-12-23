@@ -20,8 +20,8 @@ BEGIN
     FROM (
         SELECT fID, row_number() OVER(ORDER BY fChangeDate DESC) AS inverseRevision
         FROM tab_Modules
-        WHERE UPPER(fModuleName) = UPPER(@name)
-        AND frApiId = @apiId
+        WHERE frApiId = @apiId
+        AND UPPER(fModuleName) = UPPER(@name)
     )x
     WHERE x.inverseRevision = 1
 

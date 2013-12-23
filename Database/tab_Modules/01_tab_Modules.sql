@@ -16,8 +16,9 @@ CREATE TABLE [dbo].[tab_Modules](
     [fDeleted]      [bit] NOT NULL,
 )
 
-CREATE INDEX [IN_tab_Apis_fChangeDate] ON [tab_Apis] (fChangeDate)
-CREATE INDEX [IN_tab_Apis_fApiName] ON [tab_Apis] (fApiName)
+CREATE INDEX [IX_tab_Modules_fChangeDate] ON [tab_Modules] (fChangeDate)
+CREATE INDEX [IX_tab_Modules_fModuleName] ON [tab_Modules] (fModuleName)
+CREATE INDEX [IX_tab_Modules_fID] ON [tab_Modules] (fID)
 
 ALTER TABLE [dbo].[tab_Modules]  WITH CHECK ADD CONSTRAINT [FK_tab_Modules_tab_Apis] FOREIGN KEY([frApiId])
 REFERENCES [dbo].[tab_Apis] ([fID])

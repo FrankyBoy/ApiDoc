@@ -16,8 +16,9 @@ CREATE TABLE [dbo].[tab_Apis](
     [fDeleted] 		[bit] NOT NULL,
 )
 
-CREATE INDEX [IN_tab_Apis_fChangeDate] ON [tab_Apis] (fChangeDate)
-CREATE INDEX [IN_tab_Apis_fApiName] ON [tab_Apis] (fApiName)
+CREATE INDEX [IX_tab_Apis_fID] ON [tab_Apis] (fID)
+CREATE INDEX [IX_tab_Apis_fChangeDate] ON [tab_Apis] (fChangeDate)
+CREATE INDEX [IX_tab_Apis_fApiName] ON [tab_Apis] (fApiName)
  
 GO
 
