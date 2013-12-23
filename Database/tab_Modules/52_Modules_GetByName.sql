@@ -16,16 +16,11 @@ BEGIN
     SET NOCOUNT ON;
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
-    SELECT fID, fModuleName, fChangeDate, fAuthor, fDeleted, fRevisionNumber
-    FROM (
-        SELECT *, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
-        FROM tab_Modules
-        WHERE UPPER(fModuleName) = UPPER(@name)
-        AND frApiId = @apiId
-    )x
-    WHERE x.fRevisionNumber = COALESCE(@revision, (SELECT Count(*) FROM tab_Modules WHERE UPPER(fModuleName) = UPPER(@name)))
-
-
+    declare @id int
+    set @id = EXEC Modules_LookupId @apiId, @name
+    
+    EXEC Modules_GetById @id, @revision
+    
 END
 
 GO
