@@ -1,7 +1,6 @@
 USE [PosDocumentation]
 GO
 
-/****** Object:  StoredProcedure [dbo].[GetAPIs]    Script Date: 19.12.2013 17:41:20 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -13,7 +12,7 @@ GO
 -- Create date: <Create Date,,>
 -- Description:	<Description,,>
 -- =============================================
-CREATE PROCEDURE [dbo].[Apis_GetAllApis]
+CREATE PROCEDURE [dbo].[Apis_GetAll]
 	@showDeleted bit = 'FALSE'
 AS
 BEGIN

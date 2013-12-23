@@ -1,19 +1,13 @@
 USE [PosDocumentation]
 GO
 
-/****** Object:  StoredProcedure [dbo].[GetMethodRevisions]    Script Date: 19.12.2013 17:53:55 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
--- =============================================
--- Author:		<Author,,Name>
--- Create date: <Create Date,,>
--- Description:	<Description,,>
--- =============================================
-CREATE PROCEDURE [dbo].[Apis_InsertApi]
+CREATE PROCEDURE [dbo].[Apis_Insert]
 	@apiName nvarchar(50),
 	@description nvarchar(max),
 	@author nvarchar(50)
@@ -21,8 +15,16 @@ CREATE PROCEDURE [dbo].[Apis_InsertApi]
 AS
 BEGIN
 	SET NOCOUNT ON;
-
-	IF ANY((select fID from tab_Apis where UPPER(fApiName) = UPPER(@apiName)))
+	
+	DECLARE @currentApis TABLE (
+		fID 			id,
+		fApiName 		nvarchar(50),
+		fDescription 	nvarchar(max),
+		fDeleted 		bit
+	)
+	SET @currentApis = EXECUTE Apis_GetAll @showDeleted='False';
+	
+	IF (SELECT COUNT(*) FROM @currentApis WHERE UPPER(fApiName)=UPPER(@apiName)) > 0
 	BEGIN
 		RETURN -1
 	END
