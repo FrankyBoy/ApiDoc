@@ -8,22 +8,22 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[Modules_Update]
-	@apiId        	int,
-	@moduleId		int,
-	@moduleName    	nvarchar(50),
-	@author       	nvarchar(50)
+    @apiId          int,
+    @moduleId       int,
+    @moduleName     nvarchar(50),
+    @author         nvarchar(50)
 
 AS
 BEGIN
-	SET NOCOUNT ON;
+    SET NOCOUNT ON;
 
-	IF NOT ANY(select fID from tab_Modules where fID = @moduleId)
-	BEGIN
-		RETURN -1
-	END
+    IF NOT ANY(select fID from tab_Modules where fID = @moduleId)
+    BEGIN
+        RETURN -1
+    END
 
     INSERT INTO tab_Modules (fID, frApiId, fModuleName, fChangeDate, fAuthor, fDeleted)
-	VALUES (@moduleId, @apiId, @moduleName, GETUTCDATE(), @author, 'FALSE')
+    VALUES (@moduleId, @apiId, @moduleName, GETUTCDATE(), @author, 'FALSE')
 END
 
 GO

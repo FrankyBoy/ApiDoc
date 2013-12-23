@@ -8,12 +8,12 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[tab_Modules](
-	[fID] [int] NOT NULL,
-	[frApiId] [int] NOT NULL,
-	[fModuleName] [nvarchar](50) NOT NULL,
-	[fChangeDate] datetime NOT NULL,
-	[fAuthor] [nvarchar](50) NOT NULL,
-	[fDeleted] [bit] NOT NULL,
+    [fID]           [int] NOT NULL,
+    [frApiId]       [int] NOT NULL,
+    [fModuleName]   [nvarchar](50) NOT NULL,
+    [fChangeDate]   [datetime] NOT NULL,
+    [fAuthor]       [nvarchar](50) NOT NULL,
+    [fDeleted]      [bit] NOT NULL,
 )
 
 CREATE INDEX [IN_tab_Apis_fChangeDate] ON [tab_Apis] (fChangeDate)

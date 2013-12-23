@@ -8,18 +8,18 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[Modules_Delete]
-	@moduleId int
+    @moduleId int
 	
 AS
 BEGIN
-	SET NOCOUNT ON;
+    SET NOCOUNT ON;
 	
-	DECLARE @latestDate datetime
-	set @latestDate = SELECT MAX(fChangeDate) FROM tab_Modules where fID = @moduleId
+    DECLARE @latestDate datetime
+    set @latestDate = SELECT MAX(fChangeDate) FROM tab_Modules where fID = @moduleId
 	
-	UPDATE tab_Modules
- 	SET fDeleted='True'
- 	WHERE fID = @moduleId AND fChangeDate = @latestDate
+    UPDATE tab_Modules
+    SET fDeleted='True'
+    WHERE fID = @moduleId AND fChangeDate = @latestDate
 			
 END
 
