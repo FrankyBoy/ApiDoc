@@ -21,7 +21,7 @@ BEGIN
         FROM tab_Modules
         WHERE fID = @moduleId
     )x
-    WHERE x.fRevisionNumber = COALESCE(@revision, (SELECT Count(*) FROM tab_Modules WHERE fID = @moduleId))
+    WHERE x.fRevisionNumber = COALESCE(@revision, MAX(x.fRevisionNumber))--(SELECT Count(*) FROM tab_Modules WHERE fID = @moduleId))
 
 
 END
