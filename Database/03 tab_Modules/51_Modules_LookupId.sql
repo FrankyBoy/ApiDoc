@@ -16,14 +16,11 @@ BEGIN
     SET NOCOUNT ON;
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
-    SELECT fID
-    FROM (
-        SELECT fID, row_number() OVER(ORDER BY fChangeDate DESC) AS inverseRevision
-        FROM tab_Modules
-        WHERE frApiId = @apiId
-        AND UPPER(fModuleName) = UPPER(@name)
-    )x
-    WHERE x.inverseRevision = 1
+    SELECT TOP(1) fID
+    FROM tab_Modules
+    ORDER BY fChangeDate DESC
+    WHERE frApiId = @apiId
+    AND UPPER(fModuleName) = UPPER(@name)
 
 
 END

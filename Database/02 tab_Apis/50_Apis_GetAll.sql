@@ -17,9 +17,9 @@ BEGIN
     SELECT fID, fApiName, fDescription, fDeleted
     FROM (
         SELECT *, ROW_NUMBER() OVER (PARTITION BY fID ORDER BY fChangeDate DESC) AS InverseRevision
-        from tab_Apis
+        FROM tab_Apis
     ) x
-    where x.InverseRevision=1
+    WHERE x.InverseRevision=1
     AND (fDeleted = 'FALSE' OR @showDeleted = 'TRUE')
 END
 
