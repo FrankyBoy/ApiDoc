@@ -15,14 +15,15 @@ BEGIN
     SET NOCOUNT ON;
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
-    SELECT fID, fModuleName, fChangeDate, fAuthor, fDeleted, fRevisionNumber
-    FROM (
-        SELECT *, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
-        FROM tab_Modules
-        WHERE fID = @moduleId
-    )x
-    WHERE x.fRevisionNumber = COALESCE(@revision, MAX(x.fRevisionNumber))--(SELECT Count(*) FROM tab_Modules WHERE fID = @moduleId))
+	
+	WITH allRevisions
+	AS (SELECT *, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
+		FROM tab_Modules
+		WHERE fID = 1)
 
+    SELECT fID, fModuleName, fChangeDate, fAuthor, fDeleted, fRevisionNumber
+    FROM allRevisions
+    WHERE fRevisionNumber = COALESCE(@revision, (SELECT MAX(fRevisionNumber) FROM allRevisions))
 
 END
 

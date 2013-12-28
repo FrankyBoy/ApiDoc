@@ -16,8 +16,8 @@ CREATE PROCEDURE [dbo].[Modules_Update]
 AS
 BEGIN
     SET NOCOUNT ON;
-
-    IF NOT ANY(select fID from tab_Modules where fID = @moduleId)
+	
+    IF (select COUNT(*) from tab_Modules where fID = @moduleId) <= 0
     BEGIN
         RETURN -1
     END

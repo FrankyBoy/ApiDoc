@@ -7,7 +7,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[Modules_GetApiRevisions]
+CREATE PROCEDURE [dbo].[Modules_GetRevisions]
     @apiId int,
     @name nvarchar(50)
 AS
@@ -15,12 +15,12 @@ BEGIN
     SET NOCOUNT ON;
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
-    declare @id int,
-    set @id = Modules_LookupId @apiId, @name
+    declare @id int
+    EXEC @id = Modules_LookupId @apiId, @name
 
     SELECT fModuleName, fChangeDate, fAuthor, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
         FROM tab_Modules
-        WHERE fID = @moduleId
+        WHERE fID = @id
         ORDER BY fRevisionNumber DESC
 END
 

@@ -15,7 +15,7 @@ BEGIN
     SET NOCOUNT ON;
     
     DECLARE @latestDate datetime
-    SET @latestDate = SELECT MAX(fChangeDate) FROM tab_Apis where fID = @apiId
+    SET @latestDate = (SELECT MAX(fChangeDate) FROM tab_Apis where fID = @apiId)
     
     UPDATE tab_Apis
     SET fDeleted='True'

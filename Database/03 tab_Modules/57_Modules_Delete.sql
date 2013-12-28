@@ -15,7 +15,7 @@ BEGIN
     SET NOCOUNT ON;
 	
     DECLARE @latestDate datetime
-    set @latestDate = SELECT MAX(fChangeDate) FROM tab_Modules where fID = @moduleId
+    set @latestDate = (SELECT MAX(fChangeDate) FROM tab_Modules where fID = @moduleId)
 	
     UPDATE tab_Modules
     SET fDeleted='True'

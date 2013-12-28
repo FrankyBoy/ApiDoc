@@ -17,18 +17,20 @@ BEGIN
     SET NOCOUNT ON;
 
     DECLARE @currentModules TABLE (
-        fID             id,
+        fID             int,
         fModuleName     nvarchar(50),
         fDeleted        bit
     )
-    SET @currentModules = EXECUTE Modules_GetAll @apiId=@apiId, @showDeleted='False';
-    
-    IF (SELECT COUNT(*) FROM @currentApis WHERE UPPER(fModuleName)=UPPER(@moduleName)) > 0
+	
+	INSERT INTO @currentModules
+	EXEC Modules_GetAll @apiId, @showDeleted='False';
+
+    IF (SELECT COUNT(*) FROM @currentModules WHERE UPPER(fModuleName)=UPPER(@moduleName)) > 0
     BEGIN
         RETURN -1
     END
     
-    declare @newId int,
+    declare @newId int;
     set @newId = (SELECT MAX(fID) from tab_Module) + 1
 
     INSERT INTO tab_Modules (fID, frApiId, fModuleName, fChangeDate, fAuthor, fDeleted)

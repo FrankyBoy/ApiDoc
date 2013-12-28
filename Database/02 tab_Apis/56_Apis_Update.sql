@@ -17,7 +17,7 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    IF ANY(select fID from tab_Apis where fID = @apiId)
+    IF (select COUNT(*) from tab_Apis where fID = @apiId) <= 0
     BEGIN
         RETURN -1
     END

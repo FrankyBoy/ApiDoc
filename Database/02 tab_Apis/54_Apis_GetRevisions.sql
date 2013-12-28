@@ -7,7 +7,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[Apis_GetApiRevisions]
+CREATE PROCEDURE [dbo].[Apis_GetRevisions]
     @name nvarchar(50)
 AS
 BEGIN
@@ -15,7 +15,7 @@ BEGIN
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED; 
     
     declare @id int
-    set @id = EXEC Apis_LookupId @name
+    EXEC @id = Apis_LookupId @name
     
     SELECT 
         fApiName, fChangeDate, fAuthor, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
