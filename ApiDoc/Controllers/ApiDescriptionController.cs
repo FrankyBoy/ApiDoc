@@ -63,14 +63,34 @@ namespace ApiDoc.Controllers
             return RedirectToAction("List");
         }
 
-        public ActionResult History(int apiId)
+        public ActionResult Revisions(int apiId)
         {
-            throw new System.NotImplementedException();
+            var historyItems = _apiDescriptionProvider.GetRevisions(apiId);
+            ViewBag.History = historyItems;
+            HistoryViewModel model;
+            switch (historyItems.Count)
+            {
+                case 0:
+                    model = new HistoryViewModel(0, 0);
+                    break;
+                case 1:
+                    model = new HistoryViewModel(historyItems[0].RevisionNumber, historyItems[0].RevisionNumber);
+                    break;
+                default:
+                    model = new HistoryViewModel(historyItems[0].RevisionNumber, historyItems[1].RevisionNumber);
+                    break;
+            }
+
+            return View("ApiRevisions", model);
         }
-        
-        public ActionResult History(int apiId, int rev1, int rev2)
+
+        [HttpPost]
+        public ActionResult Revisions(int apiId, HistoryViewModel revisions)
         {
-            throw new System.NotImplementedException();
+            ViewBag.History = _apiDescriptionProvider.GetRevisions(apiId);
+            ViewBag.Rev1 = _apiDescriptionProvider.GetById(apiId, revisions.Rev1);
+            ViewBag.Rev2 = _apiDescriptionProvider.GetById(apiId, revisions.Rev2);
+            return View("ApiRevisions", revisions);
         }
     }
 }

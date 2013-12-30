@@ -91,5 +91,13 @@ namespace ApiDoc.Proxies
                 context.Apis_Delete(id);
             }
         }
+
+        public IList<ApiDescription> GetApiRevisions(int apiId)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                return context.Apis_GetRevisions(apiId).Select(DbTypeConverter.MapApiDescription).ToList();
+            }
+        }
     }
 }

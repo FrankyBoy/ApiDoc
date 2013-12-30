@@ -10,11 +10,11 @@ namespace ApiDoc.App_Start
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             #region Apis
-            routes.MapRoute("Apis",         "",         new { controller = "ApiDescription", action = "List" });
-            routes.MapRoute("ApiCreate",    "__create", new { controller = "ApiDescription", action = "Create" });
-            routes.MapRoute("ApiEdit",      "__edit",   new { controller = "ApiDescription", action = "Edit" });
-            routes.MapRoute("ApiDelete",    "__delete", new { controller = "ApiDescription", action = "Delete" });
-            routes.MapRoute("ApiVersions",  "__history",new { controller = "ApiDescription", action = "History" });
+            routes.MapRoute("Apis",         "",             new { controller = "ApiDescription", action = "List" });
+            routes.MapRoute("ApiCreate",    "__create",     new { controller = "ApiDescription", action = "Create" });
+            routes.MapRoute("ApiEdit",      "__edit",       new { controller = "ApiDescription", action = "Edit" });
+            routes.MapRoute("ApiDelete",    "__delete",     new { controller = "ApiDescription", action = "Delete" });
+            routes.MapRoute("ApiRevisions", "__revisions",  new { controller = "ApiDescription", action = "Revisions" });
             #endregion
             
 

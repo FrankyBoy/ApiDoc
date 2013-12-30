@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ApiDoc.DataAccess;
+﻿using ApiDoc.DataAccess;
 using ApiDoc.Models;
 
 namespace ApiDoc.Proxies
@@ -25,7 +24,7 @@ namespace ApiDoc.Proxies
                 Deleted = input.fDeleted,
                 Author = input.fAuthor,
                 ChangeDate = input.fChangeDate,
-                RevisionNumber = input.fRevisionNumber ?? 0
+                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
 
             };
         }
@@ -39,7 +38,7 @@ namespace ApiDoc.Proxies
                 Deleted = input.fDeleted,
                 Author = input.fAuthor,
                 ChangeDate = input.fChangeDate,
-                RevisionNumber = input.fRevisionNumber ?? 0
+                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
 
             };
         }
@@ -53,7 +52,7 @@ namespace ApiDoc.Proxies
                 Deleted = input.fDeleted,
                 Author = input.fAuthor,
                 ChangeDate = input.fChangeDate,
-                RevisionNumber = input.fRevisionNumber ?? 0
+                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
 
             };
         }
@@ -79,7 +78,7 @@ namespace ApiDoc.Proxies
                 ChangeDate = input.fChangeDate,
                 Author = input.fAuthor,
                 Deleted = input.fDeleted,
-                RevisionNumber = input.fRevisionNumber ?? 0
+                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
             };
         }
 
@@ -93,7 +92,7 @@ namespace ApiDoc.Proxies
                 ChangeDate = input.fChangeDate,
                 Author = input.fAuthor,
                 Deleted = input.fDeleted,
-                RevisionNumber = input.fRevisionNumber ?? 0
+                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
             };
         }
 
@@ -107,7 +106,7 @@ namespace ApiDoc.Proxies
                 ChangeDate = input.fChangeDate,
                 Author = input.fAuthor,
                 Deleted = input.fDeleted,
-                RevisionNumber = input.fRevisionNumber ?? 0
+                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
             };
         }
     }

@@ -133,7 +133,7 @@
     </ElementType>
   </Function>
   <Function Name="dbo.Apis_GetRevisions" Method="Apis_GetRevisions">
-    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="apiId" Type="System.Int32" DbType="Int" />
     <ElementType Name="Apis_GetRevisionsResult">
       <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="fApiName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />

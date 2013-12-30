@@ -42,5 +42,10 @@ namespace ApiDoc.Provider
         {
             _proxy.DeleteApi(id);
         }
+
+        public IList<ApiDescription> GetRevisions(int apiId)
+        {
+            return _proxy.GetApiRevisions(apiId);
+        }
     }
 }

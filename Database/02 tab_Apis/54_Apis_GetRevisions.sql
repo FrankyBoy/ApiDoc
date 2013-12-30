@@ -8,7 +8,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[Apis_GetRevisions]
-    @name nvarchar(50)
+    @apiId int
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -19,7 +19,7 @@ BEGIN
     
     SELECT fID, fApiName, fDescription, fChangeDate, fAuthor, fDeleted, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
     FROM tab_Apis
-    WHERE fID = @id
+    WHERE fID = @apiId
     ORDER BY fRevisionNumber DESC
 END
 

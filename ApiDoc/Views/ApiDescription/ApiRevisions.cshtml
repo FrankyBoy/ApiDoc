@@ -1,0 +1,59 @@
+﻿@model HistoryViewModel
+@using ApiDoc.Models
+@{
+    ViewBag.Title = "Api Revisions";
+}
+
+<h3>@ViewBag.Title</h3>
+
+@if (ViewBag.Rev1 != null && ViewBag.Rev2 != null)
+{
+    ApiDescription rev1 = ViewBag.Rev1;
+    ApiDescription rev2 = ViewBag.Rev2;
+    
+    <table>
+        <tr>
+            <td></td>
+            <th>Revision @rev1.RevisionNumber (@rev1.ChangeDate)</th>
+            <th>Revision @rev2.RevisionNumber (@rev1.ChangeDate)</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>@rev1.Name</td>
+            <td>@rev2.Name</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>@rev1.Description</td>
+            <td>@rev2.Description</td>
+        </tr>
+    </table>
+}
+
+
+@using(Html.BeginForm()) {
+    <table>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>Revision</th>
+            <th>Date</th>
+            <th>Author</th>
+            <th>name</th>
+        </tr>
+
+        @foreach (ApiDescription item in ViewBag.History)
+        {
+            <tr>
+                <td>@Html.RadioButtonFor(m => m.Rev1, item.RevisionNumber)</td>
+                <td>@Html.RadioButtonFor(m => m.Rev2, item.RevisionNumber)</td>
+                <td>@item.RevisionNumber</td>
+                <td>@item.ChangeDate</td>
+                <td>@item.Author</td>
+                <td>@item.Name</td>
+            </tr>
+        }
+    </table>
+    
+    <input type="submit" value="Compare"/>
+}

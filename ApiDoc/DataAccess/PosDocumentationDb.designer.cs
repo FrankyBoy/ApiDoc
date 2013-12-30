@@ -177,9 +177,9 @@ namespace ApiDoc.DataAccess
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Apis_GetRevisions")]
-		public ISingleResult<Apis_GetRevisionsResult> Apis_GetRevisions([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name)
+		public ISingleResult<Apis_GetRevisionsResult> Apis_GetRevisions([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId);
 			return ((ISingleResult<Apis_GetRevisionsResult>)(result.ReturnValue));
 		}
 	}

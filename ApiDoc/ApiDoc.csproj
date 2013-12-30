@@ -161,6 +161,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\HistoryViewModel.cs" />
     <Compile Include="Models\MethodDescription.cs" />
     <Compile Include="Models\ModuleDescription.cs" />
     <Compile Include="Models\VersionedItem.cs" />
@@ -281,6 +282,7 @@
     <Content Include="Views\Shared\EditorTemplates\ModuleDescription.cshtml" />
     <Content Include="Views\Modules\CreateModule.cshtml" />
     <Content Include="Views\Methods\ListMethods.cshtml" />
+    <Content Include="Views\ApiDescription\ApiRevisions.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
