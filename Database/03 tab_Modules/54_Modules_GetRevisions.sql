@@ -16,9 +16,9 @@ BEGIN
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
     declare @id int
-    EXEC @id = Modules_LookupId @apiId, @name
+    EXEC Modules_LookupId @apiId, @name, @result = @id OUTPUT
 
-    SELECT fModuleName, fChangeDate, fAuthor, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
+    SELECT fID, fModuleName, fChangeDate, fAuthor, fDeleted, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
         FROM tab_Modules
         WHERE fID = @id
         ORDER BY fRevisionNumber DESC

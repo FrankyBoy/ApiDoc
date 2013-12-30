@@ -6,86 +6,109 @@ namespace ApiDoc.Proxies
 {
     public static class DbTypeConverter
     {
-        public static ModuleDescription MapModuleDescription(GetModuleByNameResult input)
+        public static ModuleDescription MapModuleDescription(Modules_GetAllResult input)
         {
             return new ModuleDescription
             {
                 Id = input.fID,
-                Name = input.fServiceName
+                Name = input.fModuleName,
+                Deleted = input.fDeleted
             };
         }
 
-        public static ModuleDescription MapModuleDescription(GetModulesForApiResult input)
+        public static ModuleDescription MapModuleDescription(Modules_GetByNameResult input)
         {
             return new ModuleDescription
             {
                 Id = input.fID,
-                Name = input.fServiceName
+                Name = input.fModuleName,
+                Deleted = input.fDeleted,
+                Author = input.fAuthor,
+                ChangeDate = input.fChangeDate,
+                RevisionNumber = input.fRevisionNumber ?? 0
+
+            };
+        }
+        
+        public static ModuleDescription MapModuleDescription(Modules_GetByIdResult input)
+        {
+            return new ModuleDescription
+            {
+                Id = input.fID,
+                Name = input.fModuleName,
+                Deleted = input.fDeleted,
+                Author = input.fAuthor,
+                ChangeDate = input.fChangeDate,
+                RevisionNumber = input.fRevisionNumber ?? 0
+
             };
         }
 
-        public static ApiDescription MapApiDescription(GetApiByNameResult input)
+        public static ModuleDescription MapModuleDescription(Modules_GetRevisionsResult input)
+        {
+            return new ModuleDescription
+            {
+                Id = input.fID,
+                Name = input.fModuleName,
+                Deleted = input.fDeleted,
+                Author = input.fAuthor,
+                ChangeDate = input.fChangeDate,
+                RevisionNumber = input.fRevisionNumber ?? 0
+
+            };
+        }
+
+        public static ApiDescription MapApiDescription(Apis_GetAllResult input)
         {
             return new ApiDescription
             {
                 Id = input.fID,
                 Name = input.fApiName,
-                Description = input.fDescription
+                Description = input.fDescription,
+                Deleted = input.fDeleted
             };
         }
 
-
-        public static ApiDescription MapApiDescription(GetAPIsResult input)
+        public static ApiDescription MapApiDescription(Apis_GetByNameResult input)
         {
             return new ApiDescription
             {
                 Id = input.fID,
                 Name = input.fApiName,
-                Description = input.fDescription
+                Description = input.fDescription,
+                ChangeDate = input.fChangeDate,
+                Author = input.fAuthor,
+                Deleted = input.fDeleted,
+                RevisionNumber = input.fRevisionNumber ?? 0
             };
         }
 
-        public static MethodDescription MapMethodDescription(GetMethodsForServiceResult input, IDictionary<int, string> httpMethods)
+        public static ApiDescription MapApiDescription(Apis_GetByIdResult input)
         {
-            return new MethodDescription
-                {
-                    Id = input.fID,
-                    Name = input.fMethodName,
-                    HttpMethod = httpMethods[input.frHttpVerb]
-                };
-        }
-
-        public static MethodDescription MapMethodDescription(GetMethodByIdResult input, IDictionary<int, string> httpMethods)
-        {
-            return new MethodDescription
-                {
-                    Id = input.fID,
-                    Desciption = input.fDescription,
-                    Name = input.fMethodName,
-                    HttpMethod = httpMethods[input.frHttpVerb],
-                    Request = input.fRequestSample,
-                    Response = input.fResponseSample,
-                    Authenticated = input.fRequiresAuthentication,
-                    Authorized = input.fRequiresAuthorization,
-                    ServiceId = input.frServiceId
-                };
-        }
-
-        public static MethodDescription MapMethodDescription(GetMethodByNameResult input, IDictionary<int, string> httpMethods)
-        {
-            return new MethodDescription
+            return new ApiDescription
             {
                 Id = input.fID,
-                Desciption = input.fDescription,
-                Name = input.fMethodName,
-                HttpMethod = httpMethods[input.frHttpVerb],
-                Request = input.fRequestSample,
-                Response = input.fResponseSample,
-                Authenticated = input.fRequiresAuthentication,
-                Authorized = input.fRequiresAuthorization,
-                ServiceId = input.frServiceId
+                Name = input.fApiName,
+                Description = input.fDescription,
+                ChangeDate = input.fChangeDate,
+                Author = input.fAuthor,
+                Deleted = input.fDeleted,
+                RevisionNumber = input.fRevisionNumber ?? 0
             };
         }
 
+        public static ApiDescription MapApiDescription(Apis_GetRevisionsResult input)
+        {
+            return new ApiDescription
+            {
+                Id = input.fID,
+                Name = input.fApiName,
+                Description = input.fDescription,
+                ChangeDate = input.fChangeDate,
+                Author = input.fAuthor,
+                Deleted = input.fDeleted,
+                RevisionNumber = input.fRevisionNumber ?? 0
+            };
+        }
     }
 }

@@ -30,7 +30,7 @@ BEGIN
         RETURN -1
     END
     
-    declare @newId int;
+    declare @newId int
     set @newId = (SELECT MAX(fID) from tab_Module) + 1
 
     INSERT INTO tab_Modules (fID, frApiId, fModuleName, fChangeDate, fAuthor, fDeleted)

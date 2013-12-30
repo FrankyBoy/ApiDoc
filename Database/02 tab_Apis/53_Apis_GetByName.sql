@@ -16,7 +16,7 @@ BEGIN
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
     declare @id int
-    EXEC @id = [dbo].[Apis_LookupId] @name
+    EXEC [dbo].[Apis_LookupId] @name, @result = @id OUTPUT
     
     EXEC Apis_GetById @id, @revision
         

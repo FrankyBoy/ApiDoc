@@ -9,19 +9,21 @@ GO
 
 CREATE PROCEDURE [dbo].[Modules_LookupId]
     @apiId      int,
-    @name       nvarchar(50)
+    @name       nvarchar(50),
+	@result		int OUTPUT
     
 AS
 BEGIN
     SET NOCOUNT ON;
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
-    SELECT TOP(1) fID
-    FROM tab_Modules
-    WHERE frApiId = @apiId
-    AND UPPER(fModuleName) = UPPER(@name)
-    ORDER BY fChangeDate DESC
-
+    SET @result = 
+		(SELECT TOP(1) fID
+			FROM tab_Modules
+			WHERE frApiId = @apiId
+			AND UPPER(fModuleName) = UPPER(@name)
+			ORDER BY fChangeDate DESC
+		)
 
 END
 

@@ -62,18 +62,46 @@ namespace ApiDoc.DataAccess
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetApiByName")]
-		public ISingleResult<GetApiByNameResult> GetApiByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Apis_Delete")]
+		public int Apis_Delete([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
-			return ((ISingleResult<GetApiByNameResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId);
+			return ((int)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAPIs")]
-		public ISingleResult<GetAPIsResult> GetAPIs()
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Modules_Update")]
+		public int Modules_Update([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> moduleId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string moduleName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string author)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
-			return ((ISingleResult<GetAPIsResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId, moduleId, moduleName, author);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Apis_GetAll")]
+		public ISingleResult<Apis_GetAllResult> Apis_GetAll([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> showDeleted)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), showDeleted);
+			return ((ISingleResult<Apis_GetAllResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Apis_GetById")]
+		public ISingleResult<Apis_GetByIdResult> Apis_GetById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> revision)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId, revision);
+			return ((ISingleResult<Apis_GetByIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Apis_Insert")]
+		public int Apis_Insert([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string apiName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string author)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiName, description, author);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Apis_Update")]
+		public int Apis_Update([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string apiName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string author)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId, apiName, description, author);
+			return ((int)(result.ReturnValue));
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetHttpVerbs")]
@@ -83,50 +111,80 @@ namespace ApiDoc.DataAccess
 			return ((ISingleResult<GetHttpVerbsResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetMethodById")]
-		public ISingleResult<GetMethodByIdResult> GetMethodById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> methodId)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Modules_Delete")]
+		public int Modules_Delete([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> moduleId)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), methodId);
-			return ((ISingleResult<GetMethodByIdResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), moduleId);
+			return ((int)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetMethodRevisions")]
-		public ISingleResult<GetMethodRevisionsResult> GetMethodRevisions([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> moduleId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(100)")] string methodName)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Modules_GetAll")]
+		public ISingleResult<Modules_GetAllResult> Modules_GetAll([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> showDeleted)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), moduleId, methodName);
-			return ((ISingleResult<GetMethodRevisionsResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId, showDeleted);
+			return ((ISingleResult<Modules_GetAllResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetMethodsForService")]
-		public ISingleResult<GetMethodsForServiceResult> GetMethodsForService([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> serviceId)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Modules_GetById")]
+		public ISingleResult<Modules_GetByIdResult> Modules_GetById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> moduleId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> revision)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), serviceId);
-			return ((ISingleResult<GetMethodsForServiceResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), moduleId, revision);
+			return ((ISingleResult<Modules_GetByIdResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetModuleByName")]
-		public ISingleResult<GetModuleByNameResult> GetModuleByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Modules_Insert")]
+		public int Modules_Insert([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string moduleName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string author)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, apiId);
-			return ((ISingleResult<GetModuleByNameResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId, moduleName, author);
+			return ((int)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetModulesForApi")]
-		public ISingleResult<GetModulesForApiResult> GetModulesForApi([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ApiId", DbType="Int")] System.Nullable<int> apiId)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Modules_GetByName")]
+		public ISingleResult<Modules_GetByNameResult> Modules_GetByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> revision)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId);
-			return ((ISingleResult<GetModulesForApiResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId, name, revision);
+			return ((ISingleResult<Modules_GetByNameResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetMethodByName")]
-		public ISingleResult<GetMethodByNameResult> GetMethodByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> moduleId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(100)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> revision)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Modules_LookupId")]
+		public int Modules_LookupId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> result)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), moduleId, name, revision);
-			return ((ISingleResult<GetMethodByNameResult>)(result.ReturnValue));
+			IExecuteResult result1 = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId, name, result);
+			result = ((System.Nullable<int>)(result1.GetParameterValue(2)));
+			return ((int)(result1.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Apis_LookupId")]
+		public int Apis_LookupId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> result)
+		{
+			IExecuteResult result1 = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, result);
+			result = ((System.Nullable<int>)(result1.GetParameterValue(1)));
+			return ((int)(result1.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Apis_GetByName")]
+		public ISingleResult<Apis_GetByNameResult> Apis_GetByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> revision)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, revision);
+			return ((ISingleResult<Apis_GetByNameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Modules_GetRevisions")]
+		public ISingleResult<Modules_GetRevisionsResult> Modules_GetRevisions([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> apiId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), apiId, name);
+			return ((ISingleResult<Modules_GetRevisionsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Apis_GetRevisions")]
+		public ISingleResult<Apis_GetRevisionsResult> Apis_GetRevisions([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((ISingleResult<Apis_GetRevisionsResult>)(result.ReturnValue));
 		}
 	}
 	
-	public partial class GetApiByNameResult
+	public partial class Apis_GetAllResult
 	{
 		
 		private int _fID;
@@ -135,7 +193,9 @@ namespace ApiDoc.DataAccess
 		
 		private string _fDescription;
 		
-		public GetApiByNameResult()
+		private bool _fDeleted;
+		
+		public Apis_GetAllResult()
 		{
 		}
 		
@@ -171,7 +231,7 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="NVarChar(MAX)")]
 		public string fDescription
 		{
 			get
@@ -186,9 +246,25 @@ namespace ApiDoc.DataAccess
 				}
 			}
 		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
+		{
+			get
+			{
+				return this._fDeleted;
+			}
+			set
+			{
+				if ((this._fDeleted != value))
+				{
+					this._fDeleted = value;
+				}
+			}
+		}
 	}
 	
-	public partial class GetAPIsResult
+	public partial class Apis_GetByIdResult
 	{
 		
 		private int _fID;
@@ -197,7 +273,15 @@ namespace ApiDoc.DataAccess
 		
 		private string _fDescription;
 		
-		public GetAPIsResult()
+		private System.DateTime _fChangeDate;
+		
+		private string _fAuthor;
+		
+		private bool _fDeleted;
+		
+		private System.Nullable<long> _fRevisionNumber;
+		
+		public Apis_GetByIdResult()
 		{
 		}
 		
@@ -233,7 +317,7 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="NVarChar(MAX)")]
 		public string fDescription
 		{
 			get
@@ -245,6 +329,70 @@ namespace ApiDoc.DataAccess
 				if ((this._fDescription != value))
 				{
 					this._fDescription = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeDate", DbType="DateTime NOT NULL")]
+		public System.DateTime fChangeDate
+		{
+			get
+			{
+				return this._fChangeDate;
+			}
+			set
+			{
+				if ((this._fChangeDate != value))
+				{
+					this._fChangeDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fAuthor", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fAuthor
+		{
+			get
+			{
+				return this._fAuthor;
+			}
+			set
+			{
+				if ((this._fAuthor != value))
+				{
+					this._fAuthor = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
+		{
+			get
+			{
+				return this._fDeleted;
+			}
+			set
+			{
+				if ((this._fDeleted != value))
+				{
+					this._fDeleted = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRevisionNumber", DbType="BigInt")]
+		public System.Nullable<long> fRevisionNumber
+		{
+			get
+			{
+				return this._fRevisionNumber;
+			}
+			set
+			{
+				if ((this._fRevisionNumber != value))
+				{
+					this._fRevisionNumber = value;
 				}
 			}
 		}
@@ -294,28 +442,16 @@ namespace ApiDoc.DataAccess
 		}
 	}
 	
-	public partial class GetMethodByIdResult
+	public partial class Modules_GetAllResult
 	{
 		
 		private int _fID;
 		
-		private int _frServiceId;
+		private string _fModuleName;
 		
-		private string _fMethodName;
+		private bool _fDeleted;
 		
-		private int _frHttpVerb;
-		
-		private bool _fRequiresAuthentication;
-		
-		private bool _fRequiresAuthorization;
-		
-		private string _fRequestSample;
-		
-		private string _fResponseSample;
-		
-		private string _fDescription;
-		
-		public GetMethodByIdResult()
+		public Modules_GetAllResult()
 		{
 		}
 		
@@ -335,146 +471,88 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frServiceId", DbType="Int NOT NULL")]
-		public int frServiceId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fModuleName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fModuleName
 		{
 			get
 			{
-				return this._frServiceId;
+				return this._fModuleName;
 			}
 			set
 			{
-				if ((this._frServiceId != value))
+				if ((this._fModuleName != value))
 				{
-					this._frServiceId = value;
+					this._fModuleName = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fMethodName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string fMethodName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
 		{
 			get
 			{
-				return this._fMethodName;
+				return this._fDeleted;
 			}
 			set
 			{
-				if ((this._fMethodName != value))
+				if ((this._fDeleted != value))
 				{
-					this._fMethodName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frHttpVerb", DbType="Int NOT NULL")]
-		public int frHttpVerb
-		{
-			get
-			{
-				return this._frHttpVerb;
-			}
-			set
-			{
-				if ((this._frHttpVerb != value))
-				{
-					this._frHttpVerb = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthentication", DbType="Bit NOT NULL")]
-		public bool fRequiresAuthentication
-		{
-			get
-			{
-				return this._fRequiresAuthentication;
-			}
-			set
-			{
-				if ((this._fRequiresAuthentication != value))
-				{
-					this._fRequiresAuthentication = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthorization", DbType="Bit NOT NULL")]
-		public bool fRequiresAuthorization
-		{
-			get
-			{
-				return this._fRequiresAuthorization;
-			}
-			set
-			{
-				if ((this._fRequiresAuthorization != value))
-				{
-					this._fRequiresAuthorization = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequestSample", DbType="VarChar(MAX)")]
-		public string fRequestSample
-		{
-			get
-			{
-				return this._fRequestSample;
-			}
-			set
-			{
-				if ((this._fRequestSample != value))
-				{
-					this._fRequestSample = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fResponseSample", DbType="VarChar(MAX)")]
-		public string fResponseSample
-		{
-			get
-			{
-				return this._fResponseSample;
-			}
-			set
-			{
-				if ((this._fResponseSample != value))
-				{
-					this._fResponseSample = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string fDescription
-		{
-			get
-			{
-				return this._fDescription;
-			}
-			set
-			{
-				if ((this._fDescription != value))
-				{
-					this._fDescription = value;
+					this._fDeleted = value;
 				}
 			}
 		}
 	}
 	
-	public partial class GetMethodRevisionsResult
+	public partial class Modules_GetByIdResult
 	{
+		
+		private int _fID;
+		
+		private string _fModuleName;
 		
 		private System.DateTime _fChangeDate;
 		
 		private string _fAuthor;
 		
+		private bool _fDeleted;
+		
 		private System.Nullable<long> _fRevisionNumber;
 		
-		public GetMethodRevisionsResult()
+		public Modules_GetByIdResult()
 		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fModuleName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fModuleName
+		{
+			get
+			{
+				return this._fModuleName;
+			}
+			set
+			{
+				if ((this._fModuleName != value))
+				{
+					this._fModuleName = value;
+				}
+			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeDate", DbType="DateTime NOT NULL")]
@@ -505,6 +583,22 @@ namespace ApiDoc.DataAccess
 				if ((this._fAuthor != value))
 				{
 					this._fAuthor = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
+		{
+			get
+			{
+				return this._fDeleted;
+			}
+			set
+			{
+				if ((this._fDeleted != value))
+				{
+					this._fDeleted = value;
 				}
 			}
 		}
@@ -526,16 +620,22 @@ namespace ApiDoc.DataAccess
 		}
 	}
 	
-	public partial class GetMethodsForServiceResult
+	public partial class Modules_GetByNameResult
 	{
 		
 		private int _fID;
 		
-		private string _fMethodName;
+		private string _fModuleName;
 		
-		private int _frHttpVerb;
+		private System.DateTime _fChangeDate;
 		
-		public GetMethodsForServiceResult()
+		private string _fAuthor;
+		
+		private bool _fDeleted;
+		
+		private System.Nullable<long> _fRevisionNumber;
+		
+		public Modules_GetByNameResult()
 		{
 		}
 		
@@ -555,145 +655,93 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fMethodName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string fMethodName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fModuleName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fModuleName
 		{
 			get
 			{
-				return this._fMethodName;
+				return this._fModuleName;
 			}
 			set
 			{
-				if ((this._fMethodName != value))
+				if ((this._fModuleName != value))
 				{
-					this._fMethodName = value;
+					this._fModuleName = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frHttpVerb", DbType="Int NOT NULL")]
-		public int frHttpVerb
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeDate", DbType="DateTime NOT NULL")]
+		public System.DateTime fChangeDate
 		{
 			get
 			{
-				return this._frHttpVerb;
+				return this._fChangeDate;
 			}
 			set
 			{
-				if ((this._frHttpVerb != value))
+				if ((this._fChangeDate != value))
 				{
-					this._frHttpVerb = value;
-				}
-			}
-		}
-	}
-	
-	public partial class GetModuleByNameResult
-	{
-		
-		private int _fID;
-		
-		private string _fServiceName;
-		
-		public GetModuleByNameResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
-		public int fID
-		{
-			get
-			{
-				return this._fID;
-			}
-			set
-			{
-				if ((this._fID != value))
-				{
-					this._fID = value;
+					this._fChangeDate = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fServiceName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string fServiceName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fAuthor", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fAuthor
 		{
 			get
 			{
-				return this._fServiceName;
+				return this._fAuthor;
 			}
 			set
 			{
-				if ((this._fServiceName != value))
+				if ((this._fAuthor != value))
 				{
-					this._fServiceName = value;
-				}
-			}
-		}
-	}
-	
-	public partial class GetModulesForApiResult
-	{
-		
-		private int _fID;
-		
-		private string _fServiceName;
-		
-		public GetModulesForApiResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
-		public int fID
-		{
-			get
-			{
-				return this._fID;
-			}
-			set
-			{
-				if ((this._fID != value))
-				{
-					this._fID = value;
+					this._fAuthor = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fServiceName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string fServiceName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
 		{
 			get
 			{
-				return this._fServiceName;
+				return this._fDeleted;
 			}
 			set
 			{
-				if ((this._fServiceName != value))
+				if ((this._fDeleted != value))
 				{
-					this._fServiceName = value;
+					this._fDeleted = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRevisionNumber", DbType="BigInt")]
+		public System.Nullable<long> fRevisionNumber
+		{
+			get
+			{
+				return this._fRevisionNumber;
+			}
+			set
+			{
+				if ((this._fRevisionNumber != value))
+				{
+					this._fRevisionNumber = value;
 				}
 			}
 		}
 	}
 	
-	public partial class GetMethodByNameResult
+	public partial class Apis_GetByNameResult
 	{
 		
 		private int _fID;
 		
-		private int _frServiceId;
-		
-		private string _fMethodName;
-		
-		private int _frHttpVerb;
-		
-		private bool _fRequiresAuthentication;
-		
-		private bool _fRequiresAuthorization;
-		
-		private string _fRequestSample;
-		
-		private string _fResponseSample;
+		private string _fApiName;
 		
 		private string _fDescription;
 		
@@ -701,9 +749,11 @@ namespace ApiDoc.DataAccess
 		
 		private string _fAuthor;
 		
-		private System.Nullable<int> _fRevisionNumber;
+		private bool _fDeleted;
 		
-		public GetMethodByNameResult()
+		private System.Nullable<long> _fRevisionNumber;
+		
+		public Apis_GetByNameResult()
 		{
 		}
 		
@@ -723,119 +773,23 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frServiceId", DbType="Int NOT NULL")]
-		public int frServiceId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fApiName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fApiName
 		{
 			get
 			{
-				return this._frServiceId;
+				return this._fApiName;
 			}
 			set
 			{
-				if ((this._frServiceId != value))
+				if ((this._fApiName != value))
 				{
-					this._frServiceId = value;
+					this._fApiName = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fMethodName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string fMethodName
-		{
-			get
-			{
-				return this._fMethodName;
-			}
-			set
-			{
-				if ((this._fMethodName != value))
-				{
-					this._fMethodName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frHttpVerb", DbType="Int NOT NULL")]
-		public int frHttpVerb
-		{
-			get
-			{
-				return this._frHttpVerb;
-			}
-			set
-			{
-				if ((this._frHttpVerb != value))
-				{
-					this._frHttpVerb = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthentication", DbType="Bit NOT NULL")]
-		public bool fRequiresAuthentication
-		{
-			get
-			{
-				return this._fRequiresAuthentication;
-			}
-			set
-			{
-				if ((this._fRequiresAuthentication != value))
-				{
-					this._fRequiresAuthentication = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthorization", DbType="Bit NOT NULL")]
-		public bool fRequiresAuthorization
-		{
-			get
-			{
-				return this._fRequiresAuthorization;
-			}
-			set
-			{
-				if ((this._fRequiresAuthorization != value))
-				{
-					this._fRequiresAuthorization = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequestSample", DbType="NVarChar(MAX)")]
-		public string fRequestSample
-		{
-			get
-			{
-				return this._fRequestSample;
-			}
-			set
-			{
-				if ((this._fRequestSample != value))
-				{
-					this._fRequestSample = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fResponseSample", DbType="NVarChar(MAX)")]
-		public string fResponseSample
-		{
-			get
-			{
-				return this._fResponseSample;
-			}
-			set
-			{
-				if ((this._fResponseSample != value))
-				{
-					this._fResponseSample = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="NVarChar(MAX)")]
 		public string fDescription
 		{
 			get
@@ -883,8 +837,274 @@ namespace ApiDoc.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRevisionNumber", DbType="Int")]
-		public System.Nullable<int> fRevisionNumber
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
+		{
+			get
+			{
+				return this._fDeleted;
+			}
+			set
+			{
+				if ((this._fDeleted != value))
+				{
+					this._fDeleted = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRevisionNumber", DbType="BigInt")]
+		public System.Nullable<long> fRevisionNumber
+		{
+			get
+			{
+				return this._fRevisionNumber;
+			}
+			set
+			{
+				if ((this._fRevisionNumber != value))
+				{
+					this._fRevisionNumber = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Modules_GetRevisionsResult
+	{
+		
+		private int _fID;
+		
+		private string _fModuleName;
+		
+		private System.DateTime _fChangeDate;
+		
+		private string _fAuthor;
+		
+		private bool _fDeleted;
+		
+		private System.Nullable<long> _fRevisionNumber;
+		
+		public Modules_GetRevisionsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fModuleName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fModuleName
+		{
+			get
+			{
+				return this._fModuleName;
+			}
+			set
+			{
+				if ((this._fModuleName != value))
+				{
+					this._fModuleName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeDate", DbType="DateTime NOT NULL")]
+		public System.DateTime fChangeDate
+		{
+			get
+			{
+				return this._fChangeDate;
+			}
+			set
+			{
+				if ((this._fChangeDate != value))
+				{
+					this._fChangeDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fAuthor", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fAuthor
+		{
+			get
+			{
+				return this._fAuthor;
+			}
+			set
+			{
+				if ((this._fAuthor != value))
+				{
+					this._fAuthor = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
+		{
+			get
+			{
+				return this._fDeleted;
+			}
+			set
+			{
+				if ((this._fDeleted != value))
+				{
+					this._fDeleted = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRevisionNumber", DbType="BigInt")]
+		public System.Nullable<long> fRevisionNumber
+		{
+			get
+			{
+				return this._fRevisionNumber;
+			}
+			set
+			{
+				if ((this._fRevisionNumber != value))
+				{
+					this._fRevisionNumber = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Apis_GetRevisionsResult
+	{
+		
+		private int _fID;
+		
+		private string _fApiName;
+		
+		private string _fDescription;
+		
+		private System.DateTime _fChangeDate;
+		
+		private string _fAuthor;
+		
+		private bool _fDeleted;
+		
+		private System.Nullable<long> _fRevisionNumber;
+		
+		public Apis_GetRevisionsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fApiName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fApiName
+		{
+			get
+			{
+				return this._fApiName;
+			}
+			set
+			{
+				if ((this._fApiName != value))
+				{
+					this._fApiName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="NVarChar(MAX)")]
+		public string fDescription
+		{
+			get
+			{
+				return this._fDescription;
+			}
+			set
+			{
+				if ((this._fDescription != value))
+				{
+					this._fDescription = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeDate", DbType="DateTime NOT NULL")]
+		public System.DateTime fChangeDate
+		{
+			get
+			{
+				return this._fChangeDate;
+			}
+			set
+			{
+				if ((this._fChangeDate != value))
+				{
+					this._fChangeDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fAuthor", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fAuthor
+		{
+			get
+			{
+				return this._fAuthor;
+			}
+			set
+			{
+				if ((this._fAuthor != value))
+				{
+					this._fAuthor = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
+		{
+			get
+			{
+				return this._fDeleted;
+			}
+			set
+			{
+				if ((this._fDeleted != value))
+				{
+					this._fDeleted = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRevisionNumber", DbType="BigInt")]
+		public System.Nullable<long> fRevisionNumber
 		{
 			get
 			{

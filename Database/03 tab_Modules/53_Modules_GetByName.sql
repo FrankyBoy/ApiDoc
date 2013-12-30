@@ -17,9 +17,9 @@ BEGIN
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
     declare @id int
-    EXEC @id = Modules_LookupId @apiId, @name
+    EXEC Modules_LookupId @apiId, @name, @result = @id OUTPUT
     
-    EXEC Modules_GetById @id, @revision
+    RETURN EXEC Modules_GetById @id, @revision
     
 END
 

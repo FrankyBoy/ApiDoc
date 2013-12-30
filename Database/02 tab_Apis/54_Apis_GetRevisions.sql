@@ -15,10 +15,9 @@ BEGIN
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED; 
     
     declare @id int
-    EXEC @id = Apis_LookupId @name
+    EXEC @id = Apis_LookupId @name, @result = @id OUTPUT
     
-    SELECT 
-        fApiName, fChangeDate, fAuthor, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
+    SELECT fID, fApiName, fDescription, fChangeDate, fAuthor, fDeleted, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
     FROM tab_Apis
     WHERE fID = @id
     ORDER BY fRevisionNumber DESC

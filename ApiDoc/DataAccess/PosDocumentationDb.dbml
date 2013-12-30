@@ -1,19 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PosDocumentation" Class="PosDocumentationDbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=AT03W00340\SQLEXPRESS;Initial Catalog=PosDocumentation;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PosDocumentationConnectionString" Provider="System.Data.SqlClient" />
-  <Function Name="dbo.GetApiByName" Method="GetApiByName">
-    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
-    <ElementType Name="GetApiByNameResult">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=ihayden-PC;Initial Catalog=PosDocumentation;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PosDocumentationConnectionString" Provider="System.Data.SqlClient" />
+  <Function Name="dbo.Apis_Delete" Method="Apis_Delete">
+    <Parameter Name="apiId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Modules_Update" Method="Modules_Update">
+    <Parameter Name="apiId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="moduleId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="moduleName" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="author" Type="System.String" DbType="NVarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Apis_GetAll" Method="Apis_GetAll">
+    <Parameter Name="showDeleted" Type="System.Boolean" DbType="Bit" />
+    <ElementType Name="Apis_GetAllResult">
       <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="fApiName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
-  <Function Name="dbo.GetAPIs" Method="GetAPIs">
-    <ElementType Name="GetAPIsResult">
+  <Function Name="dbo.Apis_GetById" Method="Apis_GetById">
+    <Parameter Name="apiId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="revision" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Apis_GetByIdResult">
       <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="fApiName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
     </ElementType>
+  </Function>
+  <Function Name="dbo.Apis_Insert" Method="Apis_Insert">
+    <Parameter Name="apiName" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="description" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="author" Type="System.String" DbType="NVarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Apis_Update" Method="Apis_Update">
+    <Parameter Name="apiId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="apiName" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="description" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="author" Type="System.String" DbType="NVarChar(50)" />
+    <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.GetHttpVerbs" Method="GetHttpVerbs">
     <ElementType Name="GetHttpVerbsResult">
@@ -21,69 +52,96 @@
       <Column Name="fHttpVerb" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
-  <Function Name="dbo.GetMethodById" Method="GetMethodById">
-    <Parameter Name="methodId" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetMethodByIdResult">
+  <Function Name="dbo.Modules_Delete" Method="Modules_Delete">
+    <Parameter Name="moduleId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Modules_GetAll" Method="Modules_GetAll">
+    <Parameter Name="apiId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="showDeleted" Type="System.Boolean" DbType="Bit" />
+    <ElementType Name="Modules_GetAllResult">
       <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="frServiceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fMethodName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fRequiresAuthentication" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="fRequiresAuthorization" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="fRequestSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="fResponseSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="fDescription" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fModuleName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
-  <Function Name="dbo.GetMethodRevisions" Method="GetMethodRevisions">
+  <Function Name="dbo.Modules_GetById" Method="Modules_GetById">
     <Parameter Name="moduleId" Type="System.Int32" DbType="Int" />
-    <Parameter Name="methodName" Type="System.String" DbType="NVarChar(100)" />
-    <ElementType Name="GetMethodRevisionsResult">
+    <Parameter Name="revision" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Modules_GetByIdResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fModuleName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
     </ElementType>
   </Function>
-  <Function Name="dbo.GetMethodsForService" Method="GetMethodsForService">
-    <Parameter Name="serviceId" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetMethodsForServiceResult">
-      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fMethodName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.GetModuleByName" Method="GetModuleByName">
-    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+  <Function Name="dbo.Modules_Insert" Method="Modules_Insert">
     <Parameter Name="apiId" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetModuleByNameResult">
-      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fServiceName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-    </ElementType>
+    <Parameter Name="moduleName" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="author" Type="System.String" DbType="NVarChar(50)" />
+    <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.GetModulesForApi" Method="GetModulesForApi">
-    <Parameter Name="ApiId" Parameter="apiId" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetModulesForApiResult">
-      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fServiceName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.GetMethodByName" Method="GetMethodByName">
-    <Parameter Name="moduleId" Type="System.Int32" DbType="Int" />
-    <Parameter Name="name" Type="System.String" DbType="NVarChar(100)" />
+  <Function Name="dbo.Modules_GetByName" Method="Modules_GetByName">
+    <Parameter Name="apiId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
     <Parameter Name="revision" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetMethodByNameResult">
+    <ElementType Name="Modules_GetByNameResult">
       <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="frServiceId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fMethodName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fRequiresAuthentication" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="fRequiresAuthorization" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="fRequestSample" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="fResponseSample" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fModuleName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="fRevisionNumber" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Modules_LookupId" Method="Modules_LookupId">
+    <Parameter Name="apiId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="result" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Apis_LookupId" Method="Apis_LookupId">
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="result" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Apis_GetByName" Method="Apis_GetByName">
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="revision" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Apis_GetByNameResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fApiName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Modules_GetRevisions" Method="Modules_GetRevisions">
+    <Parameter Name="apiId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="Modules_GetRevisionsResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fModuleName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Apis_GetRevisions" Method="Apis_GetRevisions">
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="Apis_GetRevisionsResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fApiName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>
