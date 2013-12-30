@@ -36,7 +36,7 @@ namespace ApiDoc.Provider
             var module = GetModuleByName(apiUrl, moduleUrl);
 
             methodUrl = methodUrl.FromWikiUrlString();
-            var method = _proxy.GetMethodByName(module.Item2.Id, methodUrl);
+            MethodDescription method = null; //_proxy.GetMethodByName(module.Item2.Id, methodUrl);
 
             return new Tuple<ApiDescription, ModuleDescription, MethodDescription>(module.Item1, module.Item2, method);
         }

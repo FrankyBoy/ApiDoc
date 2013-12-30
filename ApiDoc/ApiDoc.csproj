@@ -152,7 +152,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ApiDescriptionController.cs" />
-    <Compile Include="Controllers\MethodsController.cs" />
     <Compile Include="Controllers\ModulesController.cs" />
     <Compile Include="DataAccess\PosDocumentationDb.designer.cs">
       <AutoGen>True</AutoGen>
@@ -164,14 +163,13 @@
     </Compile>
     <Compile Include="Models\MethodDescription.cs" />
     <Compile Include="Models\ModuleDescription.cs" />
+    <Compile Include="Models\VersionedItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\ApiDescription.cs" />
     <Compile Include="Provider\ApiDescriptionProvider.cs" />
     <Compile Include="Provider\IApiDescriptionProvider.cs" />
     <Compile Include="Provider\IContextProvider.cs" />
-    <Compile Include="Provider\IMethodProvider.cs" />
     <Compile Include="Provider\IModulesProvider.cs" />
-    <Compile Include="Provider\MethodProvider.cs" />
     <Compile Include="Provider\ModulesProvider.cs" />
     <Compile Include="Provider\ContextProvider.cs" />
     <Compile Include="Proxies\DbTypeConverter.cs" />

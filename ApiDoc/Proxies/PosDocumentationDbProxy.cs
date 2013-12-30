@@ -9,59 +9,35 @@ namespace ApiDoc.Proxies
     public class PosDocumentationDbProxy : IPosDocumentationDbProxy
     {
         
-        public IList<ApiDescription> GetApis ()
+        public IList<ApiDescription> GetApis (bool showDeleted = false)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return context.GetAPIs().Select(DbTypeConverter.MapApiDescription).ToList();
+                return context.Apis_GetAll(showDeleted).Select(DbTypeConverter.MapApiDescription).ToList();
             }
         }
 
-        public ApiDescription GetApiByName(string name)
+        public ApiDescription GetApiByName(string name, int? revision = null)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return DbTypeConverter.MapApiDescription(context.GetApiByName(name).First());
+                return DbTypeConverter.MapApiDescription(context.Apis_GetByName(name, revision).First());
             }
         }
 
-        public IList<ModuleDescription> GetModules(int apiId)
+        public IList<ModuleDescription> GetModules(int apiId, bool showDeleted = false)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return context.GetModulesForApi(apiId).Select(DbTypeConverter.MapModuleDescription).ToList();
+                return context.Modules_GetAll(apiId, showDeleted).Select(DbTypeConverter.MapModuleDescription).ToList();
             }
         }
 
-        public ModuleDescription GetModuleByName(int apiId, string name)
+        public ModuleDescription GetModuleByName(int apiId, string name, int? revision = null)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return DbTypeConverter.MapModuleDescription(context.GetModuleByName(name, apiId).First());
-            }
-        }
-
-        public IList<MethodDescription> GetMethods(int moduleId)
-        {
-            using (var context = new PosDocumentationDbDataContext())
-            {
-                return context.GetMethodsForService(moduleId).Select(x => DbTypeConverter.MapMethodDescription(x,GetHttpMethods())).ToList();
-            }
-        }
-
-        public MethodDescription GetMethodById(int methodId)
-        {
-            using (var context = new PosDocumentationDbDataContext())
-            {
-                return DbTypeConverter.MapMethodDescription(context.GetMethodById(methodId).First(), GetHttpMethods());
-            }
-        }
-        
-        public MethodDescription GetMethodByName(int moduleId, string name, int? revision = null)
-        {
-            using (var context = new PosDocumentationDbDataContext())
-            {
-                return DbTypeConverter.MapMethodDescription(context.GetMethodByName(moduleId, name, null).First(), GetHttpMethods());
+                return DbTypeConverter.MapModuleDescription(context.Modules_GetByName(apiId, name, revision).First());
             }
         }
 

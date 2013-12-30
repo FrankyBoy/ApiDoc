@@ -5,15 +5,11 @@ namespace ApiDoc.Proxies
 {
     public interface IPosDocumentationDbProxy
     {
-        IList<ApiDescription> GetApis();
-        ApiDescription GetApiByName(string name);
+        IList<ApiDescription> GetApis(bool showDeleted = false);
+        ApiDescription GetApiByName(string name, int? revision = null);
 
-        IList<ModuleDescription> GetModules(int apiId);
-        ModuleDescription GetModuleByName(int apiId, string name);
-
-        IList<MethodDescription> GetMethods(int moduleId);
-        MethodDescription GetMethodById(int methodId);
-        MethodDescription GetMethodByName(int moduleId, string name, int? revision = null);
+        IList<ModuleDescription> GetModules(int apiId, bool showDeleted = false);
+        ModuleDescription GetModuleByName(int apiId, string name, int? revision = null);
 
         IDictionary<int, string> GetHttpMethods();
     }
