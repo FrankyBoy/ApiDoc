@@ -14,9 +14,10 @@ namespace ApiDoc.Controllers
             _apiDescriptionProvider = apiDescriptionProvider;
         }
 
-        public ActionResult List()
+        public ActionResult List(bool showDeleted = false)
         {
-            ViewBag.Apis = _apiDescriptionProvider.GetApis();
+            ViewBag.Apis = _apiDescriptionProvider.GetApis(showDeleted);
+            ViewBag.ShowDeleted = showDeleted;
             return View("ListApis");
         }
         
@@ -56,9 +57,10 @@ namespace ApiDoc.Controllers
             return View("CreateApi", model);
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int apiId)
         {
-            throw new System.NotImplementedException();
+            _apiDescriptionProvider.DeleteApi(apiId);
+            return RedirectToAction("List");
         }
 
         public ActionResult History(int apiId)

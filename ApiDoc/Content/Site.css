@@ -27,6 +27,11 @@ html {
     position: relative;
 }
 
+.deleted {
+    text-decoration: line-through;
+    background-color: #ddd;
+}
+
 .editButton, .deleteButton, .historyButton {
     position: absolute;
     top: .5em;

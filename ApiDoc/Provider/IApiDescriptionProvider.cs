@@ -10,5 +10,6 @@ namespace ApiDoc.Provider
         ApiDescription GetById(int apiId, int? revision = null);
         int InsertApi(ApiDescription newApi, string author);
         void UpdateApi(ApiDescription model, string author);
+        void DeleteApi(int id);
     }
 }

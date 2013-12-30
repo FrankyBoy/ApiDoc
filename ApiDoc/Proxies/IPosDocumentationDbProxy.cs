@@ -15,5 +15,6 @@ namespace ApiDoc.Proxies
         IDictionary<int, string> GetHttpMethods();
         int InsertApi(ApiDescription newApi, string author);
         void UpdateApi(ApiDescription model, string author);
+        void DeleteApi(int id);
     }
 }

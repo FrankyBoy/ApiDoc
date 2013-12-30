@@ -15,7 +15,7 @@ namespace ApiDoc.Provider
 
         public IList<ApiDescription> GetApis(bool showDeleted)
         {
-            return _proxy.GetApis();
+            return _proxy.GetApis(showDeleted);
         }
 
         public int InsertApi(ApiDescription newApi, string author)
@@ -36,6 +36,11 @@ namespace ApiDoc.Provider
         public void UpdateApi(ApiDescription model, string author)
         {
             _proxy.UpdateApi(model, author);
+        }
+
+        public void DeleteApi(int id)
+        {
+            _proxy.DeleteApi(id);
         }
     }
 }

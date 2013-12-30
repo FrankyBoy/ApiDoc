@@ -83,5 +83,13 @@ namespace ApiDoc.Proxies
                     throw new Exception("No such ApiId");
             }
         }
+
+        public void DeleteApi(int id)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                context.Apis_Delete(id);
+            }
+        }
     }
 }

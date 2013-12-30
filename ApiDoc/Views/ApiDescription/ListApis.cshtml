@@ -3,13 +3,14 @@
 @{
     ViewBag.Title = "APIs";
 }
-<h3>ViewBag.Title</h3>
+<h3>@ViewBag.Title</h3>
 <ul>
     @foreach (ApiDescription item in ViewBag.Apis)
     {
         var reference = new {apiId = item.Id};
-        <li class="apiDescription">
+        <li class="apiDescription @if (item.Deleted) { Write(" deleted"); }">
             <a href="@Request.Url.AbsoluteUri@item.Name.ToWikiUrlString()"><h4>@item.Name</h4>@item.Description</a>
+            
             @Html.ActionLink("Edit", "History", reference, new {@class = "historyButton"})
             @Html.ActionLink("Edit", "Edit", reference, new {@class = "editButton"})
             @Html.ActionLink("Delete", "Delete", reference, new {@class = "deleteButton"})
@@ -17,3 +18,9 @@
     }
 </ul>
 @Html.ActionLink("Create", "Create")
+
+@if (ViewBag.ShowDeleted) {
+    @Html.ActionLink("Hide deleted", "List");
+} else {
+    @Html.ActionLink("Show All", "List", new {showDeleted = true});
+}
