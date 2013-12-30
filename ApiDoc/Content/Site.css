@@ -15,6 +15,23 @@ table {
     margin: 1em;
 }
 
+del, ins {
+    margin-left: .1em;
+    margin-right: .1em;
+    border-radius: .2em;
+}
+
+del {
+    background-color: #FCB;
+    border: 1px solid #DA8;
+}
+
+ins {
+    background-color: #AFB;
+    border: 1px solid #8D9;
+    text-decoration: none;
+}
+
 td, th {
     border: 1px solid black;
     border-collapse: collapse;
