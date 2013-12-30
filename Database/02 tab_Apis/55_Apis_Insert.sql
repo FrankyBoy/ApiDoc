@@ -32,7 +32,7 @@ BEGIN
     END
     
     declare @newId int
-    set @newId = (SELECT MAX(fID) from tab_Apis) + 1
+    set @newId = (SELECT COALESCE(MAX(fID),0) from tab_Apis) + 1
 	
     INSERT INTO tab_Apis (fID, fApiName, fDescription, fChangeDate, fAuthor, fDeleted)
     VALUES (@newId, @apiName, @description, GETUTCDATE(), @author, 'FALSE')

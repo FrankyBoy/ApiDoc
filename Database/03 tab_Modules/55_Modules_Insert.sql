@@ -31,7 +31,7 @@ BEGIN
     END
     
     declare @newId int
-    set @newId = (SELECT MAX(fID) from tab_Module) + 1
+    set @newId = (SELECT COALESCE(MAX(fID),0) from tab_Module) + 1
 
     INSERT INTO tab_Modules (fID, frApiId, fModuleName, fChangeDate, fAuthor, fDeleted)
     VALUES (@newId, @apiId, @moduleName, GETUTCDATE(), @author, 'FALSE')

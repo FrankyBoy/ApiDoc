@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ApiDoc.Models;
 using ApiDoc.Proxies;
 
@@ -14,14 +13,29 @@ namespace ApiDoc.Provider
             _proxy = proxy;
         }
 
-        public IList<ApiDescription> GetApis()
+        public IList<ApiDescription> GetApis(bool showDeleted)
         {
             return _proxy.GetApis();
         }
 
-        public ApiDescription GetApiDescription(int id)
+        public int InsertApi(ApiDescription newApi, string author)
         {
-            return GetApis().First(x => x.Id == id);
+            return _proxy.InsertApi(newApi, author);
+        }
+
+        public ApiDescription GetByName(string apiName)
+        {
+            return _proxy.GetApiByName(apiName);
+        }
+
+        public ApiDescription GetById(int apiId, int? revision = null)
+        {
+            return _proxy.GetApiById(apiId, revision);
+        }
+
+        public void UpdateApi(ApiDescription model, string author)
+        {
+            _proxy.UpdateApi(model, author);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using ApiDoc.Models;
 using ApiDoc.Provider;
 
@@ -18,16 +19,25 @@ namespace ApiDoc.Controllers
             ViewBag.Apis = _apiDescriptionProvider.GetApis();
             return View("ListApis");
         }
-
-        public ActionResult Edit(int id)
+        
+        public ActionResult Edit(int apiId)
         {
-            return View("EditApi", _apiDescriptionProvider.GetApiDescription(id));
+            return View("EditApi", _apiDescriptionProvider.GetById(apiId));
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, ApiDescription model)
+        public ActionResult Edit(int apiId, ApiDescription model)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                _apiDescriptionProvider.UpdateApi(model, "dummy"); // TODO: replace with currently logged in user
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("ModelError", ex);
+                return View("EditApi", model);
+            }
+            return RedirectToAction("List");
         }
         
         public ActionResult Create()
@@ -38,10 +48,25 @@ namespace ApiDoc.Controllers
         [HttpPost]
         public ActionResult Create(ApiDescription model)
         {
-            throw new System.NotImplementedException();
+            var newId = _apiDescriptionProvider.InsertApi(model, "dummy"); // TODO: replace with currently logged in user
+            if (newId > 0)
+                return RedirectToAction("List");
+            
+            ModelState.AddModelError("Name", "Name already exists");
+            return View("CreateApi", model);
         }
 
         public ActionResult Delete(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ActionResult History(int apiId)
+        {
+            throw new System.NotImplementedException();
+        }
+        
+        public ActionResult History(int apiId, int rev1, int rev2)
         {
             throw new System.NotImplementedException();
         }

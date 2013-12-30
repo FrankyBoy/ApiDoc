@@ -8,30 +8,15 @@ namespace ApiDoc.App_Start
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            #region Apis
+            routes.MapRoute("Apis",         "",         new { controller = "ApiDescription", action = "List" });
+            routes.MapRoute("ApiCreate",    "__create", new { controller = "ApiDescription", action = "Create" });
+            routes.MapRoute("ApiEdit",      "__edit",   new { controller = "ApiDescription", action = "Edit" });
+            routes.MapRoute("ApiDelete",    "__delete", new { controller = "ApiDescription", action = "Delete" });
+            routes.MapRoute("ApiVersions",  "__history",new { controller = "ApiDescription", action = "History" });
+            #endregion
             
-            routes.MapRoute(
-                name: "Base",
-                url: "",
-                defaults: new { controller = "ApiDescription", action = "List" }
-            );
-
-            routes.MapRoute(
-               name: "Modules",
-               url: "{apiName}",
-               defaults: new { controller = "Modules", action = "List" }
-            );
-
-            routes.MapRoute(
-               name: "Methods",
-               url: "{apiName}/{moduleName}",
-               defaults: new { controller = "Methods", action = "List" }
-            );
-
-            routes.MapRoute(
-               name: "SingleMethod",
-               url: "{apiName}/{moduleName}/{methodName}",
-               defaults: new { controller = "Methods", action = "View" }
-            );
 
             routes.MapRoute(
                 name: "Default",

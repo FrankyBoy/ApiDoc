@@ -25,6 +25,14 @@ namespace ApiDoc.Proxies
             }
         }
 
+        public ApiDescription GetApiById(int apiId, int? revision)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                return DbTypeConverter.MapApiDescription(context.Apis_GetById(apiId, revision).First());
+            }
+        }
+
         public IList<ModuleDescription> GetModules(int apiId, bool showDeleted = false)
         {
             using (var context = new PosDocumentationDbDataContext())
@@ -56,6 +64,24 @@ namespace ApiDoc.Proxies
             }
 
             return _cachedHttpMethods;
+        }
+
+        public int InsertApi(ApiDescription newApi, string author)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                return context.Apis_Insert(newApi.Name, newApi.Description, author);
+            }
+        }
+        
+        public void UpdateApi(ApiDescription model, string author)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                var result = context.Apis_Update(model.Id, model.Name, model.Description, author);
+                if(result < 0)
+                    throw new Exception("No such ApiId");
+            }
         }
     }
 }

@@ -7,9 +7,12 @@
 <ul>
     @foreach (ApiDescription item in ViewBag.Apis)
     {
-        <li class="apiDescription"><a href="@Request.Url.AbsoluteUri@item.Name.ToWikiUrlString()"><h4>@item.Name</h4>@item.Description</a>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new {@class = "editButton"})
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new {@class = "deleteButton"})
+        var reference = new {apiId = item.Id};
+        <li class="apiDescription">
+            <a href="@Request.Url.AbsoluteUri@item.Name.ToWikiUrlString()"><h4>@item.Name</h4>@item.Description</a>
+            @Html.ActionLink("Edit", "History", reference, new {@class = "historyButton"})
+            @Html.ActionLink("Edit", "Edit", reference, new {@class = "editButton"})
+            @Html.ActionLink("Delete", "Delete", reference, new {@class = "deleteButton"})
         </li>
     }
 </ul>

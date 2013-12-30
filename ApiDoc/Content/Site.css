@@ -27,7 +27,7 @@ html {
     position: relative;
 }
 
-.editButton, .deleteButton {
+.editButton, .deleteButton, .historyButton {
     position: absolute;
     top: .5em;
     width: 1.5em;
@@ -42,12 +42,18 @@ html {
     background-size: 3em 1.5em;
 }
 
+.historyButton {
+    right: 4.5em;
+    background-image: url(images/Clock_Sprite.png);
+    background-size: 3em 1.5em;
+}
+
 .deleteButton {
     right: .5em;
     background-image: url(images/Trashcan_Sprite.png);
     background-size: 3em 1.5em;
 }
 
-.editButton:hover, .deleteButton:hover {
+.editButton:hover, .deleteButton:hover, .historyButton:hover {
     background-position: right;
 }
