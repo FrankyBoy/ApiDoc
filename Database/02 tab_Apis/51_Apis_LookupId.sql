@@ -17,8 +17,8 @@ BEGIN
 
     SELECT TOP(1) fID
     FROM tab_Apis
-    ORDER BY fChangeDate DESC
     WHERE UPPER(fApiName) = UPPER(@name)
+    ORDER BY fChangeDate DESC
     
         
 END

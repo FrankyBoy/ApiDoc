@@ -18,9 +18,9 @@ BEGIN
 
     SELECT TOP(1) fID
     FROM tab_Modules
-    ORDER BY fChangeDate DESC
     WHERE frApiId = @apiId
     AND UPPER(fModuleName) = UPPER(@name)
+    ORDER BY fChangeDate DESC
 
 
 END
