@@ -12,5 +12,6 @@ namespace ApiDoc.Provider
         void UpdateApi(ApiDescription model, string author);
         void DeleteApi(int id);
         IList<ApiDescription> GetRevisions(int apiId);
+        ApiDescription CompareRevisions(int apiId, int rev1, int rev2);
     }
 }

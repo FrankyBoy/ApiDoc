@@ -1,29 +1,29 @@
 ﻿@model HistoryViewModel
+@using ApiDoc.Utility
 @using ApiDoc.Models
-@using Helpers
 @{
     ViewBag.Title = "Api Revisions";
 }
 
 <h3>@ViewBag.Title</h3>
 
-@if (ViewBag.Rev1 != null && ViewBag.Rev2 != null)
+@if (ViewBag.Comparison != null)
 {
-    ApiDescription rev1 = ViewBag.Rev1;
-    ApiDescription rev2 = ViewBag.Rev2;
+    ApiDescription rev1 = ((IList<ApiDescription>) ViewBag.History).First(x => x.RevisionNumber == Model.Rev1);
+    ApiDescription rev2 = ((IList<ApiDescription>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev2);
     <p>Comparing these revisions:</p>
     <table>
-    <tr><td>New</td><td>@rev1.RevisionNumber</td><td>@rev1.ChangeDate</td><td>@rev1.Author</td></tr>
-    <tr><td>Old</td><td>@rev2.RevisionNumber</td><td>@rev2.ChangeDate</td><td>@rev2.Author</td></tr>
+    <tr><td>Old</td><td>@rev1.RevisionNumber</td><td>@rev1.ChangeDate</td><td>@rev1.Author</td></tr>
+    <tr><td>New</td><td>@rev2.RevisionNumber</td><td>@rev2.ChangeDate</td><td>@rev2.Author</td></tr>
     </table>
     <table>
         <tr>
             <th>Name</th>
-            <td>@Html.Raw(HtmlDiff.Execute(rev2.Name, rev1.Name))</td>
+            <td>@Html.Raw(ViewBag.Comparison.Name)</td>
         </tr>
         <tr>
             <th>Description</th>
-            <td>@Html.Raw(HtmlDiff.Execute(rev2.Description, rev1.Description))</td>
+            <td>@Html.Raw(ViewBag.Comparison.Description)</td>
         </tr>
     </table>
 }
@@ -43,8 +43,8 @@
         @foreach (ApiDescription item in ViewBag.History)
         {
             <tr>
-                <td>@Html.RadioButtonFor(m => m.Rev1, item.RevisionNumber)</td>
                 <td>@Html.RadioButtonFor(m => m.Rev2, item.RevisionNumber)</td>
+                <td>@Html.RadioButtonFor(m => m.Rev1, item.RevisionNumber)</td>
                 <td>@item.RevisionNumber</td>
                 <td>@item.ChangeDate</td>
                 <td>@item.Author</td>

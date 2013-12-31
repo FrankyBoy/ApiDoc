@@ -77,7 +77,7 @@ namespace ApiDoc.Controllers
                     model = new HistoryViewModel(historyItems[0].RevisionNumber, historyItems[0].RevisionNumber);
                     break;
                 default:
-                    model = new HistoryViewModel(historyItems[0].RevisionNumber, historyItems[1].RevisionNumber);
+                    model = new HistoryViewModel(historyItems[1].RevisionNumber, historyItems[0].RevisionNumber);
                     break;
             }
 
@@ -87,9 +87,9 @@ namespace ApiDoc.Controllers
         [HttpPost]
         public ActionResult Revisions(int apiId, HistoryViewModel revisions)
         {
+            ViewBag.Comparison = _apiDescriptionProvider.CompareRevisions(apiId, revisions.Rev1, revisions.Rev2);
             ViewBag.History = _apiDescriptionProvider.GetRevisions(apiId);
-            ViewBag.Rev1 = _apiDescriptionProvider.GetById(apiId, revisions.Rev1);
-            ViewBag.Rev2 = _apiDescriptionProvider.GetById(apiId, revisions.Rev2);
+            // TODO: use better diff, the current one is not perfect
             return View("ApiRevisions", revisions);
         }
     }

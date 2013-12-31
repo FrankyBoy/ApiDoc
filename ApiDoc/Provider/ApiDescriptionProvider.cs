@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ApiDoc.Models;
 using ApiDoc.Proxies;
+using ApiDoc.Utility;
 
 namespace ApiDoc.Provider
 {
@@ -48,5 +49,21 @@ namespace ApiDoc.Provider
             return _proxy.GetApiRevisions(apiId);
         }
 
+        public ApiDescription CompareRevisions(int apiId, int rev1, int rev2)
+        {
+            var r1 = GetById(apiId, rev1);
+            var r2 = GetById(apiId, rev2);
+            var diff = new DiffMatchPatch();
+            var nameResult = diff.diff_main(r1.Name, r2.Name);
+            var descriptionResult = diff.diff_main(r1.Description, r2.Description);
+            diff.diff_cleanupSemantic(nameResult);
+            diff.diff_cleanupSemantic(descriptionResult);
+
+            return new ApiDescription
+                {
+                    Name = diff.diff_prettyHtml(nameResult),
+                    Description = diff.diff_prettyHtml(descriptionResult)
+                };
+        }
     }
 }
