@@ -272,12 +272,12 @@
     <Content Include="packages.config" />
     <None Include="readme.txt" />
     <Content Include="Views\Wiki\EditApi.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\ApiDescription.cshtml" />
     <Content Include="Views\Wiki\Create.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\ModuleDescription.cshtml" />
     <Content Include="Views\Wiki\ApiRevisions.cshtml" />
     <Content Include="Views\Wiki\DisplayNode.cshtml" />
     <Content Include="Views\Wiki\DisplayMethod.cshtml" />
+    <Content Include="Views\Wiki\CreateNode.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Node.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

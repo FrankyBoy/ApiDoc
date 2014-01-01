@@ -19,7 +19,7 @@ BEGIN
     declare @id int
     EXEC Nodes_LookupId @parentId, @name, @result = @id OUTPUT
     
-    RETURN EXEC Nodes_GetById @id, @revision
+    EXEC Nodes_GetById @id, @revision
     
 END
 

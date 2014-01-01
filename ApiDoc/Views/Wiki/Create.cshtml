@@ -1,11 +1,17 @@
-﻿@model ApiDoc.Models.VersionedItem
+﻿@using ApiDoc.Models
+@model VersionedItem
 
 @{
-    ViewBag.Title = "Create API";
+    ViewBag.Title = "Create";
 }
 
-<h3>@ViewBag.Title</h3>
-@using (Html.BeginForm()){
-    @Html.EditorFor(m => m)
+<h2>@ViewBag.Title</h2>
+
+<h3>Create Node</h3>
+@using (Html.BeginForm("CreateNode", "Wiki", new {parentId = Model.Id})){
+    @Html.Partial("CreateNode", new Node())
     <input type="submit" value="Create" />
 }
+
+<h3>Create Method</h3>
+@* TODO make create method *@

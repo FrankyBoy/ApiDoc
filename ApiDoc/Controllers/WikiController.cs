@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 using ApiDoc.Models;
 using ApiDoc.Provider;
@@ -20,7 +22,8 @@ namespace ApiDoc.Controllers
         public ActionResult Display(string path, bool? showDeleted)
         {
             ViewBag.ShowDeleted = showDeleted ?? false;
-            var result = GetElement(path, showDeleted ?? false);
+            var result = GetStructure(path, showDeleted ?? false).Last();
+
             if(result is Node)
                 return View("DisplayNode", result as Node);
 
@@ -29,108 +32,36 @@ namespace ApiDoc.Controllers
         
         public ActionResult Create(string path)
         {
-            VersionedItem parent = GetElement(path);
+            VersionedItem parent = GetStructure(path).Last();
             return View("Create", parent);
         }
 
         [HttpPost]
-        public ActionResult CreateNode(string path, Node model)
+        public ActionResult CreateNode(int? parentId, Node model)
         {
-            VersionedItem parent = GetElement(path);
+            var parent = GetStructureForNode(parentId);
             model.Author = "dummy"; // TODO: replace with currently logged in user
-            var newId = _nodeProvider.InsertNode(model, parent.Id); 
+            var newId = _nodeProvider.InsertNode(model, parent.Last().Id); 
 
             if (newId > 0)
-                return RedirectToAction("Display", new {path});
+                return RedirectToAction("Display", new {path = parent.GetWikiPath()});
 
             ModelState.AddModelError("Name", "Name already exists");
             return View("Create", model);
         }
 
         [HttpPost]
-        public ActionResult CreateMethod(string path, Method model)
+        public ActionResult CreateMethod(int parentId, Method model)
         {
             throw new NotImplementedException();
         }
-
-        /*
-        public ActionResult Edit(string path)
-        {
-            return View("EditApi", _nodeProvider.GetById(apiId));
-        }
-
-        [HttpPost]
-        public ActionResult Edit(int apiId, Node model)
-        {
-            try
-            {
-                _nodeProvider.UpdateNode(model, "dummy"); // TODO: replace with currently logged in user
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("ModelError", ex);
-                return View("EditApi", model);
-            }
-            return RedirectToAction("List");
-        }
         
-        public ActionResult Create()
+        private static readonly Node Root = new Node {Name = "ROOT", Id = 0};
+
+        // TODO: replace with some (cached!) path lookup
+        private IList<VersionedItem> GetStructure(string path, bool showDeleted = false)
         {
-            return View("CreateApi", new Node());
-        }
-
-        [HttpPost]
-        public ActionResult Create(Node model)
-        {
-            var newId = _nodeProvider.InsertNode(model, "dummy"); // TODO: replace with currently logged in user
-            if (newId > 0)
-                return RedirectToAction("List");
-            
-            ModelState.AddModelError("Name", "Name already exists");
-            return View("CreateApi", model);
-        }
-
-        public ActionResult Delete(int apiId)
-        {
-            _nodeProvider.DeleteNode(apiId);
-            return RedirectToAction("List");
-        }
-
-        public ActionResult Revisions(int apiId)
-        {
-            var historyItems = _nodeProvider.GetRevisions(apiId);
-            ViewBag.History = historyItems;
-            HistoryViewModel model;
-            switch (historyItems.Count)
-            {
-                case 0:
-                    model = new HistoryViewModel(0, 0);
-                    break;
-                case 1:
-                    model = new HistoryViewModel(historyItems[0].RevisionNumber, historyItems[0].RevisionNumber);
-                    break;
-                default:
-                    model = new HistoryViewModel(historyItems[1].RevisionNumber, historyItems[0].RevisionNumber);
-                    break;
-            }
-
-            return View("ApiRevisions", model);
-        }
-
-        [HttpPost]
-        public ActionResult Revisions(int apiId, HistoryViewModel revisions)
-        {
-            ViewBag.Comparison = _nodeProvider.CompareRevisions(apiId, revisions.Rev1, revisions.Rev2);
-            ViewBag.History = _nodeProvider.GetRevisions(apiId);
-            // TODO: use better diff, the current one is not perfect
-            return View("ApiRevisions", revisions);
-        }*/
-
-
-
-        private VersionedItem GetElement(string path, bool showDeleted = false)
-        {
-            VersionedItem result = new Node { Name = "ROOT", Id = null };
+            IList<VersionedItem> result = new List<VersionedItem>{Root};
             var isNode = string.IsNullOrEmpty(path) || path.EndsWith("/");
 
             if (path != null)
@@ -140,24 +71,61 @@ namespace ApiDoc.Controllers
                 {
                     // fetch next deeper chunk
                     var name = chunks[i];
+                    var current = result.Last();
                     if (!string.IsNullOrEmpty(name))
                     {
                         if (isNode || chunks.Length < i - 1)
-                            result = _nodeProvider.GetByName(name, result.Id);
+                            result.Add(_nodeProvider.GetByName(name, current.Id));
                         else
-                            result = _methodProvider.GetByName(name, result.Id);
+                            result.Add(_methodProvider.GetByName(name, current.Id));
                     }
                 }
             }
+            GetChildren(result.Last(), showDeleted);
+            return result;
+        }
 
-            if (result is Node)
+        // TODO: replace with some (cached!) path lookup
+        private IList<VersionedItem> GetStructureForNode(int? nodeId, bool showDeleted = false)
+        {
+            IList<VersionedItem> result = new List<VersionedItem> { Root };
+            while (nodeId != null && nodeId != 0)
             {
-                var children = _nodeProvider.GetNodes(result.Id, showDeleted).Cast<VersionedItem>().ToList();
-                children.AddRange(_methodProvider.GetMethods(result.Id));
-                result.Children = children;
+                var node = _nodeProvider.GetById((int)nodeId);
+                result.Add(node);
+                nodeId = node.ParentId;
+            }
+            result = result.Reverse().ToList();
+
+            GetChildren(result.Last(), showDeleted);
+            return result;
+        }
+
+        private void GetChildren(VersionedItem element, bool showDeleted)
+        {
+            var node = element as Node;
+            if (node != null)
+            {
+                var children = _nodeProvider.GetNodes(node.Id, showDeleted).Cast<VersionedItem>().ToList();
+                children.AddRange(_methodProvider.GetMethods(node.Id));
+                node.Children = children;
+            }
+        }
+    }
+
+    internal static class ItemListExtensions
+    {
+        public static string GetWikiPath(this IList<VersionedItem> items)
+        {
+            var output = new StringBuilder();
+            foreach (var item in items)
+            {
+                if(item.Id != 0) {
+                    output.Append(item.GetWikiUrlString());
+                }
             }
 
-            return result;
+            return output.ToString();
         }
     }
 }

@@ -25,49 +25,6 @@
       <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
-  <Function Name="dbo.Nodes_GetById" Method="Nodes_GetById">
-    <Parameter Name="moduleId" Type="System.Int32" DbType="Int" />
-    <Parameter Name="revision" Type="System.Int32" DbType="Int" />
-    <ElementType Name="Nodes_GetByIdResult">
-      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="fChangeNote" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.Nodes_GetByName" Method="Nodes_GetByName">
-    <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
-    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
-    <Parameter Name="revision" Type="System.Int32" DbType="Int" />
-    <ElementType Name="Nodes_GetByNameResult">
-      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="fChangeNote" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-    </ElementType>
-  </Function>
-  <Function Name="dbo.Nodes_GetRevisions" Method="Nodes_GetRevisions">
-    <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
-    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
-    <ElementType Name="Nodes_GetRevisionsResult">
-      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
-      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="fChangeNote" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-    </ElementType>
-  </Function>
   <Function Name="dbo.Nodes_Insert" Method="Nodes_Insert">
     <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
     <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
@@ -85,6 +42,52 @@
     <ElementType Name="GetHttpVerbsResult">
       <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="fHttpVerb" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Nodes_GetByName" Method="Nodes_GetByName">
+    <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="revision" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Nodes_GetByNameResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="frParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="fName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fChangeNote" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Nodes_GetById" Method="Nodes_GetById">
+    <Parameter Name="moduleId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="revision" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Nodes_GetByIdResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="frParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="fName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fChangeNote" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Nodes_GetRevisions" Method="Nodes_GetRevisions">
+    <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <ElementType Name="Nodes_GetRevisionsResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="frParentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="fName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fChangeNote" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

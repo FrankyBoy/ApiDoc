@@ -21,6 +21,7 @@ namespace ApiDoc
 
         public IList<Method> GetMethods(int? parentId)
         {
+            return new List<Method>();
             throw new System.NotImplementedException();
         }
     }

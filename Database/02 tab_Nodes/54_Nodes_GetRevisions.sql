@@ -18,7 +18,7 @@ BEGIN
     declare @id int
     EXEC Nodes_LookupId @parentId, @name, @result = @id OUTPUT
 
-    SELECT fID, fName, fDescription, fChangeDate, fAuthor, fChangeNote, fDeleted, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
+    SELECT fID, frParentId, fName, fDescription, fChangeDate, fAuthor, fChangeNote, fDeleted, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
         FROM tab_Nodes
         WHERE fID = @id
         ORDER BY fRevisionNumber DESC

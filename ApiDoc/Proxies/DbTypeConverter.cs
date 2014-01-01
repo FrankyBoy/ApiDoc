@@ -27,7 +27,8 @@ namespace ApiDoc.Proxies
                     Id = input.fID,
                     Description = input.fDescription,
                     Deleted = input.fDeleted,
-                    RevisionNumber = input.fRevisionNumber ?? 0
+                    RevisionNumber = input.fRevisionNumber ?? 0,
+                    ParentId = input.frParentId
                 };
         }
 
@@ -42,7 +43,8 @@ namespace ApiDoc.Proxies
                 Id = input.fID,
                 Description = input.fDescription,
                 Deleted = input.fDeleted,
-                RevisionNumber = input.fRevisionNumber ?? 0
+                RevisionNumber = input.fRevisionNumber ?? 0,
+                ParentId = input.frParentId
             };
         }
 
@@ -57,7 +59,8 @@ namespace ApiDoc.Proxies
                 Id = input.fID,
                 Description = input.fDescription,
                 Deleted = input.fDeleted,
-                RevisionNumber = input.fRevisionNumber ?? 0
+                RevisionNumber = input.fRevisionNumber ?? 0,
+                ParentId = input.frParentId
             };
         }
     }

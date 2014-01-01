@@ -1,5 +1,4 @@
 ﻿@using ApiDoc.Models
-@using ApiDoc.Utility
 @model Node
 
 @{
@@ -12,7 +11,7 @@
     {
         var reference = new {apiId = item.Id};
         <li class="apiDescription @if (item.Deleted) { Write(" deleted"); }">
-            <a href="@Request.Url.AbsoluteUri@item.Name.ToWikiUrlString()"><h4>@item.Name</h4>@item.Description</a>
+            <a href="@Request.Url.AbsoluteUri@item.GetWikiUrlString()"><h4>@item.Name</h4>@item.Description</a>
             
             @Html.ActionLink("Revisions", "History", reference, new {@class = "historyButton"})
             @Html.ActionLink("Edit", "Edit", reference, new {@class = "editButton"})

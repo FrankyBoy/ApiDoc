@@ -83,27 +83,6 @@ namespace ApiDoc.DataAccess
 			return ((ISingleResult<Nodes_GetAllResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_GetById")]
-		public ISingleResult<Nodes_GetByIdResult> Nodes_GetById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> moduleId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> revision)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), moduleId, revision);
-			return ((ISingleResult<Nodes_GetByIdResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_GetByName")]
-		public ISingleResult<Nodes_GetByNameResult> Nodes_GetByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> revision)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, name, revision);
-			return ((ISingleResult<Nodes_GetByNameResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_GetRevisions")]
-		public ISingleResult<Nodes_GetRevisionsResult> Nodes_GetRevisions([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, name);
-			return ((ISingleResult<Nodes_GetRevisionsResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_Insert")]
 		public int Nodes_Insert([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string author)
 		{
@@ -124,6 +103,27 @@ namespace ApiDoc.DataAccess
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
 			return ((ISingleResult<GetHttpVerbsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_GetByName")]
+		public ISingleResult<Nodes_GetByNameResult> Nodes_GetByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> revision)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, name, revision);
+			return ((ISingleResult<Nodes_GetByNameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_GetById")]
+		public ISingleResult<Nodes_GetByIdResult> Nodes_GetById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> moduleId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> revision)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), moduleId, revision);
+			return ((ISingleResult<Nodes_GetByIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_GetRevisions")]
+		public ISingleResult<Nodes_GetRevisionsResult> Nodes_GetRevisions([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, name);
+			return ((ISingleResult<Nodes_GetRevisionsResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -207,26 +207,14 @@ namespace ApiDoc.DataAccess
 		}
 	}
 	
-	public partial class Nodes_GetByIdResult
+	public partial class GetHttpVerbsResult
 	{
 		
 		private int _fID;
 		
-		private string _fName;
+		private string _fHttpVerb;
 		
-		private string _fDescription;
-		
-		private System.DateTime _fChangeDate;
-		
-		private string _fAuthor;
-		
-		private string _fChangeNote;
-		
-		private bool _fDeleted;
-		
-		private System.Nullable<long> _fRevisionNumber;
-		
-		public Nodes_GetByIdResult()
+		public GetHttpVerbsResult()
 		{
 		}
 		
@@ -242,6 +230,80 @@ namespace ApiDoc.DataAccess
 				if ((this._fID != value))
 				{
 					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fHttpVerb", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fHttpVerb
+		{
+			get
+			{
+				return this._fHttpVerb;
+			}
+			set
+			{
+				if ((this._fHttpVerb != value))
+				{
+					this._fHttpVerb = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Nodes_GetByNameResult
+	{
+		
+		private int _fID;
+		
+		private System.Nullable<int> _frParentId;
+		
+		private string _fName;
+		
+		private string _fDescription;
+		
+		private System.DateTime _fChangeDate;
+		
+		private string _fAuthor;
+		
+		private string _fChangeNote;
+		
+		private bool _fDeleted;
+		
+		private System.Nullable<long> _fRevisionNumber;
+		
+		public Nodes_GetByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frParentId", DbType="Int")]
+		public System.Nullable<int> frParentId
+		{
+			get
+			{
+				return this._frParentId;
+			}
+			set
+			{
+				if ((this._frParentId != value))
+				{
+					this._frParentId = value;
 				}
 			}
 		}
@@ -359,10 +421,12 @@ namespace ApiDoc.DataAccess
 		}
 	}
 	
-	public partial class Nodes_GetByNameResult
+	public partial class Nodes_GetByIdResult
 	{
 		
 		private int _fID;
+		
+		private System.Nullable<int> _frParentId;
 		
 		private string _fName;
 		
@@ -378,7 +442,7 @@ namespace ApiDoc.DataAccess
 		
 		private System.Nullable<long> _fRevisionNumber;
 		
-		public Nodes_GetByNameResult()
+		public Nodes_GetByIdResult()
 		{
 		}
 		
@@ -394,6 +458,22 @@ namespace ApiDoc.DataAccess
 				if ((this._fID != value))
 				{
 					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frParentId", DbType="Int")]
+		public System.Nullable<int> frParentId
+		{
+			get
+			{
+				return this._frParentId;
+			}
+			set
+			{
+				if ((this._frParentId != value))
+				{
+					this._frParentId = value;
 				}
 			}
 		}
@@ -516,6 +596,8 @@ namespace ApiDoc.DataAccess
 		
 		private int _fID;
 		
+		private System.Nullable<int> _frParentId;
+		
 		private string _fName;
 		
 		private string _fDescription;
@@ -546,6 +628,22 @@ namespace ApiDoc.DataAccess
 				if ((this._fID != value))
 				{
 					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frParentId", DbType="Int")]
+		public System.Nullable<int> frParentId
+		{
+			get
+			{
+				return this._frParentId;
+			}
+			set
+			{
+				if ((this._frParentId != value))
+				{
+					this._frParentId = value;
 				}
 			}
 		}
@@ -658,50 +756,6 @@ namespace ApiDoc.DataAccess
 				if ((this._fRevisionNumber != value))
 				{
 					this._fRevisionNumber = value;
-				}
-			}
-		}
-	}
-	
-	public partial class GetHttpVerbsResult
-	{
-		
-		private int _fID;
-		
-		private string _fHttpVerb;
-		
-		public GetHttpVerbsResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
-		public int fID
-		{
-			get
-			{
-				return this._fID;
-			}
-			set
-			{
-				if ((this._fID != value))
-				{
-					this._fID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fHttpVerb", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string fHttpVerb
-		{
-			get
-			{
-				return this._fHttpVerb;
-			}
-			set
-			{
-				if ((this._fHttpVerb != value))
-				{
-					this._fHttpVerb = value;
 				}
 			}
 		}

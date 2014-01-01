@@ -1,8 +1,16 @@
-﻿namespace ApiDoc.Models
+﻿using System.Collections.Generic;
+using ApiDoc.Utility;
+
+namespace ApiDoc.Models
 {
     public class Node : VersionedItem
     {
-        public string Name { get; set; }
         public string Description { get; set; }
+        public IList<VersionedItem> Children { get; set; }
+
+        public override string GetWikiUrlString()
+        {
+            return Name.ToWikiUrlString() + "/";
+        }
     }
 }

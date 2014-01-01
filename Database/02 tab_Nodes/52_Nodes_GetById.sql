@@ -8,7 +8,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[Nodes_GetById]
-    @moduleId   int,
+    @id			int,
     @revision   int = null
 AS
 BEGIN
@@ -19,9 +19,9 @@ BEGIN
 	WITH allRevisions
 	AS (SELECT *, row_number() OVER(ORDER BY fChangeDate ASC) AS fRevisionNumber
 		FROM tab_Nodes
-		WHERE fID = 1)
+		WHERE fID = @id)
 
-    SELECT fID, fName, fDescription, fChangeDate, fAuthor, fChangeNote, fDeleted, fRevisionNumber
+    SELECT fID, frParentId, fName, fDescription, fChangeDate, fAuthor, fChangeNote, fDeleted, fRevisionNumber
     FROM allRevisions
     WHERE fRevisionNumber = COALESCE(@revision, (SELECT MAX(fRevisionNumber) FROM allRevisions))
 
