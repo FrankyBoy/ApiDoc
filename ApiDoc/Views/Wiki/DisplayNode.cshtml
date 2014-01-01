@@ -1,17 +1,20 @@
 ﻿@using ApiDoc.Models
 @using ApiDoc.Utility
+@model Node
+
 @{
-    ViewBag.Title = "APIs";
+    ViewBag.Title = "title";
 }
-<h3>@ViewBag.Title</h3>
+
+<h2>@Model.Name</h2>
 <ul>
-    @foreach (ApiDescription item in ViewBag.Apis)
+    @foreach (Node item in Model.Children)
     {
         var reference = new {apiId = item.Id};
         <li class="apiDescription @if (item.Deleted) { Write(" deleted"); }">
             <a href="@Request.Url.AbsoluteUri@item.Name.ToWikiUrlString()"><h4>@item.Name</h4>@item.Description</a>
             
-            @Html.ActionLink("Edit", "Revisions", reference, new {@class = "historyButton"})
+            @Html.ActionLink("Revisions", "History", reference, new {@class = "historyButton"})
             @Html.ActionLink("Edit", "Edit", reference, new {@class = "editButton"})
             @Html.ActionLink("Delete", "Delete", reference, new {@class = "deleteButton"})
         </li>
@@ -20,7 +23,7 @@
 @Html.ActionLink("Create", "Create")
 
 @if (ViewBag.ShowDeleted) {
-    @Html.ActionLink("Hide deleted", "List");
+    @Html.ActionLink("Hide deleted", "Display");
 } else {
-    @Html.ActionLink("Show All", "List", new {showDeleted = true});
+    @Html.ActionLink("Show All", "Display", new {showDeleted = true});
 }

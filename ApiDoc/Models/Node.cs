@@ -1,8 +1,7 @@
 ﻿namespace ApiDoc.Models
 {
-    public class ApiDescription : VersionedItem
+    public class Node : VersionedItem
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }

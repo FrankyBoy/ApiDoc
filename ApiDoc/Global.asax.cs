@@ -38,22 +38,14 @@ namespace ApiDoc
                    .As<IPosDocumentationDbProxy>()
                    .SingleInstance();
 
-            builder.Register(c => new ApiDescriptionProvider(c.Resolve<IPosDocumentationDbProxy>()))
-                   .As<IApiDescriptionProvider>()
+            builder.Register(c => new NodeProvider(c.Resolve<IPosDocumentationDbProxy>()))
+                   .As<INodeProvider>()
+                   .SingleInstance();
+
+            builder.Register(c => new MethodProvider(c.Resolve<IPosDocumentationDbProxy>()))
+                   .As<IMethodProvider>()
                    .SingleInstance();
             
-            builder.Register(c => new ModulesProvider(c.Resolve<IPosDocumentationDbProxy>()))
-                   .As<IModulesProvider>()
-                   .SingleInstance();
-
-            /*builder.Register(c => new MethodProvider(c.Resolve<IPosDocumentationDbProxy>()))
-                   .As<IMethodProvider>()
-                   .SingleInstance();*/
-
-            builder.Register(c => new ContextProvider(c.Resolve <IPosDocumentationDbProxy>()))
-                   .As<IContextProvider>()
-                   .SingleInstance();
-
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }

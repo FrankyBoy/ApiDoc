@@ -5,17 +5,15 @@ namespace ApiDoc.Proxies
 {
     public interface IPosDocumentationDbProxy
     {
-        IList<ApiDescription> GetApis(bool showDeleted = false);
-        ApiDescription GetApiByName(string name, int? revision = null);
-        ApiDescription GetApiById(int apiId, int? revision);
-
-        IList<ModuleDescription> GetModules(int apiId, bool showDeleted = false);
-        ModuleDescription GetModuleByName(int apiId, string name, int? revision = null);
-
         IDictionary<int, string> GetHttpMethods();
-        int InsertApi(ApiDescription newApi, string author);
-        void UpdateApi(ApiDescription model, string author);
-        void DeleteApi(int id);
-        IList<ApiDescription> GetApiRevisions(int apiId);
+
+        IList<Node> GetNodes(int? parentId = null, bool showDeleted = false);
+        Node GetNodeById(int id, int? revision = null);
+        Node GetNodeByName(string name, int? parentId = null, int? revision = null);
+        int GetNodeId(string name, int? parentId = null);
+        int InsertNode(Node newNode, int? parentId);
+        int UpdateNode(Node newNode, int? parentId);
+        void DeleteNode(int id, string author, string reason);
+        IList<Node> GetNodeRevisions(string name, int? parentId = null);
     }
 }

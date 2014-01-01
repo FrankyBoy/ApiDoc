@@ -9,8 +9,8 @@
 
 @if (ViewBag.Comparison != null)
 {
-    ApiDescription rev1 = ((IList<ApiDescription>) ViewBag.History).First(x => x.RevisionNumber == Model.Rev1);
-    ApiDescription rev2 = ((IList<ApiDescription>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev2);
+    Node rev1 = ((IList<Node>) ViewBag.History).First(x => x.RevisionNumber == Model.Rev1);
+    Node rev2 = ((IList<Node>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev2);
     <p>Comparing these revisions:</p>
     <table>
     <tr><td>Old</td><td>@rev1.RevisionNumber</td><td>@rev1.ChangeDate</td><td>@rev1.Author</td></tr>
@@ -40,7 +40,7 @@
             <th>name</th>
         </tr>
 
-        @foreach (ApiDescription item in ViewBag.History)
+        @foreach (Node item in ViewBag.History)
         {
             <tr>
                 <td>@Html.RadioButtonFor(m => m.Rev2, item.RevisionNumber)</td>

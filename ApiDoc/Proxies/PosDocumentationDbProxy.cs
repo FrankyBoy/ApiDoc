@@ -8,47 +8,7 @@ namespace ApiDoc.Proxies
 {
     public class PosDocumentationDbProxy : IPosDocumentationDbProxy
     {
-        
-        public IList<ApiDescription> GetApis (bool showDeleted = false)
-        {
-            using (var context = new PosDocumentationDbDataContext())
-            {
-                return context.Apis_GetAll(showDeleted).Select(DbTypeConverter.MapApiDescription).ToList();
-            }
-        }
-
-        public ApiDescription GetApiByName(string name, int? revision = null)
-        {
-            using (var context = new PosDocumentationDbDataContext())
-            {
-                return DbTypeConverter.MapApiDescription(context.Apis_GetByName(name, revision).First());
-            }
-        }
-
-        public ApiDescription GetApiById(int apiId, int? revision)
-        {
-            using (var context = new PosDocumentationDbDataContext())
-            {
-                return DbTypeConverter.MapApiDescription(context.Apis_GetById(apiId, revision).First());
-            }
-        }
-
-        public IList<ModuleDescription> GetModules(int apiId, bool showDeleted = false)
-        {
-            using (var context = new PosDocumentationDbDataContext())
-            {
-                return context.Modules_GetAll(apiId, showDeleted).Select(DbTypeConverter.MapModuleDescription).ToList();
-            }
-        }
-
-        public ModuleDescription GetModuleByName(int apiId, string name, int? revision = null)
-        {
-            using (var context = new PosDocumentationDbDataContext())
-            {
-                return DbTypeConverter.MapModuleDescription(context.Modules_GetByName(apiId, name, revision).First());
-            }
-        }
-
+        #region HttpVerbs
         private IDictionary<int, string> _cachedHttpMethods;
         private DateTime _cachedHttpMethodsExpiry;
 
@@ -65,39 +25,80 @@ namespace ApiDoc.Proxies
 
             return _cachedHttpMethods;
         }
+        #endregion
 
-        public int InsertApi(ApiDescription newApi, string author)
+        #region Nodes
+        public IList<Node> GetNodes(int? parentId = null, bool showDeleted = false)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return context.Apis_Insert(newApi.Name, newApi.Description, author);
-            }
-        }
-        
-        public void UpdateApi(ApiDescription model, string author)
-        {
-            using (var context = new PosDocumentationDbDataContext())
-            {
-                var result = context.Apis_Update(model.Id, model.Name, model.Description, author);
-                if(result < 0)
-                    throw new Exception("No such ApiId");
+                return context.Nodes_GetAll(parentId, showDeleted)
+                    .Select(DbTypeConverter.MapNode).ToList();
             }
         }
 
-        public void DeleteApi(int id)
+        public Node GetNodeById(int id, int? revision = null)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                context.Apis_Delete(id);
+                return DbTypeConverter.MapNode(context.Nodes_GetById(id, revision).First());
             }
         }
 
-        public IList<ApiDescription> GetApiRevisions(int apiId)
+        public Node GetNodeByName(string name, int? parentId = null, int? revision = null)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return context.Apis_GetRevisions(apiId).Select(DbTypeConverter.MapApiDescription).ToList();
+                return DbTypeConverter.MapNode(context.Nodes_GetByName(parentId, name, revision).First());
             }
         }
+
+        public int GetNodeId(string name, int? parentId = null)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                int? result = 0;
+                context.Nodes_LookupId(parentId, name, ref result);
+                return result ?? -1;
+            }
+        }
+
+        public int InsertNode(Node newNode, int? parentId)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                return context.Nodes_Insert(parentId, newNode.Name, newNode.Description, newNode.Author);
+            }
+        }
+
+        public int UpdateNode(Node newNode, int? parentId)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                return context.Nodes_Update(
+                    parentId, newNode.Id, newNode.Name,
+                    newNode.Description, newNode.Author, newNode.ChangeNote);
+            }
+        }
+
+        public void DeleteNode(int id, string author, string reason)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                context.Nodes_Delete(id, author, reason);
+            }
+        }
+
+        public IList<Node> GetNodeRevisions(string name, int? parentId = null)
+        {
+            using (var context = new PosDocumentationDbDataContext())
+            {
+                return context.Nodes_GetRevisions(parentId, name)
+                    .Select(DbTypeConverter.MapNode).ToList();
+            }
+        }
+
+        #endregion
+
     }
 }

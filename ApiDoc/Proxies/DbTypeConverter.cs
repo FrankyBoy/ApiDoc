@@ -5,108 +5,59 @@ namespace ApiDoc.Proxies
 {
     public static class DbTypeConverter
     {
-        public static ModuleDescription MapModuleDescription(Modules_GetAllResult input)
+        public static Node MapNode(Nodes_GetAllResult input)
         {
-            return new ModuleDescription
-            {
-                Id = input.fID,
-                Name = input.fModuleName,
-                Deleted = input.fDeleted
-            };
+            return new Node
+                {
+                    Id = input.fID,
+                    Name = input.fName,
+                    Description = input.fDescription,
+                    Deleted = input.fDeleted
+                };
         }
 
-        public static ModuleDescription MapModuleDescription(Modules_GetByNameResult input)
+        public static Node MapNode(Nodes_GetByIdResult input)
         {
-            return new ModuleDescription
+            return new Node
+                {
+                    Author = input.fAuthor,
+                    ChangeDate = input.fChangeDate,
+                    ChangeNote = input.fChangeNote,
+                    Name = input.fName,
+                    Id = input.fID,
+                    Description = input.fDescription,
+                    Deleted = input.fDeleted,
+                    RevisionNumber = input.fRevisionNumber ?? 0
+                };
+        }
+
+        public static Node MapNode(Nodes_GetByNameResult input)
+        {
+            return new Node
             {
-                Id = input.fID,
-                Name = input.fModuleName,
-                Deleted = input.fDeleted,
                 Author = input.fAuthor,
                 ChangeDate = input.fChangeDate,
-                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
-
-            };
-        }
-        
-        public static ModuleDescription MapModuleDescription(Modules_GetByIdResult input)
-        {
-            return new ModuleDescription
-            {
+                ChangeNote = input.fChangeNote,
+                Name = input.fName,
                 Id = input.fID,
-                Name = input.fModuleName,
-                Deleted = input.fDeleted,
-                Author = input.fAuthor,
-                ChangeDate = input.fChangeDate,
-                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
-
-            };
-        }
-
-        public static ModuleDescription MapModuleDescription(Modules_GetRevisionsResult input)
-        {
-            return new ModuleDescription
-            {
-                Id = input.fID,
-                Name = input.fModuleName,
-                Deleted = input.fDeleted,
-                Author = input.fAuthor,
-                ChangeDate = input.fChangeDate,
-                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
-
-            };
-        }
-
-        public static ApiDescription MapApiDescription(Apis_GetAllResult input)
-        {
-            return new ApiDescription
-            {
-                Id = input.fID,
-                Name = input.fApiName,
                 Description = input.fDescription,
-                Deleted = input.fDeleted
+                Deleted = input.fDeleted,
+                RevisionNumber = input.fRevisionNumber ?? 0
             };
         }
 
-        public static ApiDescription MapApiDescription(Apis_GetByNameResult input)
+        internal static Node MapNode(Nodes_GetRevisionsResult input)
         {
-            return new ApiDescription
+            return new Node
             {
-                Id = input.fID,
-                Name = input.fApiName,
-                Description = input.fDescription,
-                ChangeDate = input.fChangeDate,
                 Author = input.fAuthor,
-                Deleted = input.fDeleted,
-                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
-            };
-        }
-
-        public static ApiDescription MapApiDescription(Apis_GetByIdResult input)
-        {
-            return new ApiDescription
-            {
-                Id = input.fID,
-                Name = input.fApiName,
-                Description = input.fDescription,
                 ChangeDate = input.fChangeDate,
-                Author = input.fAuthor,
-                Deleted = input.fDeleted,
-                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
-            };
-        }
-
-        public static ApiDescription MapApiDescription(Apis_GetRevisionsResult input)
-        {
-            return new ApiDescription
-            {
+                ChangeNote = input.fChangeNote,
+                Name = input.fName,
                 Id = input.fID,
-                Name = input.fApiName,
                 Description = input.fDescription,
-                ChangeDate = input.fChangeDate,
-                Author = input.fAuthor,
                 Deleted = input.fDeleted,
-                RevisionNumber = (int) (input.fRevisionNumber ?? 0)
+                RevisionNumber = input.fRevisionNumber ?? 0
             };
         }
     }

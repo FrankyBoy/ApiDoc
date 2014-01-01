@@ -7,8 +7,8 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[Modules_LookupId]
-    @apiId      int,
+CREATE PROCEDURE [dbo].[Nodes_LookupId]
+    @parentId   int,
     @name       nvarchar(50),
 	@result		int OUTPUT
     
@@ -19,9 +19,9 @@ BEGIN
 
     SET @result = 
 		(SELECT TOP(1) fID
-			FROM tab_Modules
-			WHERE frApiId = @apiId
-			AND UPPER(fModuleName) = UPPER(@name)
+			FROM tab_Nodes
+			WHERE frParentId = @parentId
+			AND UPPER(fName) = UPPER(@name)
 			ORDER BY fChangeDate DESC
 		)
 
