@@ -19,17 +19,18 @@ namespace ApiDoc.Controllers
             _methodProvider = methodProvider;
         }
 
-        public ActionResult Display(string path, bool? showDeleted)
+        public ActionResult Display(string path, bool showDeleted)
         {
-            ViewBag.ShowDeleted = showDeleted ?? false;
-            var result = GetStructure(path, showDeleted ?? false).Last();
+            ViewBag.ShowDeleted = showDeleted;
+            var result = GetStructure(path, showDeleted).Last();
 
             if(result is Node)
                 return View("DisplayNode", result as Node);
 
             return View("DisplayMethod", result as Method);
         }
-        
+
+        #region Create
         public ActionResult Create(string path)
         {
             VersionedItem parent = GetStructure(path).Last();
@@ -37,14 +38,14 @@ namespace ApiDoc.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateNode(int? parentId, Node model)
+        public ActionResult CreateNode(int parentId, Node model)
         {
-            var parent = GetStructureForNode(parentId);
             model.Author = "dummy"; // TODO: replace with currently logged in user
-            var newId = _nodeProvider.InsertNode(model, parent.Last().Id); 
+            model.ParentId = parentId;
+            var newId = _nodeProvider.InsertNode(model); 
 
             if (newId > 0)
-                return RedirectToAction("Display", new {path = parent.GetWikiPath()});
+                return RedirectToAction("Display", new {path = GetStructureForNode(parentId).GetWikiPath()});
 
             ModelState.AddModelError("Name", "Name already exists");
             return View("Create", model);
@@ -55,7 +56,48 @@ namespace ApiDoc.Controllers
         {
             throw new NotImplementedException();
         }
-        
+        #endregion
+
+        #region Edit
+        public ActionResult Edit(string path)
+        {
+            var item = GetStructure(path).Last();
+            if (item is Node)
+                return RedirectToAction("EditNode", new{id=item.Id});
+
+            return View("EditMethod", new { id = item.Id });
+        }
+
+        public ActionResult EditNode(int id)
+        {
+            return View("EditNode", _nodeProvider.GetById(id));
+        }
+
+        [HttpPost]
+        public ActionResult EditNode(int id, Node model)
+        {
+            model.Author = "dummy"; // TODO: replace with currently logged in user
+            model.Id = id;
+            if(ModelState.IsValid){
+                try
+                {
+                    _nodeProvider.UpdateNode(model);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Error", ex);
+                }
+            }
+            
+            if(ModelState.IsValid)
+                return RedirectToAction("Display", new { path = GetStructureForNode(model.Id).GetWikiPath() });
+
+            return View("CreateNode", model);
+        }
+
+        #endregion
+
+        #region Ugly pathing work
         private static readonly Node Root = new Node {Name = "ROOT", Id = 0};
 
         // TODO: replace with some (cached!) path lookup
@@ -111,6 +153,7 @@ namespace ApiDoc.Controllers
                 node.Children = children;
             }
         }
+        #endregion
     }
 
     internal static class ItemListExtensions

@@ -21,7 +21,7 @@ BEGIN
         from tab_Nodes
     ) x
     where x.InverseRevision=1
-    AND frParentId = @parentId -- note: this is in the outer query so we dont show old versions of moved modules in the wrong APIs
+    AND frParentId = COALESCE(@parentId, frParentId) -- if parentId == null return all
     AND (fDeleted = 'FALSE' OR @showDeleted = 'TRUE')
 END
 
