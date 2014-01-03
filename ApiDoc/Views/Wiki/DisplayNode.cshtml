@@ -1,21 +1,26 @@
-﻿@using ApiDoc.Models
+﻿@using System.Globalization
+@using ApiDoc.Models
 @model Node
 
 @{
     ViewBag.Title = "title";
+    Html.RenderPartial("ItemActions", Model);
 }
 
 <h2>@Model.Name</h2>
-<ul>
+
+<h3>Description</h3>
+<p>@Model.Description</p>
+
+<h3>Children</h3>
+<div class="container">
+<ul class="children">
     @foreach (Node item in Model.Children)
     {
         var reference = new {path = Request.Url.AbsolutePath + item.GetWikiUrlString()};
-        <li class="apiDescription @if (item.Deleted) { Write(" deleted"); }">
+        var id = "deleteWindow" + item.Id.ToString(CultureInfo.InvariantCulture);
+        <li class="child @if (item.Deleted) { Write(" deleted"); }">
             <a href="@reference.path"><h4>@item.Name</h4>@item.Description</a>
-            
-            @Html.ActionLink("Revisions", "History", reference, new {@class = "historyButton"})
-            @Html.ActionLink("Edit", "Edit", reference, new {@class = "editButton"})
-            @Html.ActionLink("Delete", "Delete", reference, new {@class = "deleteButton"})
         </li>
     }
 </ul>
@@ -26,3 +31,4 @@
 } else {
     @Html.ActionLink("Show All", "Display", new {showDeleted = true});
 }
+</div>

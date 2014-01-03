@@ -12,18 +12,46 @@
     VersionedItem rev2 = ((IList<VersionedItem>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev2);
     <p>Comparing these revisions:</p>
     <table>
-    <tr><td>Old</td><td>@rev1.RevisionNumber</td><td>@rev1.ChangeDate</td><td>@rev1.Author</td></tr>
-    <tr><td>New</td><td>@rev2.RevisionNumber</td><td>@rev2.ChangeDate</td><td>@rev2.Author</td></tr>
+        <tr><td>Old</td><td>@rev1.RevisionNumber</td><td>@rev1.ChangeDate</td><td>@rev1.Author</td></tr>
+        <tr><td>New</td><td>@rev2.RevisionNumber</td><td>@rev2.ChangeDate</td><td>@rev2.Author</td></tr>
     </table>
+    
     <table>
         <tr>
+            <td></td>
+            <th>Old</th>
+            <th>New</th>
+        </tr>
+        <tr>
+            <th>ParentId</th>
+            <td>@rev1.ParentId</td>
+            @if(rev1.ParentId != rev2.ParentId){
+                <td><del>@rev1.ParentId</del><ins>@rev2.ParentId</ins></td>
+            }else {
+                <td>@rev2.ParentId</td>
+            }
+        </tr>
+        <tr>
+            <th>Deleted</th>
+            <td>@rev1.Deleted</td>
+            @if (rev1.Deleted != rev2.Deleted)
+            {
+                <td><del>@rev1.Deleted</del><ins>@rev2.Deleted</ins></td>
+            }else {
+                <td>@rev2.Deleted</td>
+            }
+        </tr>
+        <tr>
             <th>Name</th>
+            <td>@rev1.Name</td>
             <td>@Html.Raw(ViewBag.Comparison.Name)</td>
         </tr>
         <tr>
             <th>Description</th>
+            <td>@rev1.Description</td>
             <td>@Html.Raw(ViewBag.Comparison.Description)</td>
         </tr>
+        @* TODO: add extended properties of Method once we have them *@
     </table>
 }
 
@@ -39,6 +67,7 @@
             <th>Message</th>
             <th>Name</th>
             <th>Deleted</th>
+            @*TODO add some version of "revert to" *@
         </tr>
 
         @foreach (Node item in ViewBag.History)

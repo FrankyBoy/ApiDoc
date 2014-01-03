@@ -39,5 +39,10 @@ namespace ApiDoc
         {
             throw new System.NotImplementedException();
         }
+
+        public void DeleteMethod(int id, string author, string message)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

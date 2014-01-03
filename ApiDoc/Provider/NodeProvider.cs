@@ -8,18 +8,19 @@ namespace ApiDoc.Provider
     public class NodeProvider : INodeProvider
     {
         private readonly IPosDocumentationDbProxy _proxy;
+        private readonly DiffMatchPatch _diff = new DiffMatchPatch();
 
         public NodeProvider(IPosDocumentationDbProxy proxy)
         {
             _proxy = proxy;
         }
 
-        public IList<Node> GetNodes(int? parentId = null, bool showDeleted = false)
+        public IList<Node> GetNodes(int? parentId = 0, bool showDeleted = false)
         {
             return _proxy.GetNodes(parentId, showDeleted);
         }
 
-        public Node GetByName(string name, int? parentId = null, int? revision = null)
+        public Node GetByName(string name, int? parentId = 0, int? revision = null)
         {
             return _proxy.GetNodeByName(name, parentId, revision);
         }
@@ -44,7 +45,7 @@ namespace ApiDoc.Provider
             _proxy.DeleteNode(id, author, reason);
         }
 
-        public IList<Node> GetRevisions(string name, int? parentId = null)
+        public IList<Node> GetRevisions(string name, int? parentId = 0)
         {
             return _proxy.GetNodeRevisions(name, parentId);
         }
@@ -53,17 +54,19 @@ namespace ApiDoc.Provider
         {
             var r1 = GetById(id, rev1);
             var r2 = GetById(id, rev2);
-            var diff = new DiffMatchPatch();
-            var nameResult = diff.diff_main(r1.Name, r2.Name);
-            var descriptionResult = diff.diff_main(r1.Description, r2.Description);
-            diff.diff_cleanupSemantic(nameResult);
-            diff.diff_cleanupSemantic(descriptionResult);
 
             return new Node
-                {
-                    Name = diff.diff_prettyHtml(nameResult),
-                    Description = diff.diff_prettyHtml(descriptionResult)
-                };
+            {
+                Name = GetPrettyHtmlDiff(r1.Name, r2.Name),
+                Description = GetPrettyHtmlDiff(r1.Description, r2.Description),
+            };
+        }
+
+        private string GetPrettyHtmlDiff(string text1, string text2)
+        {
+            var diffs = _diff.diff_main(text1, text2);
+            _diff.diff_cleanupSemantic(diffs);
+            return _diff.diff_prettyHtml(diffs);
         }
     }
 }

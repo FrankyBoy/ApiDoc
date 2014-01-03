@@ -27,7 +27,7 @@ namespace ApiDoc.DataAccess.Proxies
         #endregion
 
         #region Nodes
-        public IList<Node> GetNodes(int? parentId = null, bool showDeleted = false)
+        public IList<Node> GetNodes(int? parentId = 0, bool showDeleted = false)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
@@ -44,7 +44,7 @@ namespace ApiDoc.DataAccess.Proxies
             }
         }
 
-        public Node GetNodeByName(string name, int? parentId = null, int? revision = null)
+        public Node GetNodeByName(string name, int? parentId = 0, int? revision = null)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
@@ -52,7 +52,7 @@ namespace ApiDoc.DataAccess.Proxies
             }
         }
 
-        public int GetNodeId(string name, int? parentId = null)
+        public int GetNodeId(string name, int? parentId = 0)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
@@ -88,7 +88,7 @@ namespace ApiDoc.DataAccess.Proxies
             }
         }
 
-        public IList<Node> GetNodeRevisions(string name, int? parentId = null)
+        public IList<Node> GetNodeRevisions(string name, int? parentId = 0)
         {
             using (var context = new PosDocumentationDbDataContext())
             {

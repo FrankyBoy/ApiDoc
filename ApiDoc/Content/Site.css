@@ -6,6 +6,29 @@
 
 }
 
+input[type=button], input[type=submit] {
+    padding: .1em .5em;
+}
+
+#body {
+    margin: 0 auto 2em auto;
+    width: 90%;
+    padding: 2em 1em;
+    background-color: white;
+    border: 1px solid #ccc;
+    position: relative;
+}
+
+.validation-summary-errors {
+    margin: 1em 0;
+    padding: .5em 1em;
+    background-color: #FFCECE;
+    border: 1px solid #C44;
+}
+.validation-summary-errors ul {
+    list-style-type: none;
+}
+
 html {
     background-color: #f4f4f4;
 }
@@ -38,21 +61,20 @@ td, th {
     padding: .2em .5em;
 }
 
-#body {
-    margin: 0 auto 2em auto;
-    width: 90%;
-    padding: 2em 1em;
-    background-color: white;
-    border: 1px solid #eee;
-}
+.children {}
 
-.apiDescription {
+.child {
     border: 1px solid #888;
     list-style-type: none;
-    margin: 1em;
+    margin-bottom: 1em;
     padding: .5em;
     background-color: #f4f4f4;
     position: relative;
+}
+
+.container {
+    border: 1px solid #888;
+    padding: 1em;
 }
 
 .deleted {
@@ -60,33 +82,57 @@ td, th {
     background-color: #ddd;
 }
 
-.editButton, .deleteButton, .historyButton {
-    position: absolute;
+.itemAction {
+    float: right;
     top: .5em;
     width: 1.5em;
     height: 1.5em;
+    margin: .5em;
     overflow: hidden;
     color: transparent;
+    background-size: 3em 1.5em;
 }
 
-.editButton {
-    right: 2.5em;
+#edit {
     background-image: url(images/Cogs_Sprite.png);
-    background-size: 3em 1.5em;
 }
 
-.historyButton {
-    right: 4.5em;
+#history {
     background-image: url(images/Clock_Sprite.png);
-    background-size: 3em 1.5em;
 }
 
-.deleteButton {
-    right: .5em;
+#delete {
     background-image: url(images/Trashcan_Sprite.png);
-    background-size: 3em 1.5em;
 }
 
-.editButton:hover, .deleteButton:hover, .historyButton:hover {
+#deleteConfirmation {
+    display: none;
+    position: fixed;
+    margin: 0;
+    top: 0;
+    left: 0;
+    height:100%;
+    width:100%;
+    z-index: 100;
+    
+    background-color: rgba(0,0,0, 0.4);
+}
+
+#deleteConfirmation div {
+    margin: 5em auto;
+    padding: 2em;
+    width: 25em;
+    background-color: white;
+    border: 1px solid #888888;
+}
+
+#deleteConfirmation textarea {
+    padding: .5em;
+    margin: 1em 0;
+    width: 100%;
+    height: 10em;
+}
+
+.itemAction:hover {
     background-position: right;
 }

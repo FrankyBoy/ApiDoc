@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using ApiDoc.Models;
 using ApiDoc.Provider;
+using ApiDoc.Utility;
 
 namespace ApiDoc.Controllers
 {
@@ -19,22 +20,24 @@ namespace ApiDoc.Controllers
             _methodProvider = methodProvider;
         }
 
+        [ImportModelState]
         public ActionResult Display(string path, bool? showDeleted)
         {
             ViewBag.ShowDeleted = showDeleted ?? false;
-            var result = GetStructure(path, showDeleted ?? false).Last();
+            var structure = GetStructure(path, showDeleted ?? false);
+            var item = structure.Last();
+            
+            if (item is Node)
+                return View("DisplayNode", item as Node);
 
-            if(result is Node)
-                return View("DisplayNode", result as Node);
-
-            return View("DisplayMethod", result as Method);
+            return View("DisplayMethod", item as Method);
         }
 
         #region Create
         public ActionResult Create(string path)
         {
             VersionedItem parent = GetStructure(path).Last();
-            return View("Create", parent);
+            return View(parent);
         }
 
         [HttpPost]
@@ -48,7 +51,7 @@ namespace ApiDoc.Controllers
                 return RedirectToAction("Display", new {path = GetStructureForNode(parentId).GetWikiPath()});
 
             ModelState.AddModelError("Name", "Name already exists");
-            return View("Create", model);
+            return View("Create", _nodeProvider.GetById(parentId));
         }
 
         [HttpPost]
@@ -62,6 +65,7 @@ namespace ApiDoc.Controllers
         public ActionResult Edit(string path)
         {
             var item = GetStructure(path).Last();
+            ViewBag.AllNodes = _nodeProvider.GetNodes(null);
             if (item is Node)
                 return RedirectToAction("EditNode", new{id=item.Id});
 
@@ -145,6 +149,31 @@ namespace ApiDoc.Controllers
             return View(revisions);
         }
 
+        [HttpPost]
+        [ExportModelState]
+        public ActionResult Delete(string path, string message)
+        {
+            var tree = GetStructure(path);
+            var item = tree.Last();
+            tree.Remove(item);
+
+            if (string.IsNullOrEmpty(message))
+            {
+                ModelState.AddModelError("Error", "No message provided");
+            }
+            else
+            {
+                const string author = "dummy"; // todo: replace with logged in user
+                if (item is Node)
+                    _nodeProvider.DeleteNode(item.Id, author, message);
+                else
+                    _methodProvider.DeleteMethod(item.Id, author, message);
+            }
+
+            return RedirectToAction("Display", new { path = tree.GetWikiPath() });
+        }
+
+
         // TODO: push all these distinctions into the NodeProvider?
         private VersionedItem Compare(HistoryViewModel revisions, VersionedItem item)
         {
@@ -164,6 +193,7 @@ namespace ApiDoc.Controllers
                 history = _methodProvider.GetRevisions(item.Name, item.ParentId).Cast<VersionedItem>().ToList();
             return history;
         }
+
 
         #endregion
 
@@ -193,6 +223,8 @@ namespace ApiDoc.Controllers
                     }
                 }
             }
+            ValidateStructure(path, result);
+
             GetChildren(result.Last(), showDeleted);
             return result;
         }
@@ -223,6 +255,19 @@ namespace ApiDoc.Controllers
                 node.Children = children;
             }
         }
+
+        private void ValidateStructure(string path, IList<VersionedItem> structure)
+        {
+            if (structure.Any(x => x.Deleted))
+            {
+                ModelState.AddModelError("Warning", "Warning: An element in the path has been marked as deleted");
+            }
+            if (path != null && structure.GetWikiPath().ToLower() != path.ToLower())
+            {
+                ModelState.AddModelError("Warning", "Warning: An element in the path has been renamed");
+            }
+        }
+
         #endregion
     }
 

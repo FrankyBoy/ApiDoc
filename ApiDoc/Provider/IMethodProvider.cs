@@ -10,5 +10,6 @@ namespace ApiDoc.Provider
         IList<Method> GetMethods(int? parentId);
         IList<Method> GetRevisions(string name, int parentId);
         Method CompareRevisions(int id, int rev1, int rev2);
+        void DeleteMethod(int id, string author, string message);
     }
 }

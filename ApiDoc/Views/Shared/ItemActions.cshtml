@@ -1,0 +1,25 @@
+﻿@model ApiDoc.Models.VersionedItem
+
+
+@if(Model.Id != 0)
+{
+    var reference = new {path = Request.Url.AbsolutePath};
+    if (!Model.Deleted)
+    {
+        <a href="?" class="itemAction" id="delete" onclick="$('#deleteConfirmation').show(); return false;"></a>
+        <div id="deleteConfirmation">
+            <div>
+            <p>Please make sure you really want to delete @Model.Name and provide a reason for doing so:</p>
+            @using (Html.BeginForm("Delete", "Wiki", reference))
+            {
+                @Html.TextArea("message");
+                <input type="submit" value="Submit"/>
+                <input type="button" value="Cancel" onclick="$('#deleteConfirmation').hide(); return false;" />
+            }
+            </div>
+        </div>
+        @Html.ActionLink("Edit", "Edit", "Wiki", reference, new {@class="itemAction", id="edit"})
+    }
+    
+    @Html.ActionLink("Revisions", "History", "Wiki", reference, new { @class = "itemAction", id = "history" })
+}

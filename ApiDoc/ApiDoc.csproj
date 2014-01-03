@@ -173,6 +173,7 @@
     <Compile Include="Provider\NodeProvider.cs" />
     <Compile Include="Provider\INodeProvider.cs" />
     <Compile Include="Utility\DiffMatchPatch.cs" />
+    <Compile Include="Utility\ModelStateTransfer.cs" />
     <Compile Include="Utility\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
