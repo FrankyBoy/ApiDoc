@@ -19,10 +19,10 @@ namespace ApiDoc.Controllers
             _methodProvider = methodProvider;
         }
 
-        public ActionResult Display(string path, bool showDeleted)
+        public ActionResult Display(string path, bool? showDeleted)
         {
-            ViewBag.ShowDeleted = showDeleted;
-            var result = GetStructure(path, showDeleted).Last();
+            ViewBag.ShowDeleted = showDeleted ?? false;
+            var result = GetStructure(path, showDeleted ?? false).Last();
 
             if(result is Node)
                 return View("DisplayNode", result as Node);
@@ -93,6 +93,76 @@ namespace ApiDoc.Controllers
                 return RedirectToAction("Display", new { path = GetStructureForNode(model.Id).GetWikiPath() });
 
             return View("CreateNode", model);
+        }
+
+        public ActionResult EditMethod(int id)
+        {
+            throw new NotImplementedException();
+            //return View("EditMethod", _methodProvider.GetById(id));
+        }
+
+        [HttpPost]
+        public ActionResult EditMethod(int id, Method model)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region History
+
+        public ActionResult History(string path)
+        {
+            var item = GetStructure(path).Last();
+            var history = GetHistory(item);
+            ViewBag.History = history;
+
+            HistoryViewModel model;
+            switch (history.Count)
+            {
+                case 0:
+                    model = new HistoryViewModel(0, 0);
+                    break;
+                case 1:
+                    model = new HistoryViewModel(history[0].RevisionNumber, history[0].RevisionNumber);
+                    break;
+                default:
+                    model = new HistoryViewModel(history[1].RevisionNumber, history[0].RevisionNumber);
+                    break;
+            }
+
+            return View(model);
+        }
+        
+        [HttpPost]
+        public ActionResult History(string path, HistoryViewModel revisions)
+        {
+            var item = GetStructure(path).Last();
+            var history = GetHistory(item);
+            ViewBag.History = history;
+
+            ViewBag.Comparison = Compare(revisions, item);
+            return View(revisions);
+        }
+
+        // TODO: push all these distinctions into the NodeProvider?
+        private VersionedItem Compare(HistoryViewModel revisions, VersionedItem item)
+        {
+            if (item is Node)
+                return _nodeProvider.CompareRevisions(item.Id, revisions.Rev1, revisions.Rev2);
+            
+            return _methodProvider.CompareRevisions(item.Id, revisions.Rev1, revisions.Rev2);
+        }
+
+        // TODO: push all these distinctions into the NodeProvider?
+        private IList<VersionedItem> GetHistory(VersionedItem item)
+        {
+            IList<VersionedItem> history;
+            if (item is Node)
+                history = _nodeProvider.GetRevisions(item.Name, item.ParentId).Cast<VersionedItem>().ToList();
+            else
+                history = _methodProvider.GetRevisions(item.Name, item.ParentId).Cast<VersionedItem>().ToList();
+            return history;
         }
 
         #endregion

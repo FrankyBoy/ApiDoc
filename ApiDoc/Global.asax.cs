@@ -5,8 +5,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using ApiDoc.App_Start;
+using ApiDoc.DataAccess.Proxies;
 using ApiDoc.Provider;
-using ApiDoc.Proxies;
 using Autofac;
 using Autofac.Integration.Mvc;
 

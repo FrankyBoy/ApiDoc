@@ -1,7 +1,6 @@
-﻿using ApiDoc.DataAccess;
 using ApiDoc.Models;
 
-namespace ApiDoc.Proxies
+namespace ApiDoc.DataAccess.Proxies
 {
     public static class DbTypeConverter
     {
@@ -27,7 +26,7 @@ namespace ApiDoc.Proxies
                     Id = input.fID,
                     Description = input.fDescription,
                     Deleted = input.fDeleted,
-                    RevisionNumber = input.fRevisionNumber ?? 0,
+                    RevisionNumber = (int) (input.fRevisionNumber ?? 0),
                     ParentId = input.frParentId
                 };
         }
@@ -43,7 +42,7 @@ namespace ApiDoc.Proxies
                 Id = input.fID,
                 Description = input.fDescription,
                 Deleted = input.fDeleted,
-                RevisionNumber = input.fRevisionNumber ?? 0,
+                RevisionNumber = (int) (input.fRevisionNumber ?? 0),
                 ParentId = input.frParentId
             };
         }
@@ -59,7 +58,7 @@ namespace ApiDoc.Proxies
                 Id = input.fID,
                 Description = input.fDescription,
                 Deleted = input.fDeleted,
-                RevisionNumber = input.fRevisionNumber ?? 0,
+                RevisionNumber = (int) (input.fRevisionNumber ?? 0),
                 ParentId = input.frParentId
             };
         }

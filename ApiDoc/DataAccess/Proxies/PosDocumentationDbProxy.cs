@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ApiDoc.DataAccess;
 using ApiDoc.Models;
 
-namespace ApiDoc.Proxies
+namespace ApiDoc.DataAccess.Proxies
 {
     public class PosDocumentationDbProxy : IPosDocumentationDbProxy
     {
@@ -63,20 +62,20 @@ namespace ApiDoc.Proxies
             }
         }
 
-        public int InsertNode(Node newNode, int? parentId)
+        public int InsertNode(Node newNode)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return context.Nodes_Insert(parentId, newNode.Name, newNode.Description, newNode.Author);
+                return context.Nodes_Insert(newNode.ParentId, newNode.Name, newNode.Description, newNode.Author, newNode.ChangeNote);
             }
         }
 
-        public int UpdateNode(Node newNode, int? parentId)
+        public int UpdateNode(Node newNode)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
                 return context.Nodes_Update(
-                    parentId, newNode.Id, newNode.Name,
+                    newNode.ParentId, newNode.Id, newNode.Name,
                     newNode.Description, newNode.Author, newNode.ChangeNote);
             }
         }

@@ -11,7 +11,8 @@ CREATE PROCEDURE [dbo].[Nodes_Insert]
     @parentId		int,
     @name			nvarchar(50),
 	@description	nvarchar(max),
-    @author			nvarchar(50)
+    @author			nvarchar(50),
+	@changeNote		nvarchar(max)
 
 AS
 BEGIN
@@ -36,7 +37,7 @@ BEGIN
     set @newId = (SELECT COALESCE(MAX(fID),1) from tab_Nodes) + 1
 
     INSERT INTO tab_Nodes (fID, frParentId, fName, fDescription, fChangeDate,	fAuthor, fChangeNote, fDeleted)
-    VALUES	(@newId, @parentId,	@name, @description, GETUTCDATE(), @author, '', 'FALSE')
+    VALUES	(@newId, @parentId,	@name, @description, GETUTCDATE(), @author, @changeNote, 'FALSE')
     
     RETURN @newId
 END

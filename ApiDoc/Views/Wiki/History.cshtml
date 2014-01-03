@@ -1,5 +1,4 @@
 ﻿@model HistoryViewModel
-@using ApiDoc.Utility
 @using ApiDoc.Models
 @{
     ViewBag.Title = "Api Revisions";
@@ -9,8 +8,8 @@
 
 @if (ViewBag.Comparison != null)
 {
-    Node rev1 = ((IList<Node>) ViewBag.History).First(x => x.RevisionNumber == Model.Rev1);
-    Node rev2 = ((IList<Node>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev2);
+    VersionedItem rev1 = ((IList<VersionedItem>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev1);
+    VersionedItem rev2 = ((IList<VersionedItem>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev2);
     <p>Comparing these revisions:</p>
     <table>
     <tr><td>Old</td><td>@rev1.RevisionNumber</td><td>@rev1.ChangeDate</td><td>@rev1.Author</td></tr>
@@ -37,7 +36,9 @@
             <th>Revision</th>
             <th>Date</th>
             <th>Author</th>
-            <th>name</th>
+            <th>Message</th>
+            <th>Name</th>
+            <th>Deleted</th>
         </tr>
 
         @foreach (Node item in ViewBag.History)
@@ -48,7 +49,9 @@
                 <td>@item.RevisionNumber</td>
                 <td>@item.ChangeDate</td>
                 <td>@item.Author</td>
+                <td>@item.ChangeNote</td>
                 <td>@item.Name</td>
+                <td>@item.Deleted</td>
             </tr>
         }
     </table>

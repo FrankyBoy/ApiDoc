@@ -9,7 +9,7 @@ GO
 
 CREATE TABLE [dbo].[tab_Nodes](
     [fID]           [int] NOT NULL,
-    [frParentId]    [int],
+    [frParentId]    [int] NOT NULL,
     [fName]			[nvarchar](50) NOT NULL,
 	[fDescription]	[nvarchar](MAX),
     [fChangeDate]   [datetime] NOT NULL,

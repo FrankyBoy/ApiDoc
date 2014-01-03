@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using ApiDoc.DataAccess.Proxies;
 using ApiDoc.Models;
-using ApiDoc.Proxies;
 using ApiDoc.Utility;
 
 namespace ApiDoc.Provider
@@ -29,14 +29,14 @@ namespace ApiDoc.Provider
             return _proxy.GetNodeById(id, revision);
         }
         
-        public int InsertNode(Node newNode, int? parentId)
+        public int InsertNode(Node newNode)
         {
-            return _proxy.InsertNode(newNode, parentId);
+            return _proxy.InsertNode(newNode);
         }
 
-        public void UpdateNode(Node newNode, int? parentId)
+        public void UpdateNode(Node newNode)
         {
-            _proxy.UpdateNode(newNode, parentId);
+            _proxy.UpdateNode(newNode);
         }
 
         public void DeleteNode(int id, string author, string reason)

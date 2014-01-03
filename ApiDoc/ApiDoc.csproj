@@ -157,6 +157,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PosDocumentationDb.dbml</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\Proxies\DbTypeConverter.cs" />
+    <Compile Include="DataAccess\Proxies\IPosDocumentationDbProxy.cs" />
+    <Compile Include="DataAccess\Proxies\PosDocumentationDbProxy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -169,9 +172,6 @@
     <Compile Include="Provider\IMethodProvider.cs" />
     <Compile Include="Provider\NodeProvider.cs" />
     <Compile Include="Provider\INodeProvider.cs" />
-    <Compile Include="Proxies\DbTypeConverter.cs" />
-    <Compile Include="Proxies\IPosDocumentationDbProxy.cs" />
-    <Compile Include="Proxies\PosDocumentationDbProxy.cs" />
     <Compile Include="Utility\DiffMatchPatch.cs" />
     <Compile Include="Utility\StringExtensions.cs" />
   </ItemGroup>
@@ -265,15 +265,14 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Wiki\ListApis.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="packages.config" />
     <None Include="readme.txt" />
-    <Content Include="Views\Wiki\EditApi.cshtml" />
+    <Content Include="Views\Wiki\EditNode.cshtml" />
     <Content Include="Views\Wiki\Create.cshtml" />
-    <Content Include="Views\Wiki\ApiRevisions.cshtml" />
+    <Content Include="Views\Wiki\History.cshtml" />
     <Content Include="Views\Wiki\DisplayNode.cshtml" />
     <Content Include="Views\Wiki\DisplayMethod.cshtml" />
     <Content Include="Views\Wiki\CreateNode.cshtml" />
