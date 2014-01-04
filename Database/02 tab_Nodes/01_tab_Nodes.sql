@@ -19,7 +19,7 @@ CREATE TABLE [dbo].[tab_Nodes](
 )
 
 CREATE INDEX [IX_tab_Nodes_fChangeDate] ON [tab_Nodes] (fChangeDate)
-CREATE INDEX [IX_tab_Nodes_fModuleName] ON [tab_Nodes] (fName)
+CREATE INDEX [IX_tab_Nodes_fName] ON [tab_Nodes] (fName)
 CREATE INDEX [IX_tab_Nodes_fID] ON [tab_Nodes] (fID)
 
 GO

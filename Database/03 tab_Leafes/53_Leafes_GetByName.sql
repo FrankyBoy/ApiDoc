@@ -7,9 +7,10 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE PROCEDURE [dbo].[Modules_GetByName]
-    @apiId      int,
+CREATE PROCEDURE [dbo].[Leafes_GetByName]
+    @parentId   int,
     @name       nvarchar(50),
+	@httpVerb	int,
     @revision   int = null
 AS
 BEGIN
@@ -17,9 +18,9 @@ BEGIN
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
     declare @id int
-    set @id = EXEC Modules_LookupId @apiId, @name
+    EXEC Leafes_LookupId @parentId, @name, @httpVerb, @result = @id OUTPUT
     
-    EXEC Modules_GetById @id, @revision
+    EXEC Leafes_GetById @id, @revision
     
 END
 
