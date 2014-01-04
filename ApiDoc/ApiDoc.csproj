@@ -164,6 +164,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\HistoryViewModel.cs" />
+    <Compile Include="Models\HttpVerbs.cs" />
     <Compile Include="Models\Leaf.cs" />
     <Compile Include="Models\Node.cs" />
     <Compile Include="Models\NodeStructure.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Provider\INodeProvider.cs" />
     <Compile Include="Utility\DiffMatchPatch.cs" />
     <Compile Include="Utility\ModelStateTransfer.cs" />
+    <Compile Include="Utility\NodeListExtensions.cs" />
     <Compile Include="Utility\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

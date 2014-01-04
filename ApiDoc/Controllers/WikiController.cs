@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using ApiDoc.Models;
 using ApiDoc.Provider;
@@ -18,9 +16,9 @@ namespace ApiDoc.Controllers
         }
 
         [ImportModelState]
-        public ActionResult Display(string path, bool? showDeleted)
+        public ActionResult Display(string path, bool? showDeleted, int? revision)
         {
-            PrimeViewBag(path, showDeleted ?? false);
+            PrimeViewBag(path, showDeleted ?? false, revision);
             return View();
         }
 
@@ -58,9 +56,9 @@ namespace ApiDoc.Controllers
 
         #region Edit
         [ImportModelState]
-        public ActionResult Edit(string path)
+        public ActionResult Edit(string path, int? revision)
         {
-            PrimeViewBag(path);
+            PrimeViewBag(path, revision: revision);
             ViewBag.AllNodes = _nodeProvider.GetAllBranches();
             return View("Edit");
         }
@@ -163,51 +161,22 @@ namespace ApiDoc.Controllers
         #endregion
 
 
-        private NodeStructure PrimeViewBag(string path, bool showDeleted = false)
+        private NodeStructure PrimeViewBag(string path, bool showDeleted = false, int? revision = null)
         {
-            var structure = _nodeProvider.GetStructure(path, showDeleted);
+            var structure = _nodeProvider.GetStructure(path, showDeleted, revision);
             if (structure.AnyNodeDeleted)
                 ModelState.AddModelError("Warning", "Warning: An element in the path has been marked as deleted");
 
-            if (structure.AnyNodeRenamed)
+            if (structure.HasPathError)
+                ModelState.AddModelError("Error", "Error: The path you tried to access is ambiguous or does not exist. We dropped you off at the deepest working node.");
+            else if (structure.AnyNodeRenamed)
                 ModelState.AddModelError("Warning", "Warning: An element in the path has been renamed");
+
 
             ViewBag.Structure = structure;
             ViewBag.ShowDeleted = showDeleted;
             return structure;
         }
 
-    }
-
-    public static class NodeListExtensions
-    {
-        private static readonly DiffMatchPatch Dmp = new DiffMatchPatch();
-
-        public static Node Compare(this IList<Node> items, int rev1, int rev2)
-        {
-            var r1 = items.First(x => x.RevisionNumber == rev1);
-            var r2 = items.First(x => x.RevisionNumber == rev2);
-
-            if (r1.GetType() != r2.GetType())
-                throw new Exception("Cannot compare two items of different type");
-
-            if (r1 is Branch)
-                return new Branch
-                {
-                    Name = GetPrettyHtmlDiff(r1.Name, r2.Name),
-                    Description = GetPrettyHtmlDiff(r1.Description, r2.Description),
-                };
-            if(r1 is Leaf)
-                throw new NotImplementedException();
-
-            throw new Exception("Not any known type");
-        }
-
-        private static string GetPrettyHtmlDiff(string text1, string text2)
-        {
-            var diffs = Dmp.diff_main(text1, text2);
-            Dmp.diff_cleanupSemantic(diffs);
-            return Dmp.diff_prettyHtml(diffs);
-        }
     }
 }

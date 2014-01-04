@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using ApiDoc.DataAccess.Proxies;
 using ApiDoc.Models;
 
@@ -18,16 +20,6 @@ namespace ApiDoc.Provider
         public IList<Branch> GetAllBranches(bool showDeleted = false)
         {
             return _proxy.GetBranches(null, showDeleted);
-        }
-
-        public Node GetByName(string name, int? parentId = 0, int? revision = null)
-        {
-            return _proxy.GetBranchByName(name, parentId, revision);
-        }
-
-        public Node GetById(int id, int? revision = null)
-        {
-            return _proxy.GetBranchById(id, revision);
         }
 
         public int InsertNode(Node newNode)
@@ -49,8 +41,10 @@ namespace ApiDoc.Provider
         
         public void Delete(Node oldNode)
         {
-            if(oldNode is Branch)
+            if (oldNode is Branch)
                 _proxy.DeleteBranch(oldNode.Id, oldNode.Author, oldNode.ChangeNote);
+            else
+                _proxy.DeleteLeaf(oldNode.Id, oldNode.Author, oldNode.ChangeNote);
         }
 
         public IList<Node> GetRevisions(Node node)
@@ -58,39 +52,65 @@ namespace ApiDoc.Provider
             if(node is Branch)
                 return _proxy.GetBranchRevisions(node.Name, node.ParentId).Cast<Node>().ToList();
 
-            return _proxy.GetLeafRevisions(node.Name, node.ParentId).Cast<Node>().ToList();
+            var leaf = (Leaf)node;
+            var httpVerbs = _proxy.GetHttpVerbs();
+            return _proxy.GetLeafRevisions(leaf.ParentId, leaf.Name, httpVerbs.IdForName(leaf.HttpVerb)).Cast<Node>().ToList();
         }
 
         // TODO: replace with some (cached!) path lookup
-        public NodeStructure GetStructure(string path, bool showDeleted = false)
+        public NodeStructure GetStructure(string path, bool showDeleted = false, int? revision = null)
         {
-            IList<Node> result = new List<Node> { Root };
+            IList<Node> nodes = new List<Node> { Root };
+            var result = new NodeStructure
+                {
+                    Nodes = nodes,
+                    OriginalPath = path
+                };
+
             var isNode = string.IsNullOrEmpty(path) || path.EndsWith("/");
 
             if (path != null)
             {
                 var chunks = path.Split('/');
-                for (var i = 0; i < chunks.Length; i++)
+                try
                 {
-                    // fetch next deeper chunk
-                    var name = chunks[i];
-                    var current = result.Last();
-                    if (!string.IsNullOrEmpty(name))
+                    for (var i = 0; i < chunks.Length; i++)
                     {
-                        if (isNode || chunks.Length < i - 1)
-                            result.Add(_proxy.GetBranchByName(name, current.Id));
-                        else
-                            result.Add(_proxy.GetLeafByName(name, current.Id));
+                        // fetch next deeper chunk
+                        var name = chunks[i];
+                        var current = nodes.Last();
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            if (chunks.Length < i - 1)
+                                nodes.Add(_proxy.GetBranchByName(name, current.Id));
+                            else if (isNode)
+                                nodes.Add(_proxy.GetBranchByName(name, current.Id, revision));
+                            else
+                                nodes.Add(GetLeafByWikiName(name, current.Id, revision));
+                        }
                     }
+                }
+                catch (Exception)
+                {
+                    result.HasPathError = true;
                 }
             }
 
-            GetChildren(result.Last(), showDeleted);
-            return new NodeStructure
-                {
-                    Nodes = result,
-                    OriginalPath = path
-                };
+            GetChildren(nodes.Last(), showDeleted);
+            return result;
+        }
+
+        private Leaf GetLeafByWikiName(string name, int parentId, int? revision)
+        {
+            name = name.Trim();
+            int? methodId = null;
+            if (Regex.IsMatch(name, @".+_\([A-Za-z]+\)"))
+            {
+                var methodName = name.Split('_').Last();
+                methodName = Regex.Replace(methodName, @"\(\)", "");
+                methodId = _proxy.GetHttpVerbs().IdForName(methodName);
+            }
+            return _proxy.GetLeafByName(parentId, name, methodId, revision);
         }
 
         private void GetChildren(Node element, bool showDeleted)

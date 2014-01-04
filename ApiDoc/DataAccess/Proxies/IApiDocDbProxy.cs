@@ -5,22 +5,23 @@ namespace ApiDoc.DataAccess.Proxies
 {
     public interface IApiDocDbProxy
     {
-        IDictionary<int, string> GetHttpMethods();
+        HttpVerbs GetHttpVerbs();
 
-        IList<Branch> GetBranches(int? parentId = 0, bool showDeleted = false);
-        Branch GetBranchById(int id, int? revision = null);
-        Branch GetBranchByName(string name, int? parentId = 0, int? revision = null);
-        int GetBranchId(string name, int? parentId = 0);
+        // note: only for GetBranches parentId is allowed to be null as null means "all branches" instead of 
+        // just the children of the root (parentId=0)
+        IList<Branch> GetBranches(int? parentId, bool showDeleted = false);
+        Branch GetBranchByName(string name, int parentId, int? revision = null);
         int InsertBranch(Branch newBranch);
         int UpdateBranch(Branch newBranch);
         void DeleteBranch(int id, string author, string reason);
-        IList<Branch> GetBranchRevisions(string name, int? parentId = 0);
+        IList<Branch> GetBranchRevisions(string name, int parentId);
 
 
-        IList<Leaf> GetLeafes(int? parentId = 0, bool showDeleted = false);
-        IList<Leaf> GetLeafRevisions(string name, int? parentId = 0);
+        IList<Leaf> GetLeafes(int parentId, bool showDeleted = false);
+        Leaf GetLeafByName(int parentId, string name, int? httpVerb, int? revision = null);
         int InsertLeaf(Leaf newLeaf);
         void UpdateLeaf(Leaf newLeaf);
-        Node GetLeafByName(string name, int? parentId = 0, int? revision = null);
+        void DeleteLeaf(int id, string author, string reason);
+        IList<Leaf> GetLeafRevisions(int parentId, string name, int? httpVerb);
     }
 }

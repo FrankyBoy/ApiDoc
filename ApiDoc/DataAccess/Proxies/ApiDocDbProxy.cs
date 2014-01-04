@@ -8,65 +8,50 @@ namespace ApiDoc.DataAccess.Proxies
     public class ApiDocDbProxy : IApiDocDbProxy
     {
         #region HttpVerbs
-        private IDictionary<int, string> _cachedHttpMethods;
-        private DateTime _cachedHttpMethodsExpiry;
+        private HttpVerbs _cachedHttpVerbs;
+        private DateTime _cachedVerbsExpiry;
 
-        public IDictionary<int, string> GetHttpMethods()
+        public HttpVerbs GetHttpVerbs()
         {
-            if (_cachedHttpMethods == null || DateTime.UtcNow > _cachedHttpMethodsExpiry)
+            if (_cachedHttpVerbs == null || DateTime.UtcNow > _cachedVerbsExpiry)
             {
                 using (var context = new ApiDocDbDataContext())
                 {
-                    _cachedHttpMethods = context.GetHttpVerbs().ToDictionary(x => x.fID, x => x.fHttpVerb);
+                    _cachedHttpVerbs = new HttpVerbs(
+                        context.GetHttpVerbs().ToDictionary(x => x.fID, x => x.fHttpVerb));
                 }
-                _cachedHttpMethodsExpiry = DateTime.UtcNow.AddHours(1);
+                _cachedVerbsExpiry = DateTime.UtcNow.AddHours(1);
             }
 
-            return _cachedHttpMethods;
+            return _cachedHttpVerbs;
         }
         #endregion
 
-        #region Nodes
+        #region Branches
         public IList<Branch> GetBranches(int? parentId = 0, bool showDeleted = false)
         {
             using (var context = new ApiDocDbDataContext())
             {
                 return context.Nodes_GetAll(parentId, showDeleted)
-                    .Select(DbTypeConverter.MapNode).ToList();
+                    .Select(DbTypeConverter.MapBranch).ToList();
             }
         }
-
-        public Branch GetBranchById(int id, int? revision = null)
+        
+        public Branch GetBranchByName(string name, int parentId = 0, int? revision = null)
         {
             using (var context = new ApiDocDbDataContext())
             {
-                return DbTypeConverter.MapNode(context.Nodes_GetById(id, revision).First());
+                return DbTypeConverter.MapBranch(context.Nodes_GetByName(parentId, name, revision).First());
             }
         }
-
-        public Branch GetBranchByName(string name, int? parentId = 0, int? revision = null)
-        {
-            using (var context = new ApiDocDbDataContext())
-            {
-                return DbTypeConverter.MapNode(context.Nodes_GetByName(parentId, name, revision).First());
-            }
-        }
-
-        public int GetBranchId(string name, int? parentId = 0)
-        {
-            using (var context = new ApiDocDbDataContext())
-            {
-                int? result = 0;
-                context.Nodes_LookupId(parentId, name, ref result);
-                return result ?? -1;
-            }
-        }
-
+        
         public int InsertBranch(Branch newBranch)
         {
             using (var context = new ApiDocDbDataContext())
             {
-                return context.Nodes_Insert(newBranch.ParentId, newBranch.Name, newBranch.Description, newBranch.Author, newBranch.ChangeNote);
+                return context.Nodes_Insert(
+                    newBranch.ParentId, newBranch.Name, newBranch.Description,
+                    newBranch.Author, newBranch.ChangeNote);
             }
         }
 
@@ -75,8 +60,8 @@ namespace ApiDoc.DataAccess.Proxies
             using (var context = new ApiDocDbDataContext())
             {
                 return context.Nodes_Update(
-                    newBranch.ParentId, newBranch.Id, newBranch.Name,
-                    newBranch.Description, newBranch.Author, newBranch.ChangeNote);
+                    newBranch.ParentId, newBranch.Id, newBranch.Name, newBranch.Description,
+                    newBranch.Author, newBranch.ChangeNote);
             }
         }
 
@@ -88,40 +73,75 @@ namespace ApiDoc.DataAccess.Proxies
             }
         }
 
-        public IList<Branch> GetBranchRevisions(string name, int? parentId = 0)
+        public IList<Branch> GetBranchRevisions(string name, int parentId = 0)
         {
             using (var context = new ApiDocDbDataContext())
             {
                 return context.Nodes_GetRevisions(parentId, name)
-                    .Select(DbTypeConverter.MapNode).ToList();
+                    .Select(DbTypeConverter.MapBranch).ToList();
+            }
+        }
+        #endregion
+
+        #region Leafes
+        public IList<Leaf> GetLeafes(int parentId, bool showDeleted = false)
+        {
+            using (var context = new ApiDocDbDataContext())
+            {
+                return context.Leafes_GetAll(parentId, showDeleted)
+                    .Select(x => DbTypeConverter.MapLeaf(x, GetHttpVerbs())).ToList();
             }
         }
 
-        public IList<Leaf> GetLeafes(int? parentId, bool showDeleted = false)
+        public Leaf GetLeafByName(int parentId, string name, int? httpVerb, int? revision = null)
         {
-            return new List<Leaf>();
-            throw new NotImplementedException();
-        }
-
-        public IList<Leaf> GetLeafRevisions(string name, int? parentId)
-        {
-            throw new NotImplementedException();
+            using (var context = new ApiDocDbDataContext())
+            {
+                return DbTypeConverter.MapLeaf(
+                    context.Leafes_GetByName(parentId, name, httpVerb, revision).First(),
+                    GetHttpVerbs());
+            }
         }
 
         public int InsertLeaf(Leaf newLeaf)
         {
-            throw new NotImplementedException();
+            using (var context = new ApiDocDbDataContext())
+            {
+                var httpVerb = GetHttpVerbs().IdForName(newLeaf.HttpVerb);
+                return context.Leafes_Insert(newLeaf.ParentId, newLeaf.Name, httpVerb, newLeaf.Description,
+                    newLeaf.RequiresAuthentication, newLeaf.RequiresAuthorization, newLeaf.SampleRequest, newLeaf.SampleResponse,
+                    newLeaf.Author, newLeaf.ChangeNote);
+            }
         }
 
         public void UpdateLeaf(Leaf newLeaf)
         {
-            throw new NotImplementedException();
+            using (var context = new ApiDocDbDataContext())
+            {
+                var httpVerb = GetHttpVerbs().IdForName(newLeaf.HttpVerb);
+                context.Leafes_Update(newLeaf.ParentId, newLeaf.Id, newLeaf.Name, httpVerb, newLeaf.Description,
+                    newLeaf.RequiresAuthentication, newLeaf.RequiresAuthorization, newLeaf.SampleRequest, newLeaf.SampleResponse,
+                    newLeaf.Author, newLeaf.ChangeNote);
+            }
         }
 
-        public Node GetLeafByName(string name, int? parentId, int? revision = null)
+        public void DeleteLeaf(int id, string author, string reason)
         {
-            throw new NotImplementedException();
+            using (var context = new ApiDocDbDataContext())
+            {
+                context.Leafes_Delete(id, author, reason);
+            }
         }
+
+        public IList<Leaf> GetLeafRevisions(int parentId, string name, int? httpVerb)
+        {
+            using (var context = new ApiDocDbDataContext())
+            {
+                return context.Leafes_GetRevisions(parentId, name, httpVerb)
+                    .Select(x => DbTypeConverter.MapLeaf(x, GetHttpVerbs())).ToList();
+            }
+        }
+
 
         #endregion
 

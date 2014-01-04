@@ -15,7 +15,8 @@ namespace ApiDoc.Models
                     (OriginalPath != null && GetWikiPath().ToLower() == OriginalPath.ToLower()));
             }
         }
-
+        public bool HasPathError { get; set; }
+        
         public Node Last() { return Nodes.Last(); }
 
         public string GetWikiPath()

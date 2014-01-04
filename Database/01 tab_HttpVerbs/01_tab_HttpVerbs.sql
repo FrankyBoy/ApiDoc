@@ -9,7 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[tab_HttpVerbs](
-	[fID] [int] NOT NULL IDENTITY(1,1),
+	[fID] [int] NOT NULL,
 	[fHttpVerb] [nvarchar](50) NOT NULL,
  CONSTRAINT [PK_tab_HttpVerbs] PRIMARY KEY CLUSTERED 
 (
@@ -18,5 +18,8 @@ CREATE TABLE [dbo].[tab_HttpVerbs](
 ) ON [PRIMARY]
 
 GO
+
+INSERT INTO [dbo].[tab_HttpVerbs] (fID, fHttpVerb)
+VALUES (1, 'GET'), (2, 'POST'), (3,'DELETE')
 
 

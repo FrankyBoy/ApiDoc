@@ -24,7 +24,7 @@ BEGIN
 			WHERE frParentId = @parentId
 			AND UPPER(fName) = UPPER(@name)
 			AND frHttpVerb = COALESCE(@httpVerb, frHttpVerb)
-			ORDER BY fChangeDate DESC
+			ORDER BY frHttpVerb ASC, fChangeDate DESC
 		)
 
 END
