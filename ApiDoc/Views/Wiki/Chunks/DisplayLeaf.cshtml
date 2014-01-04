@@ -1,15 +1,26 @@
 ﻿@model ApiDoc.Models.Leaf
 
 <h3>Authentication</h3>
-<p>@if (Model.RequiresAuthorization)
-{
-    Write("Requires Authorization");
-}
-else if (Model.RequiresAuthentication)
-{
-    Write("Requires Authentication");
-}
-else
-{
-    Write("None");
-}</p>
+<p>
+    @if (Model.RequiresAuthorization)
+    {
+        Write("Requires Authorization");
+    }
+    else if (Model.RequiresAuthentication)
+    {
+        Write("Requires Authentication");
+    }
+    else
+    {
+        Write("None");
+    }
+</p>
+
+<h3>RequestData</h3>
+<pre class="prettyprint">@{ Write(Model.SampleRequest ?? "-- None --"); }</pre>
+
+<h3>ResponseData</h3>
+<pre class="prettyprint">@{ Write(Model.SampleResponse ?? "-- None --"); }</pre>
+
+<h3>Description</h3>
+<p>@Model.Description</p>
