@@ -158,8 +158,8 @@
       <DependentUpon>PosDocumentationDb.dbml</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\Proxies\DbTypeConverter.cs" />
-    <Compile Include="DataAccess\Proxies\IPosDocumentationDbProxy.cs" />
-    <Compile Include="DataAccess\Proxies\PosDocumentationDbProxy.cs" />
+    <Compile Include="DataAccess\Proxies\IApiDocDbProxy.cs" />
+    <Compile Include="DataAccess\Proxies\ApiDocDbProxy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
