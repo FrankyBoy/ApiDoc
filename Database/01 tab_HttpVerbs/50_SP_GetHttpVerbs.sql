@@ -1,4 +1,4 @@
-USE [PosDocumentation]
+USE [ApiDoc]
 GO
 
 /****** Object:  StoredProcedure [dbo].[GetHttpVerbs]    Script Date: 19.12.2013 17:41:23 ******/

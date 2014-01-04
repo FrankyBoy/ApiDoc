@@ -152,10 +152,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\WikiController.cs" />
-    <Compile Include="DataAccess\PosDocumentationDb.designer.cs">
+    <Compile Include="DataAccess\ApiDocDb.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PosDocumentationDb.dbml</DependentUpon>
+      <DependentUpon>ApiDocDb.dbml</DependentUpon>
     </Compile>
     <Compile Include="DataAccess\Proxies\DbTypeConverter.cs" />
     <Compile Include="DataAccess\Proxies\IApiDocDbProxy.cs" />
@@ -235,9 +235,9 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="DataAccess\PosDocumentationDb.dbml">
+    <Content Include="DataAccess\ApiDocDb.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>PosDocumentationDb.designer.cs</LastGenOutput>
+      <LastGenOutput>ApiDocDb.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
@@ -285,8 +285,8 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DataAccess\PosDocumentationDb.dbml.layout">
-      <DependentUpon>PosDocumentationDb.dbml</DependentUpon>
+    <None Include="DataAccess\ApiDocDb.dbml.layout">
+      <DependentUpon>ApiDocDb.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <PropertyGroup>

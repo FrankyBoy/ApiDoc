@@ -1,4 +1,4 @@
-USE [PosDocumentation]
+USE [ApiDoc]
 GO
 
 /****** Object:  Table [dbo].[tab_HttpVerbs]    Script Date: 19.12.2013 17:35:43 ******/

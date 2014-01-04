@@ -1,4 +1,4 @@
-USE [PosDocumentation]
+USE [ApiDoc]
 GO
 
 /****** Object:  Table [dbo].[tab_Methods]    Script Date: 19.12.2013 17:38:51 ******/

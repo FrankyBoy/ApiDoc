@@ -1,4 +1,4 @@
-USE [PosDocumentation]
+USE [ApiDoc]
 GO
 
 SET ANSI_NULLS ON
