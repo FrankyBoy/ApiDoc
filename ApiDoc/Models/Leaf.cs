@@ -10,9 +10,15 @@ namespace ApiDoc.Models
         public string SampleRequest { get; set; }
         public string SampleResponse { get; set; }
 
+        public override string Name { get
+            {
+                return string.Format("{0} ({1})", base.Name, HttpVerb.ToUpper());
+            }
+        }
+
         public override string GetWikiUrlString()
         {
-            return string.Format("{0}_({1})", Name.ToWikiUrlString(), HttpVerb.ToUpper());
+            return Name.ToWikiUrlString();
         }
     }
 }

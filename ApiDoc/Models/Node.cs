@@ -7,7 +7,7 @@ namespace ApiDoc.Models
     {
         // basic stuff
         [Required]
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
         public string Description { get; set; }
 
         // structural info
