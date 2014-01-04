@@ -1,5 +1,5 @@
 ﻿@using ApiDoc.Models
-@model VersionedItem
+@model Node
 
 @{
     ViewBag.Title = "Create";
@@ -7,11 +7,11 @@
 
 <h2>@ViewBag.Title</h2>
 
-<h3>Create Node</h3>
-@using (Html.BeginForm("CreateNode", "Wiki", new {parentId = Model.Id})){
-    @Html.Partial("CreateNode", new Node())
+<h3>Create Branch</h3>
+@using (Html.BeginForm("CreateBranch", "Wiki", new {parentId = Model.Id})){
+    @Html.Partial("Chunks/CreateBranch", new Branch())
     <input type="submit" value="Create" />
 }
 
-<h3>Create Method</h3>
+<h3>Create Leaf</h3>
 @* TODO make create method *@

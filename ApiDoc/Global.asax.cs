@@ -41,10 +41,6 @@ namespace ApiDoc
             builder.Register(c => new NodeProvider(c.Resolve<IPosDocumentationDbProxy>()))
                    .As<INodeProvider>()
                    .SingleInstance();
-
-            builder.Register(c => new MethodProvider(c.Resolve<IPosDocumentationDbProxy>()))
-                   .As<IMethodProvider>()
-                   .SingleInstance();
             
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

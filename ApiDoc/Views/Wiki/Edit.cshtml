@@ -1,0 +1,18 @@
+﻿@using ApiDoc.Models
+
+@{
+    Node mdl = ViewBag.Structure.Last();
+    mdl.ChangeNote = "";
+    ViewBag.Title = "Edit Item";
+}
+
+<h3>@ViewBag.Title</h3>
+
+@if (mdl is Branch)
+{
+    Html.RenderPartial("Chunks/EditBranch", mdl as Branch);
+}
+else
+{
+    // TODO: write custom display code for Leafs
+}

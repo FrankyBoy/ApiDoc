@@ -1,0 +1,7 @@
+﻿@model ApiDoc.Models.Branch
+
+@using (Html.BeginForm("EditBranch", "Wiki", new { path = ViewBag.Structure.GetWikiPath() }))
+{
+    @Html.EditorFor(m => m)
+    <input type="submit" value="Update" />
+}

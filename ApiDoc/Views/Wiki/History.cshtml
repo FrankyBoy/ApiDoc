@@ -8,8 +8,8 @@
 
 @if (ViewBag.Comparison != null)
 {
-    VersionedItem rev1 = ((IList<VersionedItem>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev1);
-    VersionedItem rev2 = ((IList<VersionedItem>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev2);
+    Node rev1 = ((IList<Node>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev1);
+    Node rev2 = ((IList<Node>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev2);
     <p>Comparing these revisions:</p>
     <table>
         <tr><td>Old</td><td>@rev1.RevisionNumber</td><td>@rev1.ChangeDate</td><td>@rev1.Author</td></tr>
@@ -51,7 +51,7 @@
             <td>@rev1.Description</td>
             <td>@Html.Raw(ViewBag.Comparison.Description)</td>
         </tr>
-        @* TODO: add extended properties of Method once we have them *@
+        @* TODO: add extended properties of Leaf once we have them *@
     </table>
 }
 
@@ -70,7 +70,7 @@
             @*TODO add some version of "revert to" *@
         </tr>
 
-        @foreach (Node item in ViewBag.History)
+        @foreach (Branch item in ViewBag.History)
         {
             <tr>
                 <td>@Html.RadioButtonFor(m => m.Rev2, item.RevisionNumber)</td>

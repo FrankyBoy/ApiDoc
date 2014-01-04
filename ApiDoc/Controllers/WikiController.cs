@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web.Mvc;
 using ApiDoc.Models;
 using ApiDoc.Provider;
@@ -12,76 +11,69 @@ namespace ApiDoc.Controllers
     public class WikiController : Controller
     {
         private readonly INodeProvider _nodeProvider;
-        private readonly IMethodProvider _methodProvider;
 
-        public WikiController(INodeProvider nodeProvider, IMethodProvider methodProvider)
+        public WikiController(INodeProvider nodeProvider)
         {
             _nodeProvider = nodeProvider;
-            _methodProvider = methodProvider;
         }
 
         [ImportModelState]
         public ActionResult Display(string path, bool? showDeleted)
         {
-            ViewBag.ShowDeleted = showDeleted ?? false;
-            var structure = GetStructure(path, showDeleted ?? false);
-            var item = structure.Last();
-            
-            if (item is Node)
-                return View("DisplayNode", item as Node);
-
-            return View("DisplayMethod", item as Method);
+            PrimeViewBag(path, showDeleted ?? false);
+            return View();
         }
 
         #region Create
+        [ImportModelState]
         public ActionResult Create(string path)
         {
-            VersionedItem parent = GetStructure(path).Last();
+            Node parent = PrimeViewBag(path).Last();
             return View(parent);
         }
 
         [HttpPost]
-        public ActionResult CreateNode(int parentId, Node model)
+        [ExportModelState]
+        public ActionResult CreateBranch(string path, Branch model)
         {
+            var structure = PrimeViewBag(path);
+
             model.Author = "dummy"; // TODO: replace with currently logged in user
-            model.ParentId = parentId;
+            model.ParentId = structure.Last().Id;
             var newId = _nodeProvider.InsertNode(model); 
 
             if (newId > 0)
-                return RedirectToAction("Display", new {path = GetStructureForNode(parentId).GetWikiPath()});
+                return RedirectToAction("Display", new {path = structure.GetWikiPath()});
 
             ModelState.AddModelError("Name", "Name already exists");
-            return View("Create", _nodeProvider.GetById(parentId));
+            return RedirectToAction("Create", new { path = structure.GetWikiPath() });
         }
 
         [HttpPost]
-        public ActionResult CreateMethod(int parentId, Method model)
+        public ActionResult CreateMethod(string path, Leaf model)
         {
             throw new NotImplementedException();
         }
         #endregion
 
         #region Edit
+        [ImportModelState]
         public ActionResult Edit(string path)
         {
-            var item = GetStructure(path).Last();
-            ViewBag.AllNodes = _nodeProvider.GetNodes(null);
-            if (item is Node)
-                return RedirectToAction("EditNode", new{id=item.Id});
-
-            return View("EditMethod", new { id = item.Id });
+            PrimeViewBag(path);
+            ViewBag.AllNodes = _nodeProvider.GetAllBranches();
+            return View("Edit");
         }
-
-        public ActionResult EditNode(int id)
-        {
-            return View("EditNode", _nodeProvider.GetById(id));
-        }
-
+        
         [HttpPost]
-        public ActionResult EditNode(int id, Node model)
+        [ExportModelState]
+        public ActionResult EditBranch(string path, Branch model)
         {
+            var structure = PrimeViewBag(path);
+
             model.Author = "dummy"; // TODO: replace with currently logged in user
-            model.Id = id;
+            model.Id = structure.Last().Id;
+
             if(ModelState.IsValid){
                 try
                 {
@@ -94,19 +86,14 @@ namespace ApiDoc.Controllers
             }
             
             if(ModelState.IsValid)
-                return RedirectToAction("Display", new { path = GetStructureForNode(model.Id).GetWikiPath() });
+                return RedirectToAction("Display", new { path = structure.GetWikiPath() });
 
-            return View("CreateNode", model);
-        }
-
-        public ActionResult EditMethod(int id)
-        {
-            throw new NotImplementedException();
-            //return View("EditMethod", _methodProvider.GetById(id));
+            return RedirectToAction("Edit");
         }
 
         [HttpPost]
-        public ActionResult EditMethod(int id, Method model)
+        [ExportModelState]
+        public ActionResult EditMethod(int id, Leaf model)
         {
             throw new NotImplementedException();
         }
@@ -117,8 +104,8 @@ namespace ApiDoc.Controllers
 
         public ActionResult History(string path)
         {
-            var item = GetStructure(path).Last();
-            var history = GetHistory(item);
+            var item = PrimeViewBag(path).Last();
+            var history = _nodeProvider.GetRevisions(item);
             ViewBag.History = history;
 
             HistoryViewModel model;
@@ -141,21 +128,23 @@ namespace ApiDoc.Controllers
         [HttpPost]
         public ActionResult History(string path, HistoryViewModel revisions)
         {
-            var item = GetStructure(path).Last();
-            var history = GetHistory(item);
+            var item = PrimeViewBag(path).Last();
+            var history = _nodeProvider.GetRevisions(item);
             ViewBag.History = history;
 
-            ViewBag.Comparison = Compare(revisions, item);
+            ViewBag.Comparison = history.Compare(revisions.Rev1, revisions.Rev2);
             return View(revisions);
         }
+        #endregion
 
+        #region Delete
         [HttpPost]
         [ExportModelState]
         public ActionResult Delete(string path, string message)
         {
-            var tree = GetStructure(path);
+            var tree = PrimeViewBag(path);
             var item = tree.Last();
-            tree.Remove(item);
+            tree.Nodes.Remove(item);
 
             if (string.IsNullOrEmpty(message))
             {
@@ -163,127 +152,62 @@ namespace ApiDoc.Controllers
             }
             else
             {
-                const string author = "dummy"; // todo: replace with logged in user
-                if (item is Node)
-                    _nodeProvider.DeleteNode(item.Id, author, message);
-                else
-                    _methodProvider.DeleteMethod(item.Id, author, message);
+                item.Author = "dummy"; // todo: replace with logged in user
+                item.ChangeNote = message;
+                _nodeProvider.Delete(item);
             }
 
             return RedirectToAction("Display", new { path = tree.GetWikiPath() });
         }
-
-
-        // TODO: push all these distinctions into the NodeProvider?
-        private VersionedItem Compare(HistoryViewModel revisions, VersionedItem item)
-        {
-            if (item is Node)
-                return _nodeProvider.CompareRevisions(item.Id, revisions.Rev1, revisions.Rev2);
-            
-            return _methodProvider.CompareRevisions(item.Id, revisions.Rev1, revisions.Rev2);
-        }
-
-        // TODO: push all these distinctions into the NodeProvider?
-        private IList<VersionedItem> GetHistory(VersionedItem item)
-        {
-            IList<VersionedItem> history;
-            if (item is Node)
-                history = _nodeProvider.GetRevisions(item.Name, item.ParentId).Cast<VersionedItem>().ToList();
-            else
-                history = _methodProvider.GetRevisions(item.Name, item.ParentId).Cast<VersionedItem>().ToList();
-            return history;
-        }
-
-
+        
         #endregion
 
-        #region Ugly pathing work
-        private static readonly Node Root = new Node {Name = "ROOT", Id = 0};
 
-        // TODO: replace with some (cached!) path lookup
-        private IList<VersionedItem> GetStructure(string path, bool showDeleted = false)
+        private NodeStructure PrimeViewBag(string path, bool showDeleted = false)
         {
-            IList<VersionedItem> result = new List<VersionedItem>{Root};
-            var isNode = string.IsNullOrEmpty(path) || path.EndsWith("/");
-
-            if (path != null)
-            {
-                var chunks = path.Split('/');
-                for (var i = 0; i < chunks.Length; i++)
-                {
-                    // fetch next deeper chunk
-                    var name = chunks[i];
-                    var current = result.Last();
-                    if (!string.IsNullOrEmpty(name))
-                    {
-                        if (isNode || chunks.Length < i - 1)
-                            result.Add(_nodeProvider.GetByName(name, current.Id));
-                        else
-                            result.Add(_methodProvider.GetByName(name, current.Id));
-                    }
-                }
-            }
-            ValidateStructure(path, result);
-
-            GetChildren(result.Last(), showDeleted);
-            return result;
-        }
-
-        // TODO: replace with some (cached!) path lookup
-        private IList<VersionedItem> GetStructureForNode(int? nodeId, bool showDeleted = false)
-        {
-            IList<VersionedItem> result = new List<VersionedItem> { Root };
-            while (nodeId != null && nodeId != 0)
-            {
-                var node = _nodeProvider.GetById((int)nodeId);
-                result.Add(node);
-                nodeId = node.ParentId;
-            }
-            result = result.Reverse().ToList();
-
-            GetChildren(result.Last(), showDeleted);
-            return result;
-        }
-
-        private void GetChildren(VersionedItem element, bool showDeleted)
-        {
-            var node = element as Node;
-            if (node != null)
-            {
-                var children = _nodeProvider.GetNodes(node.Id, showDeleted).Cast<VersionedItem>().ToList();
-                children.AddRange(_methodProvider.GetMethods(node.Id));
-                node.Children = children;
-            }
-        }
-
-        private void ValidateStructure(string path, IList<VersionedItem> structure)
-        {
-            if (structure.Any(x => x.Deleted))
-            {
+            var structure = _nodeProvider.GetStructure(path, showDeleted);
+            if (structure.AnyNodeDeleted)
                 ModelState.AddModelError("Warning", "Warning: An element in the path has been marked as deleted");
-            }
-            if (path != null && structure.GetWikiPath().ToLower() != path.ToLower())
-            {
+
+            if (structure.AnyNodeRenamed)
                 ModelState.AddModelError("Warning", "Warning: An element in the path has been renamed");
-            }
+
+            ViewBag.Structure = structure;
+            ViewBag.ShowDeleted = showDeleted;
+            return structure;
         }
 
-        #endregion
     }
 
-    internal static class ItemListExtensions
+    public static class NodeListExtensions
     {
-        public static string GetWikiPath(this IList<VersionedItem> items)
-        {
-            var output = new StringBuilder();
-            foreach (var item in items)
-            {
-                if(item.Id != 0) {
-                    output.Append(item.GetWikiUrlString());
-                }
-            }
+        private static readonly DiffMatchPatch Dmp = new DiffMatchPatch();
 
-            return output.ToString();
+        public static Node Compare(this IList<Node> items, int rev1, int rev2)
+        {
+            var r1 = items.First(x => x.RevisionNumber == rev1);
+            var r2 = items.First(x => x.RevisionNumber == rev2);
+
+            if (r1.GetType() != r2.GetType())
+                throw new Exception("Cannot compare two items of different type");
+
+            if (r1 is Branch)
+                return new Branch
+                {
+                    Name = GetPrettyHtmlDiff(r1.Name, r2.Name),
+                    Description = GetPrettyHtmlDiff(r1.Description, r2.Description),
+                };
+            if(r1 is Leaf)
+                throw new NotImplementedException();
+
+            throw new Exception("Not any known type");
+        }
+
+        private static string GetPrettyHtmlDiff(string text1, string text2)
+        {
+            var diffs = Dmp.diff_main(text1, text2);
+            Dmp.diff_cleanupSemantic(diffs);
+            return Dmp.diff_prettyHtml(diffs);
         }
     }
 }

@@ -1,0 +1,21 @@
+﻿@using ApiDoc.Models
+
+@{
+    Node mdl = ViewBag.Structure.Last();
+    ViewBag.Title = "title";
+    Html.RenderPartial("ItemActions", mdl);
+}
+
+<h2>@mdl.Name</h2>
+
+<h3>Description</h3>
+<p>@mdl.Description</p>
+
+@if (mdl is Branch)
+{
+    Html.RenderPartial("Chunks/DisplayBranch", mdl as Branch);
+}
+else
+{
+    // TODO: write custom display code for Leafs
+}

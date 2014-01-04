@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace ApiDoc.Models
+﻿namespace ApiDoc.Models
 {
     public class HistoryViewModel
     {

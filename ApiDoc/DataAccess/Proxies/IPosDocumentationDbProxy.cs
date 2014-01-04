@@ -7,13 +7,20 @@ namespace ApiDoc.DataAccess.Proxies
     {
         IDictionary<int, string> GetHttpMethods();
 
-        IList<Node> GetNodes(int? parentId = 0, bool showDeleted = false);
-        Node GetNodeById(int id, int? revision = null);
-        Node GetNodeByName(string name, int? parentId = 0, int? revision = null);
-        int GetNodeId(string name, int? parentId = 0);
-        int InsertNode(Node newNode);
-        int UpdateNode(Node newNode);
-        void DeleteNode(int id, string author, string reason);
-        IList<Node> GetNodeRevisions(string name, int? parentId = 0);
+        IList<Branch> GetBranches(int? parentId = 0, bool showDeleted = false);
+        Branch GetBranchById(int id, int? revision = null);
+        Branch GetBranchByName(string name, int? parentId = 0, int? revision = null);
+        int GetBranchId(string name, int? parentId = 0);
+        int InsertBranch(Branch newBranch);
+        int UpdateBranch(Branch newBranch);
+        void DeleteBranch(int id, string author, string reason);
+        IList<Branch> GetBranchRevisions(string name, int? parentId = 0);
+
+
+        IList<Leaf> GetLeafes(int? parentId = 0, bool showDeleted = false);
+        IList<Leaf> GetLeafRevisions(string name, int? parentId = 0);
+        int InsertLeaf(Leaf newLeaf);
+        void UpdateLeaf(Leaf newLeaf);
+        Node GetLeafByName(string name, int? parentId = 0, int? revision = null);
     }
 }

@@ -1,72 +1,107 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ApiDoc.DataAccess.Proxies;
 using ApiDoc.Models;
-using ApiDoc.Utility;
 
 namespace ApiDoc.Provider
 {
     public class NodeProvider : INodeProvider
     {
         private readonly IPosDocumentationDbProxy _proxy;
-        private readonly DiffMatchPatch _diff = new DiffMatchPatch();
+        private static readonly Branch Root = new Branch { Name = "ROOT", Id = 0 };
 
         public NodeProvider(IPosDocumentationDbProxy proxy)
         {
             _proxy = proxy;
         }
 
-        public IList<Node> GetNodes(int? parentId = 0, bool showDeleted = false)
+        public IList<Branch> GetAllBranches(bool showDeleted = false)
         {
-            return _proxy.GetNodes(parentId, showDeleted);
+            return _proxy.GetBranches(null, showDeleted);
         }
 
         public Node GetByName(string name, int? parentId = 0, int? revision = null)
         {
-            return _proxy.GetNodeByName(name, parentId, revision);
+            return _proxy.GetBranchByName(name, parentId, revision);
         }
 
         public Node GetById(int id, int? revision = null)
         {
-            return _proxy.GetNodeById(id, revision);
+            return _proxy.GetBranchById(id, revision);
         }
-        
+
         public int InsertNode(Node newNode)
         {
-            return _proxy.InsertNode(newNode);
+            if(newNode is Branch)
+                return _proxy.InsertBranch(newNode as Branch);
+
+            return _proxy.InsertLeaf(newNode as Leaf);
         }
 
         public void UpdateNode(Node newNode)
         {
-            _proxy.UpdateNode(newNode);
+            if (newNode is Branch)
+                _proxy.UpdateBranch(newNode as Branch);
+            else {
+                _proxy.UpdateLeaf(newNode as Leaf);
+            }
+        }   
+        
+        public void Delete(Node oldNode)
+        {
+            if(oldNode is Branch)
+                _proxy.DeleteBranch(oldNode.Id, oldNode.Author, oldNode.ChangeNote);
         }
 
-        public void DeleteNode(int id, string author, string reason)
+        public IList<Node> GetRevisions(Node node)
         {
-            _proxy.DeleteNode(id, author, reason);
+            if(node is Branch)
+                return _proxy.GetBranchRevisions(node.Name, node.ParentId).Cast<Node>().ToList();
+
+            return _proxy.GetLeafRevisions(node.Name, node.ParentId).Cast<Node>().ToList();
         }
 
-        public IList<Node> GetRevisions(string name, int? parentId = 0)
+        // TODO: replace with some (cached!) path lookup
+        public NodeStructure GetStructure(string path, bool showDeleted = false)
         {
-            return _proxy.GetNodeRevisions(name, parentId);
-        }
+            IList<Node> result = new List<Node> { Root };
+            var isNode = string.IsNullOrEmpty(path) || path.EndsWith("/");
 
-        public Node CompareRevisions(int id, int rev1, int rev2)
-        {
-            var r1 = GetById(id, rev1);
-            var r2 = GetById(id, rev2);
-
-            return new Node
+            if (path != null)
             {
-                Name = GetPrettyHtmlDiff(r1.Name, r2.Name),
-                Description = GetPrettyHtmlDiff(r1.Description, r2.Description),
-            };
+                var chunks = path.Split('/');
+                for (var i = 0; i < chunks.Length; i++)
+                {
+                    // fetch next deeper chunk
+                    var name = chunks[i];
+                    var current = result.Last();
+                    if (!string.IsNullOrEmpty(name))
+                    {
+                        if (isNode || chunks.Length < i - 1)
+                            result.Add(_proxy.GetBranchByName(name, current.Id));
+                        else
+                            result.Add(_proxy.GetLeafByName(name, current.Id));
+                    }
+                }
+            }
+
+            GetChildren(result.Last(), showDeleted);
+            return new NodeStructure
+                {
+                    Nodes = result,
+                    OriginalPath = path
+                };
         }
 
-        private string GetPrettyHtmlDiff(string text1, string text2)
+        private void GetChildren(Node element, bool showDeleted)
         {
-            var diffs = _diff.diff_main(text1, text2);
-            _diff.diff_cleanupSemantic(diffs);
-            return _diff.diff_prettyHtml(diffs);
+            var node = element as Branch;
+            if (node != null)
+            {
+                var children = _proxy.GetBranches(element.Id, showDeleted).Cast<Node>().ToList();
+                children.AddRange(_proxy.GetLeafes(node.Id, showDeleted).Cast<Node>().ToList());
+                node.Children = children;
+            }
         }
     }
 }

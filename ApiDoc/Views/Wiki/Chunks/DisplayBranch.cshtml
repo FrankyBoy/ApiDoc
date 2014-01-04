@@ -1,0 +1,20 @@
+﻿@using ApiDoc.Models
+@model Branch
+
+<h3>Children</h3>
+<ul class="children">
+    @foreach (Node item in Model.Children)
+    {
+        var reference = new {path = Request.Url.AbsolutePath + item.GetWikiUrlString()};
+        <li class="child @if (item.Deleted) { Write(" deleted"); }">
+            <a href="@reference.path"><h4>@item.Name</h4>@item.Description</a>
+        </li>
+    }
+</ul>
+@Html.ActionLink("Create", "Create", "Wiki")
+
+@if (ViewBag.ShowDeleted) {
+    @Html.ActionLink("Hide deleted", "Display", "Wiki")
+} else {
+    @Html.ActionLink("Show All", "Display", "Wiki", new {showDeleted = true}, null)
+}

@@ -27,7 +27,7 @@ namespace ApiDoc.DataAccess.Proxies
         #endregion
 
         #region Nodes
-        public IList<Node> GetNodes(int? parentId = 0, bool showDeleted = false)
+        public IList<Branch> GetBranches(int? parentId = 0, bool showDeleted = false)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
@@ -36,7 +36,7 @@ namespace ApiDoc.DataAccess.Proxies
             }
         }
 
-        public Node GetNodeById(int id, int? revision = null)
+        public Branch GetBranchById(int id, int? revision = null)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
@@ -44,7 +44,7 @@ namespace ApiDoc.DataAccess.Proxies
             }
         }
 
-        public Node GetNodeByName(string name, int? parentId = 0, int? revision = null)
+        public Branch GetBranchByName(string name, int? parentId = 0, int? revision = null)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
@@ -52,7 +52,7 @@ namespace ApiDoc.DataAccess.Proxies
             }
         }
 
-        public int GetNodeId(string name, int? parentId = 0)
+        public int GetBranchId(string name, int? parentId = 0)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
@@ -62,25 +62,25 @@ namespace ApiDoc.DataAccess.Proxies
             }
         }
 
-        public int InsertNode(Node newNode)
+        public int InsertBranch(Branch newBranch)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
-                return context.Nodes_Insert(newNode.ParentId, newNode.Name, newNode.Description, newNode.Author, newNode.ChangeNote);
+                return context.Nodes_Insert(newBranch.ParentId, newBranch.Name, newBranch.Description, newBranch.Author, newBranch.ChangeNote);
             }
         }
 
-        public int UpdateNode(Node newNode)
+        public int UpdateBranch(Branch newBranch)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
                 return context.Nodes_Update(
-                    newNode.ParentId, newNode.Id, newNode.Name,
-                    newNode.Description, newNode.Author, newNode.ChangeNote);
+                    newBranch.ParentId, newBranch.Id, newBranch.Name,
+                    newBranch.Description, newBranch.Author, newBranch.ChangeNote);
             }
         }
 
-        public void DeleteNode(int id, string author, string reason)
+        public void DeleteBranch(int id, string author, string reason)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
@@ -88,13 +88,39 @@ namespace ApiDoc.DataAccess.Proxies
             }
         }
 
-        public IList<Node> GetNodeRevisions(string name, int? parentId = 0)
+        public IList<Branch> GetBranchRevisions(string name, int? parentId = 0)
         {
             using (var context = new PosDocumentationDbDataContext())
             {
                 return context.Nodes_GetRevisions(parentId, name)
                     .Select(DbTypeConverter.MapNode).ToList();
             }
+        }
+
+        public IList<Leaf> GetLeafes(int? parentId, bool showDeleted = false)
+        {
+            return new List<Leaf>();
+            throw new NotImplementedException();
+        }
+
+        public IList<Leaf> GetLeafRevisions(string name, int? parentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int InsertLeaf(Leaf newLeaf)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateLeaf(Leaf newLeaf)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Node GetLeafByName(string name, int? parentId, int? revision = null)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

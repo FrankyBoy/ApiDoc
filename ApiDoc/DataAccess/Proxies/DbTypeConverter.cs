@@ -4,9 +4,9 @@ namespace ApiDoc.DataAccess.Proxies
 {
     public static class DbTypeConverter
     {
-        public static Node MapNode(Nodes_GetAllResult input)
+        public static Branch MapNode(Nodes_GetAllResult input)
         {
-            return new Node
+            return new Branch
                 {
                     Id = input.fID,
                     Name = input.fName,
@@ -15,9 +15,9 @@ namespace ApiDoc.DataAccess.Proxies
                 };
         }
 
-        public static Node MapNode(Nodes_GetByIdResult input)
+        public static Branch MapNode(Nodes_GetByIdResult input)
         {
-            return new Node
+            return new Branch
                 {
                     Author = input.fAuthor,
                     ChangeDate = input.fChangeDate,
@@ -31,9 +31,9 @@ namespace ApiDoc.DataAccess.Proxies
                 };
         }
 
-        public static Node MapNode(Nodes_GetByNameResult input)
+        public static Branch MapNode(Nodes_GetByNameResult input)
         {
-            return new Node
+            return new Branch
             {
                 Author = input.fAuthor,
                 ChangeDate = input.fChangeDate,
@@ -47,9 +47,9 @@ namespace ApiDoc.DataAccess.Proxies
             };
         }
 
-        internal static Node MapNode(Nodes_GetRevisionsResult input)
+        internal static Branch MapNode(Nodes_GetRevisionsResult input)
         {
-            return new Node
+            return new Branch
             {
                 Author = input.fAuthor,
                 ChangeDate = input.fChangeDate,

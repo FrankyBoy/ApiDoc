@@ -1,6 +1,6 @@
 ﻿namespace ApiDoc.Models
 {
-    public class Method : VersionedItem
+    public class Leaf : Node
     {
         public override string GetWikiUrlString()
         {
