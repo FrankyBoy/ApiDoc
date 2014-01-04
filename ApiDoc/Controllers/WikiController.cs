@@ -167,12 +167,12 @@ namespace ApiDoc.Controllers
             if (structure.AnyNodeDeleted)
                 ModelState.AddModelError("Warning", "Warning: An element in the path has been marked as deleted");
 
+            // TODO: figure out how we could redirect in this case
             if (structure.HasPathError)
                 ModelState.AddModelError("Error", "Error: The path you tried to access is ambiguous or does not exist. We dropped you off at the deepest working node.");
             else if (structure.AnyNodeRenamed)
                 ModelState.AddModelError("Warning", "Warning: An element in the path has been renamed");
-
-
+                
             ViewBag.Structure = structure;
             ViewBag.ShowDeleted = showDeleted;
             return structure;

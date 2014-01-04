@@ -81,7 +81,7 @@ namespace ApiDoc.Provider
                         var current = nodes.Last();
                         if (!string.IsNullOrEmpty(name))
                         {
-                            if (chunks.Length < i - 1)
+                            if (i + 1 < chunks.Length)
                                 nodes.Add(_proxy.GetBranchByName(name, current.Id));
                             else if (isNode)
                                 nodes.Add(_proxy.GetBranchByName(name, current.Id, revision));
@@ -103,14 +103,15 @@ namespace ApiDoc.Provider
         private Leaf GetLeafByWikiName(string name, int parentId, int? revision)
         {
             name = name.Trim();
-            int? methodId = null;
+            int? httpVerb = null;
             if (Regex.IsMatch(name, @".+_\([A-Za-z]+\)"))
             {
                 var methodName = name.Split('_').Last();
-                methodName = Regex.Replace(methodName, @"\(\)", "");
-                methodId = _proxy.GetHttpVerbs().IdForName(methodName);
+                name = name.Remove(name.Length - methodName.Length - 1);
+                methodName = methodName.Replace("(","").Replace(")","");
+                httpVerb = _proxy.GetHttpVerbs().IdForName(methodName);
             }
-            return _proxy.GetLeafByName(parentId, name, methodId, revision);
+            return _proxy.GetLeafByName(parentId, name, httpVerb, revision);
         }
 
         private void GetChildren(Node element, bool showDeleted)

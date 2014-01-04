@@ -1,6 +1,9 @@
 ﻿@using ApiDoc.Models
 @model Branch
 
+<h3>Description</h3>
+<p>@Model.Description</p>
+
 <h3>Children</h3>
 <ul class="children">
     @foreach (Node item in Model.Children)
