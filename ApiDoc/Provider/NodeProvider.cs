@@ -7,10 +7,10 @@ namespace ApiDoc.Provider
 {
     public class NodeProvider : INodeProvider
     {
-        private readonly IPosDocumentationDbProxy _proxy;
+        private readonly IApiDocDbProxy _proxy;
         private static readonly Branch Root = new Branch { Name = "ROOT", Id = 0 };
 
-        public NodeProvider(IPosDocumentationDbProxy proxy)
+        public NodeProvider(IApiDocDbProxy proxy)
         {
             _proxy = proxy;
         }

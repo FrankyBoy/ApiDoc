@@ -34,11 +34,11 @@ namespace ApiDoc
             var builder = new ContainerBuilder();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
 
-            builder.Register(p => new PosDocumentationDbProxy())
-                   .As<IPosDocumentationDbProxy>()
+            builder.Register(p => new ApiDocDbProxy())
+                   .As<IApiDocDbProxy>()
                    .SingleInstance();
 
-            builder.Register(c => new NodeProvider(c.Resolve<IPosDocumentationDbProxy>()))
+            builder.Register(c => new NodeProvider(c.Resolve<IApiDocDbProxy>()))
                    .As<INodeProvider>()
                    .SingleInstance();
             

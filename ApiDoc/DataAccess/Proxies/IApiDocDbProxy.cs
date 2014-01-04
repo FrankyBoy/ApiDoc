@@ -3,7 +3,7 @@ using ApiDoc.Models;
 
 namespace ApiDoc.DataAccess.Proxies
 {
-    public interface IPosDocumentationDbProxy
+    public interface IApiDocDbProxy
     {
         IDictionary<int, string> GetHttpMethods();
 

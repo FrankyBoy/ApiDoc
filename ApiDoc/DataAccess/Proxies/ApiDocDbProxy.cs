@@ -5,7 +5,7 @@ using ApiDoc.Models;
 
 namespace ApiDoc.DataAccess.Proxies
 {
-    public class PosDocumentationDbProxy : IPosDocumentationDbProxy
+    public class ApiDocDbProxy : IApiDocDbProxy
     {
         #region HttpVerbs
         private IDictionary<int, string> _cachedHttpMethods;
