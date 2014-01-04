@@ -22,8 +22,8 @@ namespace ApiDoc.DataAccess
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="PosDocumentation")]
-	public partial class PosDocumentationDbDataContext : System.Data.Linq.DataContext
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="ApiDoc")]
+	public partial class ApiDocDbDataContext : System.Data.Linq.DataContext
 	{
 		
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
@@ -32,41 +32,41 @@ namespace ApiDoc.DataAccess
     partial void OnCreated();
     #endregion
 		
-		public PosDocumentationDbDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["PosDocumentationConnectionString"].ConnectionString, mappingSource)
+		public ApiDocDbDataContext() : 
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["ApiDocConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public PosDocumentationDbDataContext(string connection) : 
+		public ApiDocDbDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public PosDocumentationDbDataContext(System.Data.IDbConnection connection) : 
+		public ApiDocDbDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public PosDocumentationDbDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public ApiDocDbDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public PosDocumentationDbDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public ApiDocDbDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_Delete")]
-		public int Nodes_Delete([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> nodeId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string author, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string reason)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetHttpVerbs")]
+		public ISingleResult<GetHttpVerbsResult> GetHttpVerbs()
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), nodeId, author, reason);
-			return ((int)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetHttpVerbsResult>)(result.ReturnValue));
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_Update")]
@@ -76,19 +76,68 @@ namespace ApiDoc.DataAccess
 			return ((int)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_LookupId")]
-		public int Nodes_LookupId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> result)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Leafes_Delete")]
+		public int Leafes_Delete([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string author, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string reason)
 		{
-			IExecuteResult result1 = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, name, result);
-			result = ((System.Nullable<int>)(result1.GetParameterValue(2)));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, author, reason);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Leafes_GetAll")]
+		public ISingleResult<Leafes_GetAllResult> Leafes_GetAll([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> showDeleted)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, showDeleted);
+			return ((ISingleResult<Leafes_GetAllResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Leafes_GetById")]
+		public ISingleResult<Leafes_GetByIdResult> Leafes_GetById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> revision)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id, revision);
+			return ((ISingleResult<Leafes_GetByIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Leafes_GetByName")]
+		public ISingleResult<Leafes_GetByNameResult> Leafes_GetByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> httpVerb, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> revision)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, name, httpVerb, revision);
+			return ((ISingleResult<Leafes_GetByNameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Leafes_GetRevisions")]
+		public ISingleResult<Leafes_GetRevisionsResult> Leafes_GetRevisions([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> httpVerb)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, name, httpVerb);
+			return ((ISingleResult<Leafes_GetRevisionsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Leafes_Insert")]
+		public int Leafes_Insert([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> httpVerb, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> requiresAuthentication, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> requiresAuthorization, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string requestSample, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string responseSample, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string author, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string changeNote)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, name, httpVerb, description, requiresAuthentication, requiresAuthorization, requestSample, responseSample, author, changeNote);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Leafes_LookupId")]
+		public int Leafes_LookupId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> httpVerb, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> result)
+		{
+			IExecuteResult result1 = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, name, httpVerb, result);
+			result = ((System.Nullable<int>)(result1.GetParameterValue(3)));
 			return ((int)(result1.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetHttpVerbs")]
-		public ISingleResult<GetHttpVerbsResult> GetHttpVerbs()
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Leafes_Update")]
+		public int Leafes_Update([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> httpVerb, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> requiresAuthentication, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> requiresAuthorization, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string requestSample, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string responseSample, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string author, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string changeNote)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
-			return ((ISingleResult<GetHttpVerbsResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, id, name, httpVerb, description, requiresAuthentication, requiresAuthorization, requestSample, responseSample, author, changeNote);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_Delete")]
+		public int Nodes_Delete([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> nodeId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string author, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(MAX)")] string reason)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), nodeId, author, reason);
+			return ((int)(result.ReturnValue));
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_GetAll")]
@@ -124,6 +173,14 @@ namespace ApiDoc.DataAccess
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, name, description, author, changeNote);
 			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.Nodes_LookupId")]
+		public int Nodes_LookupId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> parentId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> result)
+		{
+			IExecuteResult result1 = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), parentId, name, result);
+			result = ((System.Nullable<int>)(result1.GetParameterValue(2)));
+			return ((int)(result1.ReturnValue));
 		}
 	}
 	
@@ -166,6 +223,884 @@ namespace ApiDoc.DataAccess
 				if ((this._fHttpVerb != value))
 				{
 					this._fHttpVerb = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Leafes_GetAllResult
+	{
+		
+		private int _fID;
+		
+		private string _fName;
+		
+		private int _frHttpVerb;
+		
+		private string _fDescription;
+		
+		private bool _fDeleted;
+		
+		public Leafes_GetAllResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string fName
+		{
+			get
+			{
+				return this._fName;
+			}
+			set
+			{
+				if ((this._fName != value))
+				{
+					this._fName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frHttpVerb", DbType="Int NOT NULL")]
+		public int frHttpVerb
+		{
+			get
+			{
+				return this._frHttpVerb;
+			}
+			set
+			{
+				if ((this._frHttpVerb != value))
+				{
+					this._frHttpVerb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string fDescription
+		{
+			get
+			{
+				return this._fDescription;
+			}
+			set
+			{
+				if ((this._fDescription != value))
+				{
+					this._fDescription = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
+		{
+			get
+			{
+				return this._fDeleted;
+			}
+			set
+			{
+				if ((this._fDeleted != value))
+				{
+					this._fDeleted = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Leafes_GetByIdResult
+	{
+		
+		private int _fID;
+		
+		private int _frParentId;
+		
+		private string _fName;
+		
+		private int _frHttpVerb;
+		
+		private string _fDescription;
+		
+		private bool _fRequiresAuthentication;
+		
+		private bool _fRequiresAuthorization;
+		
+		private string _fRequestSample;
+		
+		private string _fResponseSample;
+		
+		private System.DateTime _fChangeDate;
+		
+		private string _fAuthor;
+		
+		private string _fChangeNote;
+		
+		private bool _fDeleted;
+		
+		private System.Nullable<long> _fRevisionNumber;
+		
+		public Leafes_GetByIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frParentId", DbType="Int NOT NULL")]
+		public int frParentId
+		{
+			get
+			{
+				return this._frParentId;
+			}
+			set
+			{
+				if ((this._frParentId != value))
+				{
+					this._frParentId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string fName
+		{
+			get
+			{
+				return this._fName;
+			}
+			set
+			{
+				if ((this._fName != value))
+				{
+					this._fName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frHttpVerb", DbType="Int NOT NULL")]
+		public int frHttpVerb
+		{
+			get
+			{
+				return this._frHttpVerb;
+			}
+			set
+			{
+				if ((this._frHttpVerb != value))
+				{
+					this._frHttpVerb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string fDescription
+		{
+			get
+			{
+				return this._fDescription;
+			}
+			set
+			{
+				if ((this._fDescription != value))
+				{
+					this._fDescription = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthentication", DbType="Bit NOT NULL")]
+		public bool fRequiresAuthentication
+		{
+			get
+			{
+				return this._fRequiresAuthentication;
+			}
+			set
+			{
+				if ((this._fRequiresAuthentication != value))
+				{
+					this._fRequiresAuthentication = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthorization", DbType="Bit NOT NULL")]
+		public bool fRequiresAuthorization
+		{
+			get
+			{
+				return this._fRequiresAuthorization;
+			}
+			set
+			{
+				if ((this._fRequiresAuthorization != value))
+				{
+					this._fRequiresAuthorization = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequestSample", DbType="VarChar(MAX)")]
+		public string fRequestSample
+		{
+			get
+			{
+				return this._fRequestSample;
+			}
+			set
+			{
+				if ((this._fRequestSample != value))
+				{
+					this._fRequestSample = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fResponseSample", DbType="VarChar(MAX)")]
+		public string fResponseSample
+		{
+			get
+			{
+				return this._fResponseSample;
+			}
+			set
+			{
+				if ((this._fResponseSample != value))
+				{
+					this._fResponseSample = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeDate", DbType="DateTime NOT NULL")]
+		public System.DateTime fChangeDate
+		{
+			get
+			{
+				return this._fChangeDate;
+			}
+			set
+			{
+				if ((this._fChangeDate != value))
+				{
+					this._fChangeDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fAuthor", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fAuthor
+		{
+			get
+			{
+				return this._fAuthor;
+			}
+			set
+			{
+				if ((this._fAuthor != value))
+				{
+					this._fAuthor = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeNote", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string fChangeNote
+		{
+			get
+			{
+				return this._fChangeNote;
+			}
+			set
+			{
+				if ((this._fChangeNote != value))
+				{
+					this._fChangeNote = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
+		{
+			get
+			{
+				return this._fDeleted;
+			}
+			set
+			{
+				if ((this._fDeleted != value))
+				{
+					this._fDeleted = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRevisionNumber", DbType="BigInt")]
+		public System.Nullable<long> fRevisionNumber
+		{
+			get
+			{
+				return this._fRevisionNumber;
+			}
+			set
+			{
+				if ((this._fRevisionNumber != value))
+				{
+					this._fRevisionNumber = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Leafes_GetByNameResult
+	{
+		
+		private int _fID;
+		
+		private int _frParentId;
+		
+		private string _fName;
+		
+		private int _frHttpVerb;
+		
+		private string _fDescription;
+		
+		private bool _fRequiresAuthentication;
+		
+		private bool _fRequiresAuthorization;
+		
+		private string _fRequestSample;
+		
+		private string _fResponseSample;
+		
+		private System.DateTime _fChangeDate;
+		
+		private string _fAuthor;
+		
+		private string _fChangeNote;
+		
+		private bool _fDeleted;
+		
+		private System.Nullable<long> _fRevisionNumber;
+		
+		public Leafes_GetByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frParentId", DbType="Int NOT NULL")]
+		public int frParentId
+		{
+			get
+			{
+				return this._frParentId;
+			}
+			set
+			{
+				if ((this._frParentId != value))
+				{
+					this._frParentId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string fName
+		{
+			get
+			{
+				return this._fName;
+			}
+			set
+			{
+				if ((this._fName != value))
+				{
+					this._fName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frHttpVerb", DbType="Int NOT NULL")]
+		public int frHttpVerb
+		{
+			get
+			{
+				return this._frHttpVerb;
+			}
+			set
+			{
+				if ((this._frHttpVerb != value))
+				{
+					this._frHttpVerb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string fDescription
+		{
+			get
+			{
+				return this._fDescription;
+			}
+			set
+			{
+				if ((this._fDescription != value))
+				{
+					this._fDescription = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthentication", DbType="Bit NOT NULL")]
+		public bool fRequiresAuthentication
+		{
+			get
+			{
+				return this._fRequiresAuthentication;
+			}
+			set
+			{
+				if ((this._fRequiresAuthentication != value))
+				{
+					this._fRequiresAuthentication = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthorization", DbType="Bit NOT NULL")]
+		public bool fRequiresAuthorization
+		{
+			get
+			{
+				return this._fRequiresAuthorization;
+			}
+			set
+			{
+				if ((this._fRequiresAuthorization != value))
+				{
+					this._fRequiresAuthorization = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequestSample", DbType="VarChar(MAX)")]
+		public string fRequestSample
+		{
+			get
+			{
+				return this._fRequestSample;
+			}
+			set
+			{
+				if ((this._fRequestSample != value))
+				{
+					this._fRequestSample = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fResponseSample", DbType="VarChar(MAX)")]
+		public string fResponseSample
+		{
+			get
+			{
+				return this._fResponseSample;
+			}
+			set
+			{
+				if ((this._fResponseSample != value))
+				{
+					this._fResponseSample = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeDate", DbType="DateTime NOT NULL")]
+		public System.DateTime fChangeDate
+		{
+			get
+			{
+				return this._fChangeDate;
+			}
+			set
+			{
+				if ((this._fChangeDate != value))
+				{
+					this._fChangeDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fAuthor", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fAuthor
+		{
+			get
+			{
+				return this._fAuthor;
+			}
+			set
+			{
+				if ((this._fAuthor != value))
+				{
+					this._fAuthor = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeNote", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string fChangeNote
+		{
+			get
+			{
+				return this._fChangeNote;
+			}
+			set
+			{
+				if ((this._fChangeNote != value))
+				{
+					this._fChangeNote = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
+		{
+			get
+			{
+				return this._fDeleted;
+			}
+			set
+			{
+				if ((this._fDeleted != value))
+				{
+					this._fDeleted = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRevisionNumber", DbType="BigInt")]
+		public System.Nullable<long> fRevisionNumber
+		{
+			get
+			{
+				return this._fRevisionNumber;
+			}
+			set
+			{
+				if ((this._fRevisionNumber != value))
+				{
+					this._fRevisionNumber = value;
+				}
+			}
+		}
+	}
+	
+	public partial class Leafes_GetRevisionsResult
+	{
+		
+		private int _fID;
+		
+		private int _frParentId;
+		
+		private string _fName;
+		
+		private int _frHttpVerb;
+		
+		private string _fDescription;
+		
+		private bool _fRequiresAuthentication;
+		
+		private bool _fRequiresAuthorization;
+		
+		private string _fRequestSample;
+		
+		private string _fResponseSample;
+		
+		private System.DateTime _fChangeDate;
+		
+		private string _fAuthor;
+		
+		private string _fChangeNote;
+		
+		private bool _fDeleted;
+		
+		private System.Nullable<long> _fRevisionNumber;
+		
+		public Leafes_GetRevisionsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fID", DbType="Int NOT NULL")]
+		public int fID
+		{
+			get
+			{
+				return this._fID;
+			}
+			set
+			{
+				if ((this._fID != value))
+				{
+					this._fID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frParentId", DbType="Int NOT NULL")]
+		public int frParentId
+		{
+			get
+			{
+				return this._frParentId;
+			}
+			set
+			{
+				if ((this._frParentId != value))
+				{
+					this._frParentId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string fName
+		{
+			get
+			{
+				return this._fName;
+			}
+			set
+			{
+				if ((this._fName != value))
+				{
+					this._fName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_frHttpVerb", DbType="Int NOT NULL")]
+		public int frHttpVerb
+		{
+			get
+			{
+				return this._frHttpVerb;
+			}
+			set
+			{
+				if ((this._frHttpVerb != value))
+				{
+					this._frHttpVerb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDescription", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string fDescription
+		{
+			get
+			{
+				return this._fDescription;
+			}
+			set
+			{
+				if ((this._fDescription != value))
+				{
+					this._fDescription = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthentication", DbType="Bit NOT NULL")]
+		public bool fRequiresAuthentication
+		{
+			get
+			{
+				return this._fRequiresAuthentication;
+			}
+			set
+			{
+				if ((this._fRequiresAuthentication != value))
+				{
+					this._fRequiresAuthentication = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequiresAuthorization", DbType="Bit NOT NULL")]
+		public bool fRequiresAuthorization
+		{
+			get
+			{
+				return this._fRequiresAuthorization;
+			}
+			set
+			{
+				if ((this._fRequiresAuthorization != value))
+				{
+					this._fRequiresAuthorization = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRequestSample", DbType="VarChar(MAX)")]
+		public string fRequestSample
+		{
+			get
+			{
+				return this._fRequestSample;
+			}
+			set
+			{
+				if ((this._fRequestSample != value))
+				{
+					this._fRequestSample = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fResponseSample", DbType="VarChar(MAX)")]
+		public string fResponseSample
+		{
+			get
+			{
+				return this._fResponseSample;
+			}
+			set
+			{
+				if ((this._fResponseSample != value))
+				{
+					this._fResponseSample = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeDate", DbType="DateTime NOT NULL")]
+		public System.DateTime fChangeDate
+		{
+			get
+			{
+				return this._fChangeDate;
+			}
+			set
+			{
+				if ((this._fChangeDate != value))
+				{
+					this._fChangeDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fAuthor", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string fAuthor
+		{
+			get
+			{
+				return this._fAuthor;
+			}
+			set
+			{
+				if ((this._fAuthor != value))
+				{
+					this._fAuthor = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fChangeNote", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string fChangeNote
+		{
+			get
+			{
+				return this._fChangeNote;
+			}
+			set
+			{
+				if ((this._fChangeNote != value))
+				{
+					this._fChangeNote = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fDeleted", DbType="Bit NOT NULL")]
+		public bool fDeleted
+		{
+			get
+			{
+				return this._fDeleted;
+			}
+			set
+			{
+				if ((this._fDeleted != value))
+				{
+					this._fDeleted = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_fRevisionNumber", DbType="BigInt")]
+		public System.Nullable<long> fRevisionNumber
+		{
+			get
+			{
+				return this._fRevisionNumber;
+			}
+			set
+			{
+				if ((this._fRevisionNumber != value))
+				{
+					this._fRevisionNumber = value;
 				}
 			}
 		}

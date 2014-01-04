@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PosDocumentation" Class="PosDocumentationDbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=ihayden-PC;Initial Catalog=PosDocumentation;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PosDocumentationConnectionString" Provider="System.Data.SqlClient" />
-  <Function Name="dbo.Nodes_Delete" Method="Nodes_Delete">
-    <Parameter Name="nodeId" Type="System.Int32" DbType="Int" />
-    <Parameter Name="author" Type="System.String" DbType="NVarChar(50)" />
-    <Parameter Name="reason" Type="System.String" DbType="NVarChar(MAX)" />
-    <Return Type="System.Int32" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ApiDoc" Class="ApiDocDbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=ihayden-PC;Initial Catalog=ApiDoc;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ApiDocConnectionString" Provider="System.Data.SqlClient" />
+  <Function Name="dbo.GetHttpVerbs" Method="GetHttpVerbs">
+    <ElementType Name="GetHttpVerbsResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fHttpVerb" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
   </Function>
   <Function Name="dbo.Nodes_Update" Method="Nodes_Update">
     <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
@@ -15,17 +15,125 @@
     <Parameter Name="changeNote" Type="System.String" DbType="NVarChar(MAX)" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.Nodes_LookupId" Method="Nodes_LookupId">
+  <Function Name="dbo.Leafes_Delete" Method="Leafes_Delete">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="author" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="reason" Type="System.String" DbType="NVarChar(MAX)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Leafes_GetAll" Method="Leafes_GetAll">
+    <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="showDeleted" Type="System.Boolean" DbType="Bit" />
+    <ElementType Name="Leafes_GetAllResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Leafes_GetById" Method="Leafes_GetById">
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="revision" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Leafes_GetByIdResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="frParentId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthentication" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthorization" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequestSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fResponseSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fChangeNote" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Leafes_GetByName" Method="Leafes_GetByName">
     <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
     <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="httpVerb" Type="System.Int32" DbType="Int" />
+    <Parameter Name="revision" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Leafes_GetByNameResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="frParentId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthentication" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthorization" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequestSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fResponseSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fChangeNote" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Leafes_GetRevisions" Method="Leafes_GetRevisions">
+    <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="httpVerb" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Leafes_GetRevisionsResult">
+      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="frParentId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="frHttpVerb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fDescription" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthentication" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequiresAuthorization" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRequestSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fResponseSample" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="fChangeDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="fAuthor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="fChangeNote" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="fDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="fRevisionNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.Leafes_Insert" Method="Leafes_Insert">
+    <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="httpVerb" Type="System.Int32" DbType="Int" />
+    <Parameter Name="description" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="requiresAuthentication" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="requiresAuthorization" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="requestSample" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="responseSample" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="author" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="changeNote" Type="System.String" DbType="NVarChar(MAX)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Leafes_LookupId" Method="Leafes_LookupId">
+    <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="httpVerb" Type="System.Int32" DbType="Int" />
     <Parameter Name="result" Type="System.Int32" DbType="Int" Direction="InOut" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.GetHttpVerbs" Method="GetHttpVerbs">
-    <ElementType Name="GetHttpVerbsResult">
-      <Column Name="fID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="fHttpVerb" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-    </ElementType>
+  <Function Name="dbo.Leafes_Update" Method="Leafes_Update">
+    <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="httpVerb" Type="System.Int32" DbType="Int" />
+    <Parameter Name="description" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="requiresAuthentication" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="requiresAuthorization" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="requestSample" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="responseSample" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="author" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="changeNote" Type="System.String" DbType="NVarChar(MAX)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Nodes_Delete" Method="Nodes_Delete">
+    <Parameter Name="nodeId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="author" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="reason" Type="System.String" DbType="NVarChar(MAX)" />
+    <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.Nodes_GetAll" Method="Nodes_GetAll">
     <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
@@ -89,6 +197,12 @@
     <Parameter Name="description" Type="System.String" DbType="NVarChar(MAX)" />
     <Parameter Name="author" Type="System.String" DbType="NVarChar(50)" />
     <Parameter Name="changeNote" Type="System.String" DbType="NVarChar(MAX)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.Nodes_LookupId" Method="Nodes_LookupId">
+    <Parameter Name="parentId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="name" Type="System.String" DbType="NVarChar(50)" />
+    <Parameter Name="result" Type="System.Int32" DbType="Int" Direction="InOut" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

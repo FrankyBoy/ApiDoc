@@ -15,7 +15,7 @@ namespace ApiDoc.DataAccess.Proxies
         {
             if (_cachedHttpMethods == null || DateTime.UtcNow > _cachedHttpMethodsExpiry)
             {
-                using (var context = new PosDocumentationDbDataContext())
+                using (var context = new ApiDocDbDataContext())
                 {
                     _cachedHttpMethods = context.GetHttpVerbs().ToDictionary(x => x.fID, x => x.fHttpVerb);
                 }
@@ -29,7 +29,7 @@ namespace ApiDoc.DataAccess.Proxies
         #region Nodes
         public IList<Branch> GetBranches(int? parentId = 0, bool showDeleted = false)
         {
-            using (var context = new PosDocumentationDbDataContext())
+            using (var context = new ApiDocDbDataContext())
             {
                 return context.Nodes_GetAll(parentId, showDeleted)
                     .Select(DbTypeConverter.MapNode).ToList();
@@ -38,7 +38,7 @@ namespace ApiDoc.DataAccess.Proxies
 
         public Branch GetBranchById(int id, int? revision = null)
         {
-            using (var context = new PosDocumentationDbDataContext())
+            using (var context = new ApiDocDbDataContext())
             {
                 return DbTypeConverter.MapNode(context.Nodes_GetById(id, revision).First());
             }
@@ -46,7 +46,7 @@ namespace ApiDoc.DataAccess.Proxies
 
         public Branch GetBranchByName(string name, int? parentId = 0, int? revision = null)
         {
-            using (var context = new PosDocumentationDbDataContext())
+            using (var context = new ApiDocDbDataContext())
             {
                 return DbTypeConverter.MapNode(context.Nodes_GetByName(parentId, name, revision).First());
             }
@@ -54,7 +54,7 @@ namespace ApiDoc.DataAccess.Proxies
 
         public int GetBranchId(string name, int? parentId = 0)
         {
-            using (var context = new PosDocumentationDbDataContext())
+            using (var context = new ApiDocDbDataContext())
             {
                 int? result = 0;
                 context.Nodes_LookupId(parentId, name, ref result);
@@ -64,7 +64,7 @@ namespace ApiDoc.DataAccess.Proxies
 
         public int InsertBranch(Branch newBranch)
         {
-            using (var context = new PosDocumentationDbDataContext())
+            using (var context = new ApiDocDbDataContext())
             {
                 return context.Nodes_Insert(newBranch.ParentId, newBranch.Name, newBranch.Description, newBranch.Author, newBranch.ChangeNote);
             }
@@ -72,7 +72,7 @@ namespace ApiDoc.DataAccess.Proxies
 
         public int UpdateBranch(Branch newBranch)
         {
-            using (var context = new PosDocumentationDbDataContext())
+            using (var context = new ApiDocDbDataContext())
             {
                 return context.Nodes_Update(
                     newBranch.ParentId, newBranch.Id, newBranch.Name,
@@ -82,7 +82,7 @@ namespace ApiDoc.DataAccess.Proxies
 
         public void DeleteBranch(int id, string author, string reason)
         {
-            using (var context = new PosDocumentationDbDataContext())
+            using (var context = new ApiDocDbDataContext())
             {
                 context.Nodes_Delete(id, author, reason);
             }
@@ -90,7 +90,7 @@ namespace ApiDoc.DataAccess.Proxies
 
         public IList<Branch> GetBranchRevisions(string name, int? parentId = 0)
         {
-            using (var context = new PosDocumentationDbDataContext())
+            using (var context = new ApiDocDbDataContext())
             {
                 return context.Nodes_GetRevisions(parentId, name)
                     .Select(DbTypeConverter.MapNode).ToList();

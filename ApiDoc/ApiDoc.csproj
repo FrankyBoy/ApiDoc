@@ -280,7 +280,6 @@
     <Content Include="Views\Wiki\Chunks\DisplayBranch.cshtml" />
     <Content Include="Views\Wiki\Chunks\EditBranch.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
