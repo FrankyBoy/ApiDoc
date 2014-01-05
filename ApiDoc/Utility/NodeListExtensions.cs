@@ -43,6 +43,12 @@ namespace ApiDoc.Utility
 
         private static string GetPrettyHtmlDiff(string text1, string text2)
         {
+            if (text1 == null)
+                text1 = "";
+
+            if (text2 == null)
+                text2 = "";
+
             var diffs = Dmp.diff_main(text1, text2);
             Dmp.diff_cleanupSemantic(diffs);
             return Dmp.diff_prettyHtml(diffs);
