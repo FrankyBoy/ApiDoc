@@ -29,8 +29,7 @@ namespace ApiDoc.Controllers
         public ActionResult Create(string path)
         {
             Node parent = PrimeViewBag(path).Last();
-            ViewBag.HttpVerbs = new SelectList(_nodeProvider.GetHttpVerbs()
-                .Select(x => x.Value));
+            ViewBag.HttpVerbs = new SelectList(_nodeProvider.GetHttpVerbs().Select(x => x.Value));
             return View(parent);
         }
 
@@ -38,27 +37,34 @@ namespace ApiDoc.Controllers
         [ExportModelState]
         public ActionResult CreateBranch(string path, Branch model)
         {
+            return Create(path, model);
+        }
+
+        [HttpPost]
+        [ExportModelState]
+        public ActionResult CreateLeaf(string path, Leaf model)
+        {
+            return Create(path, model);
+        }
+
+        private ActionResult Create(string path, Node model)
+        {
             var structure = PrimeViewBag(path);
 
             model.Author = "dummy"; // TODO: JIRA#2: replace with currently logged in user
             model.ParentId = structure.Last().Id;
-            var newId = _nodeProvider.InsertNode(model); 
+            var newId = _nodeProvider.InsertNode(model);
 
             if (newId > 0)
             {
                 structure.Nodes.Add(model);
                 return RedirectToAction("Display", new { path = structure.Path });
             }
-            
+
             ModelState.AddModelError("Name", "Name already exists");
             return RedirectToAction("Create", new { path = structure.Path });
         }
 
-        [HttpPost]
-        public ActionResult CreateLeaf(string path, Leaf model)
-        {
-            throw new NotImplementedException();
-        }
         #endregion
 
         #region Edit
@@ -66,6 +72,7 @@ namespace ApiDoc.Controllers
         public ActionResult Edit(string path, int? revision)
         {
             PrimeViewBag(path, revision: revision);
+            ViewBag.HttpVerbs = new SelectList(_nodeProvider.GetHttpVerbs().Select(x => x.Value));
             ViewBag.AllNodes = _nodeProvider.GetAllBranches();
             return View("Edit");
         }
@@ -73,6 +80,18 @@ namespace ApiDoc.Controllers
         [HttpPost]
         [ExportModelState]
         public ActionResult EditBranch(string path, Branch model)
+        {
+            return Edit(path, model);
+        }
+        
+        [HttpPost]
+        [ExportModelState]
+        public ActionResult EditLeaf(string path, Leaf model)
+        {
+            return Edit(path, model);
+        }
+
+        private ActionResult Edit(string path, Node model)
         {
             var structure = PrimeViewBag(path);
 
@@ -89,19 +108,17 @@ namespace ApiDoc.Controllers
                     ModelState.AddModelError("Error", ex);
                 }
             }
-            
-            if(ModelState.IsValid)
+
+            if (ModelState.IsValid)
+            {
+                structure.Nodes.RemoveAt(structure.Nodes.Count - 1);
+                structure.Nodes.Add(model);
                 return RedirectToAction("Display", new { path = structure.Path });
+            }
 
             return RedirectToAction("Edit");
         }
 
-        [HttpPost]
-        [ExportModelState]
-        public ActionResult EditLeaf(int id, Leaf model)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
 

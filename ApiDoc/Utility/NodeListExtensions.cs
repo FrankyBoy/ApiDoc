@@ -11,20 +11,32 @@ namespace ApiDoc.Utility
 
         public static Node Compare(this IList<Node> items, int rev1, int rev2)
         {
-            var r1 = items.First(x => x.RevisionNumber == rev1);
-            var r2 = items.First(x => x.RevisionNumber == rev2);
+            var node1 = items.First(x => x.RevisionNumber == rev1);
+            var node2 = items.First(x => x.RevisionNumber == rev2);
 
-            if (r1.GetType() != r2.GetType())
+            if (node1.GetType() != node2.GetType())
                 throw new Exception("Cannot compare two items of different type");
 
-            if (r1 is Branch)
+            if (node1 is Branch)
                 return new Branch
                     {
-                        Name = GetPrettyHtmlDiff(r1.Name, r2.Name),
-                        Description = GetPrettyHtmlDiff(r1.Description, r2.Description),
+                        Name = GetPrettyHtmlDiff(node1.Name, node2.Name),
+                        Description = GetPrettyHtmlDiff(node1.Description, node2.Description),
                     };
-            if(r1 is Leaf)
-                throw new NotImplementedException();
+
+            var leaf1 = node1 as Leaf;
+            
+            if (leaf1 != null){
+                var leaf2 = (Leaf)node2;
+                return new Leaf
+                    {
+                        Name = GetPrettyHtmlDiff(leaf1.Name, node2.Name),
+                        Description = GetPrettyHtmlDiff(leaf1.Description, node2.Description),
+                        HttpVerb = GetPrettyHtmlDiff(leaf1.HttpVerb, leaf2.HttpVerb),
+                        SampleRequest = GetPrettyHtmlDiff(leaf1.SampleRequest, leaf2.SampleRequest),
+                        SampleResponse = GetPrettyHtmlDiff(leaf1.SampleResponse, leaf2.SampleResponse)
+                    };
+            }
 
             throw new Exception("Not any known type");
         }

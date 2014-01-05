@@ -67,10 +67,11 @@
             <th>Message</th>
             <th>Name</th>
             <th>Deleted</th>
+            <th>View</th>
             @*TODO add some version of "revert to" *@
         </tr>
 
-        @foreach (Branch item in ViewBag.History)
+        @foreach (Node item in ViewBag.History)
         {
             <tr>
                 <td>@Html.RadioButtonFor(m => m.Rev2, item.RevisionNumber)</td>
@@ -81,6 +82,7 @@
                 <td>@item.ChangeNote</td>
                 <td>@item.Name</td>
                 <td>@item.Deleted</td>
+                <td>@Html.ActionLink("View this revision", "Display", new{path = ViewBag.Structure.Path, revision = item.RevisionNumber})</td>
             </tr>
         }
     </table>

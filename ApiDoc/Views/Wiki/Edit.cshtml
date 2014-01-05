@@ -3,10 +3,10 @@
 @{
     Node mdl = ViewBag.Structure.Last();
     mdl.ChangeNote = "";
-    ViewBag.Title = "Edit Item";
+    ViewBag.Title = "Edit " + mdl.Title;
 }
 
-<h3>@ViewBag.Title</h3>
+<h2>@ViewBag.Title</h2>
 
 @if (mdl is Branch)
 {

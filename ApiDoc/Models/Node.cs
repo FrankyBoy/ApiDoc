@@ -25,6 +25,8 @@ namespace ApiDoc.Models
         public string ChangeNote { get; set; }
         public int RevisionNumber { get; set; }
 
+        public virtual string Title { get { return Name; } }
+
         public abstract string GetWikiUrlString();
     }
 }

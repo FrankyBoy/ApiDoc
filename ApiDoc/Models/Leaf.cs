@@ -9,7 +9,12 @@ namespace ApiDoc.Models
         public bool RequiresAuthorization { get; set; }
         public string SampleRequest { get; set; }
         public string SampleResponse { get; set; }
-        
+
+        public override string Title
+        {
+            get { return string.Format("{0} ({1})", Name, HttpVerb.ToUpper()); }
+        }
+
         public override string GetWikiUrlString()
         {
             return string.Format("{0}_({1})", Name.ToWikiUrlString(), HttpVerb.ToUpper());

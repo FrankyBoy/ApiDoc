@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using ApiDoc.Models
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -13,7 +14,7 @@
     <body>
         <div id="body">
         @Html.ValidationSummary()
-
+        @{ Html.RenderPartial("Breadcrumb", (IList<Node>) ViewBag.Structure.Nodes);}
         @RenderBody()
         </div>
         

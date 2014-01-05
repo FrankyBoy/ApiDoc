@@ -10,7 +10,7 @@
     {
         var item = Model[i];
         path = path + item.GetWikiUrlString();
-        <a href="@path">@item.Name</a>
+        <a href="@path">@item.Title</a>
         if (i + 1 < Model.Count || item is Branch)
         {
             Write(" / ");

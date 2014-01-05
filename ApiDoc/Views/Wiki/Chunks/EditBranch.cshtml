@@ -3,8 +3,8 @@
 @using (Html.BeginForm("EditBranch", "Wiki", new { path = ViewBag.Structure.Path }))
 {
     @Html.HiddenFor(m => m.Id)
-    @Html.HiddenFor(m => m.ParentId)
     // TODO: replace with some sort of dropdown for other nodes if we want to have a move-functionality
+    @Html.HiddenFor(m => m.ParentId)
     @Html.EditorFor(m => m)
     <input type="submit" value="Update" />
 }

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using ApiDoc.DataAccess.Proxies;
 using ApiDoc.Models;
 using ApiDoc.Models.Exceptions;
+using Newtonsoft.Json;
 
 namespace ApiDoc.Provider
 {
@@ -25,10 +26,10 @@ namespace ApiDoc.Provider
 
         public int InsertNode(Node newNode)
         {
-            if(newNode is Branch)
+            if (newNode is Branch)
                 return _proxy.InsertBranch(newNode as Branch);
 
-            return _proxy.InsertLeaf(newNode as Leaf);
+            return _proxy.InsertLeaf(PrettyPrint(newNode as Leaf));
         }
 
         public void UpdateNode(Node newNode)
@@ -36,9 +37,9 @@ namespace ApiDoc.Provider
             if (newNode is Branch)
                 _proxy.UpdateBranch(newNode as Branch);
             else {
-                _proxy.UpdateLeaf(newNode as Leaf);
+                _proxy.UpdateLeaf(PrettyPrint(newNode as Leaf));
             }
-        }   
+        }
         
         public void Delete(Node oldNode)
         {
@@ -127,8 +128,29 @@ namespace ApiDoc.Provider
             {
                 var children = _proxy.GetBranches(element.Id, showDeleted).Cast<Node>().ToList();
                 children.AddRange(_proxy.GetLeafes(node.Id, showDeleted).Cast<Node>().ToList());
+                
+                foreach (var child in children)
+                    child.Description = child.Description.Split('\n')[0];
+
                 node.Children = children;
             }
+        }
+
+        private static Leaf PrettyPrint(Leaf leaf)
+        {
+            if (!string.IsNullOrEmpty(leaf.SampleRequest))
+                leaf.SampleRequest = PrettyPrintJson(leaf.SampleRequest);
+
+            if (!string.IsNullOrEmpty(leaf.SampleResponse))
+                leaf.SampleResponse = PrettyPrintJson(leaf.SampleResponse);
+
+            return leaf;
+        }
+
+        private static string PrettyPrintJson(string input)
+        {
+            var dynamicObject = JsonConvert.DeserializeObject(input);
+            return JsonConvert.SerializeObject(dynamicObject, Formatting.Indented);
         }
     }
 }
