@@ -1,0 +1,19 @@
+﻿<script type="text/javascript">
+
+    (function(){ 
+
+        tinyMCE.init({
+
+            // General options
+            mode: "exact",
+            elements: "@ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty)",
+            verify_html : false,
+        });
+
+    })();
+
+</script>
+
+@Html.TextArea(string.Empty, /* Name suffix */
+    ViewData.TemplateInfo.FormattedModelValue /* Initial value */
+)

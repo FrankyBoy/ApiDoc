@@ -1,0 +1,7 @@
+﻿@model ApiDoc.Models.Leaf
+
+@using (Html.BeginForm("EditLeaf", "Wiki", new { path = ViewBag.Structure.Path }))
+{
+    @Html.EditorFor(m => m)
+    <input type="submit" value="Update" />
+}

@@ -1,0 +1,13 @@
+﻿@model ApiDoc.Models.Leaf
+
+<table>
+    <tr><td>@Html.LabelFor(m => m.Name)</td><td>@Html.TextBoxFor(m => m.Name)</td></tr>
+    <tr><td>@Html.LabelFor(m => m.HttpVerb)</td><td>@Html.DropDownListFor(m => m.HttpVerb, (SelectList)ViewBag.HttpVerbs)</td></tr>
+    <tr><td>@Html.LabelFor(m => m.RequiresAuthentication)</td><td>@Html.CheckBoxFor(m => m.RequiresAuthentication)</td></tr>
+    <tr><td>@Html.LabelFor(m => m.RequiresAuthorization)</td><td>@Html.CheckBoxFor(m => m.RequiresAuthorization)</td></tr>
+    <tr><td>@Html.LabelFor(m => m.SampleRequest)</td><td>@Html.TextAreaFor(m => m.SampleRequest)</td></tr>
+    <tr><td>@Html.LabelFor(m => m.SampleResponse)</td><td>@Html.TextAreaFor(m => m.SampleResponse)</td></tr>
+    <tr><td>@Html.LabelFor(m => m.Description)</td><td>@Html.EditorFor(m => m.Description)</td></tr>
+    <tr><td></td><td></td></tr>
+    <tr><td>@Html.LabelFor(m => m.ChangeNote)</td><td>@Html.EditorFor(m => m.ChangeNote)</td></tr>
+</table>

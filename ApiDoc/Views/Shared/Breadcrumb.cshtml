@@ -1,0 +1,20 @@
+﻿@using ApiDoc.Models
+@model IList<Node>
+
+<nav>
+@{
+    var path = "/";
+    <a href="@path">[home]</a>
+    Write(" / "); 
+    for (int i = 1; i < Model.Count; i++)
+    {
+        var item = Model[i];
+        path = path + item.GetWikiUrlString();
+        <a href="@path">@item.Name</a>
+        if (i + 1 < Model.Count || item is Branch)
+        {
+            Write(" / ");
+        }
+    }
+}
+</nav>
