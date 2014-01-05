@@ -11,11 +11,11 @@ namespace ApiDoc.App_Start
 
             #region Apis
             routes.MapRoute("CreateBranch", "CreateBranch/{*path}", new { controller = "Wiki", action = "CreateBranch" });
-            routes.MapRoute("CreateMethod", "CreateMethod/{*path}", new { controller = "Wiki", action = "CreateMethod" });
+            routes.MapRoute("CreateLeaf",   "CreateLeaf/{*path}",   new { controller = "Wiki", action = "CreateLeaf" });
             routes.MapRoute("Create",       "Create/{*path}",       new { controller = "Wiki", action = "Create" });
 
             routes.MapRoute("EditBranch",   "EditBranch/{*path}",   new { controller = "Wiki", action = "EditBranch" });
-            routes.MapRoute("EditMethod",   "EditMethod/{*path}",   new { controller = "Wiki", action = "EditMethod" });
+            routes.MapRoute("EditLeaf",     "EditLeaf/{*path}",     new { controller = "Wiki", action = "EditLeaf" });
             routes.MapRoute("Edit",         "Edit/{*path}",         new { controller = "Wiki", action = "Edit" });
             
             routes.MapRoute("History",  "History/{*path}",  new { controller = "Wiki", action = "History" });

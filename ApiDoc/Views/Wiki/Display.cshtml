@@ -3,10 +3,10 @@
 @{
     Node mdl = ViewBag.Structure.Last();
     ViewBag.Title = "title";
+
+    Html.RenderPartial("Breadcrumb", (IList<Node>)ViewBag.Structure.Nodes);
     Html.RenderPartial("ItemActions", mdl);
 }
-
-<h2>@mdl.Name</h2>
 
 @if (mdl is Branch)
 {

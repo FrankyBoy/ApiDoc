@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using ApiDoc.DataAccess.Proxies;
 using ApiDoc.Models;
+using ApiDoc.Models.Exceptions;
 
 namespace ApiDoc.Provider
 {
@@ -92,12 +93,17 @@ namespace ApiDoc.Provider
                 }
                 catch (Exception)
                 {
-                    result.HasPathError = true;
+                    result.SetPathError(new InvalidPathError("Path does not exist"));
                 }
             }
 
             GetChildren(nodes.Last(), showDeleted);
             return result;
+        }
+
+        public HttpVerbs GetHttpVerbs()
+        {
+            return _proxy.GetHttpVerbs();
         }
 
         private Leaf GetLeafByWikiName(string name, int parentId, int? revision)

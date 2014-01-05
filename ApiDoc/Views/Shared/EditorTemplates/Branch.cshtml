@@ -1,9 +1,8 @@
 ﻿﻿@model ApiDoc.Models.Branch
 
-@Html.HiddenFor(m => m.Id)
 <table>
     <tr><td>@Html.LabelFor(m => m.Name)</td><td>@Html.TextBoxFor(m => m.Name)</td></tr>
-    <tr><td>@Html.LabelFor(m => m.Description)</td><td>@Html.TextAreaFor(m => m.Description)</td></tr>
+    <tr><td>@Html.LabelFor(m => m.Description)</td><td>@Html.EditorFor(m => m.Description)</td></tr>
     <tr><td></td><td></td></tr>
-    <tr><td>@Html.LabelFor(m => m.ChangeNote)</td><td>@Html.TextBoxFor(m => m.ChangeNote)</td></tr>
+    <tr><td>@Html.LabelFor(m => m.ChangeNote)</td><td>@Html.EditorFor(m => m.ChangeNote)</td></tr>
 </table>

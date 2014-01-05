@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using ApiDoc.Models;
+using ApiDoc.Models.Exceptions;
 using ApiDoc.Provider;
 using ApiDoc.Utility;
 
@@ -27,6 +29,8 @@ namespace ApiDoc.Controllers
         public ActionResult Create(string path)
         {
             Node parent = PrimeViewBag(path).Last();
+            ViewBag.HttpVerbs = new SelectList(_nodeProvider.GetHttpVerbs()
+                .Select(x => x.Value));
             return View(parent);
         }
 
@@ -36,19 +40,22 @@ namespace ApiDoc.Controllers
         {
             var structure = PrimeViewBag(path);
 
-            model.Author = "dummy"; // TODO: replace with currently logged in user
+            model.Author = "dummy"; // TODO: JIRA#2: replace with currently logged in user
             model.ParentId = structure.Last().Id;
             var newId = _nodeProvider.InsertNode(model); 
 
             if (newId > 0)
-                return RedirectToAction("Display", new {path = structure.GetWikiPath()});
-
+            {
+                structure.Nodes.Add(model);
+                return RedirectToAction("Display", new { path = structure.Path });
+            }
+            
             ModelState.AddModelError("Name", "Name already exists");
-            return RedirectToAction("Create", new { path = structure.GetWikiPath() });
+            return RedirectToAction("Create", new { path = structure.Path });
         }
 
         [HttpPost]
-        public ActionResult CreateMethod(string path, Leaf model)
+        public ActionResult CreateLeaf(string path, Leaf model)
         {
             throw new NotImplementedException();
         }
@@ -69,7 +76,7 @@ namespace ApiDoc.Controllers
         {
             var structure = PrimeViewBag(path);
 
-            model.Author = "dummy"; // TODO: replace with currently logged in user
+            model.Author = "dummy"; // TODO: JIRA#2: replace with currently logged in user
             model.Id = structure.Last().Id;
 
             if(ModelState.IsValid){
@@ -84,14 +91,14 @@ namespace ApiDoc.Controllers
             }
             
             if(ModelState.IsValid)
-                return RedirectToAction("Display", new { path = structure.GetWikiPath() });
+                return RedirectToAction("Display", new { path = structure.Path });
 
             return RedirectToAction("Edit");
         }
 
         [HttpPost]
         [ExportModelState]
-        public ActionResult EditMethod(int id, Leaf model)
+        public ActionResult EditLeaf(int id, Leaf model)
         {
             throw new NotImplementedException();
         }
@@ -150,12 +157,12 @@ namespace ApiDoc.Controllers
             }
             else
             {
-                item.Author = "dummy"; // todo: replace with logged in user
+                item.Author = "dummy"; // TODO: JIRA#2: replace with currently logged in user
                 item.ChangeNote = message;
                 _nodeProvider.Delete(item);
             }
 
-            return RedirectToAction("Display", new { path = tree.GetWikiPath() });
+            return RedirectToAction("Display", new { path = tree.Path });
         }
         
         #endregion
@@ -164,14 +171,18 @@ namespace ApiDoc.Controllers
         private NodeStructure PrimeViewBag(string path, bool showDeleted = false, int? revision = null)
         {
             var structure = _nodeProvider.GetStructure(path, showDeleted, revision);
-            if (structure.AnyNodeDeleted)
-                ModelState.AddModelError("Warning", "Warning: An element in the path has been marked as deleted");
-
-            // TODO: figure out how we could redirect in this case
-            if (structure.HasPathError)
-                ModelState.AddModelError("Error", "Error: The path you tried to access is ambiguous or does not exist. We dropped you off at the deepest working node.");
-            else if (structure.AnyNodeRenamed)
-                ModelState.AddModelError("Warning", "Warning: An element in the path has been renamed");
+            try
+            {
+                structure.CheckPath();
+            }
+            catch (InvalidPathWarning warn)
+            {
+                ModelState.AddModelError("Warning", warn.Message);
+            }
+            catch (InvalidPathError)
+            {
+                ModelState.AddModelError("Error", "Error: The path you tried to access is ambiguous or does not exist. Currently showing deepest working node.");
+            }
                 
             ViewBag.Structure = structure;
             ViewBag.ShowDeleted = showDeleted;

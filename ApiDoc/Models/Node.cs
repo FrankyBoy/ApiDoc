@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace ApiDoc.Models
 {
@@ -8,6 +9,8 @@ namespace ApiDoc.Models
         // basic stuff
         [Required]
         public virtual string Name { get; set; }
+
+        [UIHint("tinymce_full"), AllowHtml]
         public string Description { get; set; }
 
         // structural info

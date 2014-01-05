@@ -3,15 +3,19 @@
 
 @{
     ViewBag.Title = "Create";
+    var reference = new {path = ViewBag.Structure.Path};
 }
 
 <h2>@ViewBag.Title</h2>
 
 <h3>Create Branch</h3>
-@using (Html.BeginForm("CreateBranch", "Wiki", new {parentId = Model.Id})){
+@using (Html.BeginForm("CreateBranch", "Wiki", reference)){
     @Html.Partial("Chunks/CreateBranch", new Branch())
     <input type="submit" value="Create" />
 }
 
 <h3>Create Leaf</h3>
-@* TODO make create method *@
+@using (Html.BeginForm("CreateLeaf", "Wiki", reference)) {
+    @Html.Partial("Chunks/CreateLeaf", new Leaf())
+    <input type="submit" value="Create" />
+}

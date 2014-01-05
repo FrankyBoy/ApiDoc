@@ -12,5 +12,6 @@ namespace ApiDoc.Provider
         void Delete(Node oldNode);
         IList<Node> GetRevisions(Node node);
         NodeStructure GetStructure(string path, bool showDeleted = false, int? revision = null);
+        HttpVerbs GetHttpVerbs();
     }
 }
