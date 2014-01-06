@@ -17,7 +17,7 @@ namespace ApiDoc.Models
 
         public override string GetWikiUrlString()
         {
-            return string.Format("{0}_({1})", Name.ToWikiUrlString(), HttpVerb.ToUpper());
+            Title.ToWikiUrlString();
         }
     }
 }
