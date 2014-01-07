@@ -34,7 +34,9 @@ namespace ApiDoc.Models
 
             // case 3: some node was renamed
             if (!((OriginalPath == null && Nodes.Count == 1) || // only root
-                  (OriginalPath != null && Path.ToLower() == OriginalPath.ToLower()))) // deeper nodes
+                (OriginalPath != null // deeper nodes
+                    && Path.ToLower().StartsWith(OriginalPath.ToLower())))) // just ommitting http verb
+                  
             {
                 _pathError = new InvalidPathWarning("A node in the path was renamed.");
                 throw _pathError;
