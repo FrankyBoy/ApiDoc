@@ -26,7 +26,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace ApiDoc.Utility
+namespace ApiDoc.Utility.External
 {
     internal static class CompatibilityExtensions
     {
@@ -132,7 +132,9 @@ namespace ApiDoc.Utility
 
         public override int GetHashCode()
         {
+// ReSharper disable NonReadonlyFieldInGetHashCode
             return Text.GetHashCode() ^ Operation.GetHashCode();
+// ReSharper restore NonReadonlyFieldInGetHashCode
         }
     }
 
@@ -200,8 +202,8 @@ namespace ApiDoc.Utility
                         break;
                 }
 
-                text.Append(HttpUtility.UrlEncode(aDiff.Text,
-                    new UTF8Encoding()).Replace('+', ' ')).Append("\n");
+                var encoded = HttpUtility.UrlEncode(aDiff.Text, new UTF8Encoding()) ?? "";
+                text.Append(encoded.Replace('+', ' ')).Append("\n");
             }
 
             return DiffMatchPatch.UnescapeForEncodeUriCompatability(
@@ -701,7 +703,7 @@ namespace ApiDoc.Utility
          * @param lineHash Map of strings to indices.
          * @return Encoded string.
          */
-        private string diff_linesToCharsMunge(string text, List<string> lineArray,
+        private static string diff_linesToCharsMunge(string text, List<string> lineArray,
                                               Dictionary<string, int> lineHash)
         {
             int lineStart = 0;

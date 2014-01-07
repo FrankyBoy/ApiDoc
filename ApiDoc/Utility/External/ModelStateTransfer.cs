@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace ApiDoc.Utility
+namespace ApiDoc.Utility.External
 {
     public abstract class ModelStateTempDataTransfer : ActionFilterAttribute
     {
