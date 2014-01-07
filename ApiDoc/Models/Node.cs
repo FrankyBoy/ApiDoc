@@ -6,10 +6,8 @@ namespace ApiDoc.Models
 {
     public abstract class Node
     {
-        // basic stuff
-        [Required]
         public virtual string Name { get; set; }
-
+        
         [UIHint("tinymce_full"), AllowHtml]
         public string Description { get; set; }
 

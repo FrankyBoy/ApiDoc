@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ApiDoc.Models;
+using ApiDoc.Utility.External;
 
 namespace ApiDoc.Utility
 {

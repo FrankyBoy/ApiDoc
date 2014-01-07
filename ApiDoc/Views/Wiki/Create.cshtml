@@ -6,15 +6,13 @@
     var reference = new {path = ViewBag.Structure.Path};
 }
 
-<h2>@ViewBag.Title</h2>
-
-<h3>Create Branch</h3>
+<h1>Create Branch</h1>
 @using (Html.BeginForm("CreateBranch", "Wiki", reference)){
     @Html.Partial("Chunks/CreateBranch", new Branch())
     <input type="submit" value="Create" />
 }
 
-<h3>Create Leaf</h3>
+<h1>Create Leaf</h1>
 @using (Html.BeginForm("CreateLeaf", "Wiki", reference)) {
     @Html.Partial("Chunks/CreateLeaf", new Leaf())
     <input type="submit" value="Create" />

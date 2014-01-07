@@ -4,8 +4,6 @@
     ViewBag.Title = "Api Revisions";
 }
 
-<h3>@ViewBag.Title</h3>
-
 @if (ViewBag.Comparison != null)
 {
     Node rev1 = ((IList<Node>)ViewBag.History).First(x => x.RevisionNumber == Model.Rev1);

@@ -6,8 +6,11 @@
 
             // General options
             mode: "exact",
+            plugins: "table preview visualblocks",
+            menubar: "edit view format table",
             elements: "@ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty)",
-            verify_html : false,
+            tools: "inserttable",
+            verify_html: false,
         });
 
     })();

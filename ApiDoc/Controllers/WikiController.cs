@@ -5,6 +5,7 @@ using ApiDoc.Models;
 using ApiDoc.Models.Exceptions;
 using ApiDoc.Provider;
 using ApiDoc.Utility;
+using ApiDoc.Utility.External;
 
 namespace ApiDoc.Controllers
 {

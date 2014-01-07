@@ -2,19 +2,19 @@
 @model Branch
 
 <section id="description">
-    <h3>Description</h3>
+    <h1>Description</h1>
     @Html.Raw(Model.Description)
 </section>
 
 
 <section id="children">
-    <h3>Children</h3>
+    <h1>Children</h1>
     <ul class="children">
         @foreach (var item in Model.Children)
         {
             var path = "/" + ViewBag.Structure.Path+ item.GetWikiUrlString();
             <li class="child @if (item.Deleted) { Write(" deleted"); }">
-                <a href="@path"><h4>@item.Name</h4>@Html.Raw(item.Description)</a>
+                <a href="@path"><h4>@item.Title</h4>@Html.Raw(item.Description)</a>
             </li>
         }
     </ul>

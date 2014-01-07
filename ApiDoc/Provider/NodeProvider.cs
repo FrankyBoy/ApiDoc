@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using ApiDoc.DataAccess.Proxies;
 using ApiDoc.Models;
 using ApiDoc.Models.Exceptions;
+using ApiDoc.Utility;
 using Newtonsoft.Json;
 
 namespace ApiDoc.Provider
@@ -84,9 +85,9 @@ namespace ApiDoc.Provider
                         if (!string.IsNullOrEmpty(name))
                         {
                             if (i + 1 < chunks.Length)
-                                nodes.Add(_proxy.GetBranchByName(name, current.Id));
+                                nodes.Add(_proxy.GetBranchByName(name.FromWikiUrlString(), current.Id));
                             else if (isNode)
-                                nodes.Add(_proxy.GetBranchByName(name, current.Id, revision));
+                                nodes.Add(_proxy.GetBranchByName(name.FromWikiUrlString(), current.Id, revision));
                             else
                                 nodes.Add(GetLeafByWikiName(name, current.Id, revision));
                         }
@@ -111,10 +112,10 @@ namespace ApiDoc.Provider
         {
             name = name.Trim();
             int? httpVerb = null;
-            if (Regex.IsMatch(name, @".+_\([A-Za-z]+\)"))
+            if (Regex.IsMatch(name, @".?_\([A-Za-z]+\)"))
             {
                 var methodName = name.Split('_').Last();
-                name = name.Remove(name.Length - methodName.Length - 1);
+                name = name.Remove(name.Length - methodName.Length - 1).FromWikiUrlString();
                 methodName = methodName.Replace("(","").Replace(")","");
                 httpVerb = _proxy.GetHttpVerbs().IdForName(methodName);
             }
@@ -126,8 +127,10 @@ namespace ApiDoc.Provider
             var node = element as Branch;
             if (node != null)
             {
-                var children = _proxy.GetBranches(element.Id, showDeleted).Cast<Node>().ToList();
-                children.AddRange(_proxy.GetLeafes(node.Id, showDeleted).Cast<Node>().ToList());
+                var children = _proxy.GetBranches(element.Id, showDeleted)
+                    .Cast<Node>().OrderBy(x => x.Name).ToList();
+                children.AddRange(_proxy.GetLeafes(node.Id, showDeleted)
+                    .OrderBy(x => x.Name).ThenBy(x => x.HttpVerb).Cast<Node>().ToList());
                 
                 foreach (var child in children)
                     child.Description = child.Description.Split('\n')[0];

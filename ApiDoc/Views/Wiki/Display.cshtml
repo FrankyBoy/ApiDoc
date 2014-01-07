@@ -7,8 +7,6 @@
     Html.RenderPartial("ItemActions", mdl);
 }
 
-<h2>@ViewBag.Title</h2>
-
 @if (mdl is Branch)
 {
     Html.RenderPartial("Chunks/DisplayBranch", mdl as Branch);

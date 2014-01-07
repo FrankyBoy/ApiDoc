@@ -1,7 +1,7 @@
 ﻿@model ApiDoc.Models.Leaf
 
 <section>
-<h3>Authentication</h3>
+<h1>Authentication</h1>
 <p>
     @if (Model.RequiresAuthorization)
     {
@@ -19,16 +19,16 @@
 </section>
 
 <section>
-<h3>RequestData</h3>
+<h1>RequestData</h1>
 <pre class="prettyprint">@{ Write(Model.SampleRequest ?? "-- None --"); }</pre>
 </section>
 
 <section>
-<h3>ResponseData</h3>
+<h1>ResponseData</h1>
 <pre class="prettyprint">@{ Write(Model.SampleResponse ?? "-- None --"); }</pre>
 </section>
 
 <section>
-<h3>Description</h3>
-<p>@Html.Raw(Model.Description)</p>
+<h1>Description</h1>
+@Html.Raw(Model.Description)
 </section>

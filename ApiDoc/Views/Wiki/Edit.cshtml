@@ -6,8 +6,6 @@
     ViewBag.Title = "Edit " + mdl.Title;
 }
 
-<h2>@ViewBag.Title</h2>
-
 @if (mdl is Branch)
 {
     Html.RenderPartial("Chunks/EditBranch", mdl as Branch);

@@ -155,8 +155,8 @@
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Provider\NodeProvider.cs" />
     <Compile Include="Provider\INodeProvider.cs" />
-    <Compile Include="Utility\DiffMatchPatch.cs" />
-    <Compile Include="Utility\ModelStateTransfer.cs" />
+    <Compile Include="Utility\External\DiffMatchPatch.cs" />
+    <Compile Include="Utility\External\ModelStateTransfer.cs" />
     <Compile Include="Utility\NodeListExtensions.cs" />
     <Compile Include="Utility\StringExtensions.cs" />
   </ItemGroup>
@@ -369,7 +369,9 @@
     <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

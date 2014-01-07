@@ -26,7 +26,6 @@ section {
     padding: 0 1em 2em 1em;
     background-color: white;
     border: 1px solid #ccc;
-    position: relative;
 }
 
 nav {
@@ -102,7 +101,8 @@ td, th {
 
 .itemAction {
     float: right;
-    top: .5em;
+    position: relative;
+    top: -3.4em;
     width: 1.5em;
     height: 1.5em;
     margin: .5em;
