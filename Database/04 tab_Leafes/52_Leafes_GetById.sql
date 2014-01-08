@@ -22,11 +22,15 @@ BEGIN
 		WHERE fID = @id)
 
     SELECT 
-		fID, frParentId, fName, frHttpVerb, fDescription,
-		fRequiresAuthentication, fRequiresAuthorization, fRequestSample, fResponseSample,
-		fChangeDate, fAuthor, fChangeNote, fDeleted, fRevisionNumber
+		allRevisions.fID, frParentId, fName, frHttpVerb, descr.fTextData as fDescription,
+		fRequiresAuthentication, fRequiresAuthorization, req.fTextData as fRequestSample, res.fTextData as fResponseSample,
+		fChangeDate, fAuthor, note.fTextData as fChangeNote, fDeleted, fRevisionNumber
     FROM allRevisions
-    WHERE fRevisionNumber = COALESCE(@revision, (SELECT MAX(fRevisionNumber) FROM allRevisions))
+	JOIN tab_TextData descr ON descr.fID = frDescription
+	JOIN tab_TextData note ON note.fID = frChangeNote
+	JOIN tab_TextData req ON req.fID = frRequestSample
+	JOIN tab_TextData res ON res.fID = frResponseSample
+	WHERE fRevisionNumber = COALESCE(@revision, (SELECT MAX(fRevisionNumber) FROM allRevisions))
 
 END
 

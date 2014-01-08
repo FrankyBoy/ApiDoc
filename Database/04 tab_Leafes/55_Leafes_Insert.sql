@@ -42,14 +42,25 @@ BEGIN
     declare @newId int
     set @newId = (SELECT COALESCE(MAX(fID),0) from tab_Leafes) + 1
 
+
+	declare @descriptionId int
+	declare @changeNoteId int
+	declare @requestId int
+	declare @responseId int
+	EXEC TextData_InsertOrGetIndex @text = @description, @result = @descriptionId OUTPUT
+	EXEC TextData_InsertOrGetIndex @text = @changeNote, @result = @changeNoteId OUTPUT
+	EXEC TextData_InsertOrGetIndex @text = @requestSample, @result = @requestId OUTPUT
+	EXEC TextData_InsertOrGetIndex @text = @responseSample, @result = @responseId OUTPUT
+
+
     INSERT INTO tab_Leafes (
-		fID, frParentId, fName, frHttpVerb, fDescription,
-		fRequiresAuthentication, fRequiresAuthorization, fRequestSample, fResponseSample,
-		fChangeDate, fAuthor, fChangeNote, fDeleted)
+		fID, frParentId, fName, frHttpVerb, frDescription,
+		fRequiresAuthentication, fRequiresAuthorization, frRequestSample, frResponseSample,
+		fChangeDate, fAuthor, frChangeNote, fDeleted)
     VALUES	(
-		@newId, @parentId, @name, @httpVerb, @description,
-		@requiresAuthentication, @requiresAuthorization, @requestSample, @responseSample,
-		GETUTCDATE(), @author, @changeNote, 'FALSE')
+		@newId, @parentId, @name, @httpVerb, @descriptionId,
+		@requiresAuthentication, @requiresAuthorization, @requestId, @responseId,
+		GETUTCDATE(), @author, @changeNoteId, 'FALSE')
     
     RETURN @newId
 END
