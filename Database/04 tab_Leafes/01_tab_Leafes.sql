@@ -14,7 +14,7 @@ GO
 CREATE TABLE [dbo].[tab_Leafes](
 	[fID]			[int] NOT NULL,
 	[frParentId]	[int] NOT NULL,
-	[fName]			[nvarchar](100) NOT NULL,
+	[fName]			[nvarchar](100),
 	[frHttpVerb]	[int] NOT NULL,
 	[frDescription]	[int] NOT NULL,
 	
