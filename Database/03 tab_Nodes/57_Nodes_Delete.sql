@@ -19,9 +19,12 @@ BEGIN
     DECLARE @latestDate datetime
     set @latestDate = (SELECT MAX(fChangeDate) FROM tab_Nodes where fID = @nodeId)
 	
+	declare @reasonId int
+	EXEC TextData_InsertOrGetIndex @text = @reason, @result = @reasonId OUTPUT
+
 	INSERT INTO tab_Nodes
-		(fID, frParentId, fName, fDescription, fChangeDate, fAuthor, fChangeNote, fDeleted)
-		SELECT TOP(1) fID, frParentId, fName, fDescription, GETUTCDATE(), @author, @reason, 'True'
+		(fID, frParentId, fName, frDescription, fChangeDate, fAuthor, frChangeNote, fDeleted)
+		SELECT TOP(1) fID, frParentId, fName, frDescription, GETUTCDATE(), @author, @reason, 'True'
 		FROM tab_Nodes WHERE fID = @nodeId AND fChangeDate = @latestDate
 		
 END

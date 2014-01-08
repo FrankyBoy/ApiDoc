@@ -21,8 +21,10 @@ BEGIN
 		FROM tab_Nodes
 		WHERE fID = @id)
 
-    SELECT fID, frParentId, fName, fDescription, fChangeDate, fAuthor, fChangeNote, fDeleted, fRevisionNumber
-    FROM allRevisions
+    SELECT allrevisions.fID, frParentId, fName, descr.fTextData as fDescription, fChangeDate, fAuthor, note.fTextData as fChangeNote, fDeleted, fRevisionNumber
+	FROM allRevisions
+	JOIN tab_TextData descr ON descr.fID = frDescription
+	JOIN tab_TextData note ON note.fID = frChangeNote
     WHERE fRevisionNumber = COALESCE(@revision, (SELECT MAX(fRevisionNumber) FROM allRevisions))
 
 END

@@ -23,9 +23,14 @@ BEGIN
     BEGIN
         RETURN -1
     END
-
-    INSERT INTO tab_Nodes (fID, frParentId, fName, fDescription, fChangeDate, fAuthor, fChangeNote, fDeleted)
-    VALUES (@id, @parentId, @name, @description, GETUTCDATE(), @author, @changeNote, 'FALSE')
+	
+	declare @descriptionId int
+	declare @changeNoteId int
+	EXEC TextData_InsertOrGetIndex @text = @description, @result = @descriptionId OUTPUT
+	EXEC TextData_InsertOrGetIndex @text = @changeNote, @result = @changeNoteId OUTPUT
+	
+    INSERT INTO tab_Nodes (fID, frParentId, fName, frDescription, fChangeDate, fAuthor, frChangeNote, fDeleted)
+    VALUES (@id, @parentId, @name, @descriptionId, GETUTCDATE(), @author, @changeNoteId, 'FALSE')
 END
 
 GO

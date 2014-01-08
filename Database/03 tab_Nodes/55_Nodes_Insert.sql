@@ -36,8 +36,13 @@ BEGIN
     declare @newId int
     set @newId = (SELECT COALESCE(MAX(fID),0) from tab_Nodes) + 1
 
-    INSERT INTO tab_Nodes (fID, frParentId, fName, fDescription, fChangeDate,	fAuthor, fChangeNote, fDeleted)
-    VALUES	(@newId, @parentId,	@name, @description, GETUTCDATE(), @author, @changeNote, 'FALSE')
+	declare @descriptionId int
+	declare @changeNoteId int
+	EXEC TextData_InsertOrGetIndex @text = @description, @result = @descriptionId OUTPUT
+	EXEC TextData_InsertOrGetIndex @text = @changeNote, @result = @changeNoteId OUTPUT
+
+	INSERT INTO tab_Nodes (fID, frParentId, fName, frDescription, fChangeDate,	fAuthor, frChangeNote, fDeleted)
+    VALUES	(@newId, @parentId,	@name, @descriptionId, GETUTCDATE(), @author, @changeNoteId, 'FALSE')
     
     RETURN @newId
 END
