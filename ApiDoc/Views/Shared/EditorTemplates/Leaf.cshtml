@@ -7,7 +7,7 @@
     <tr><td>@Html.LabelFor(m => m.RequiresAuthorization)</td><td>@Html.CheckBoxFor(m => m.RequiresAuthorization)</td></tr>
     <tr><td>@Html.LabelFor(m => m.SampleRequest)</td><td>@Html.TextAreaFor(m => m.SampleRequest)</td></tr>
     <tr><td>@Html.LabelFor(m => m.SampleResponse)</td><td>@Html.TextAreaFor(m => m.SampleResponse)</td></tr>
-    <tr><td>@Html.LabelFor(m => m.Description)</td><td>@Html.EditorFor(m => m.Description)</td></tr>
+    <tr><td>@Html.LabelFor(m => m.Description)</td><td>@Html.TextAreaFor(m => m.Description, new {@class = "richtext", id = "workaround"})</td></tr>
     <tr><td></td><td></td></tr>
     <tr><td>@Html.LabelFor(m => m.ChangeNote)</td><td>@Html.EditorFor(m => m.ChangeNote)</td></tr>
 </table>

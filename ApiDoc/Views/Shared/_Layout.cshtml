@@ -10,8 +10,9 @@
         @Scripts.Render("~/bundles/prettify")
         @Scripts.Render("~/bundles/tinymce")
         @Scripts.Render("~/bundles/jquery")
+        <script src="~/Scripts/init.js"></script>
     </head>
-    <body>
+    <body onload="init()">
         <div id="body">
         @Html.ValidationSummary()
         @{ Html.RenderPartial("Breadcrumb", (IList<Node>) ViewBag.Structure.Nodes);}
@@ -19,5 +20,5 @@
         </div>
         
         @RenderSection("scripts", required: false)
-    </body>
+    </bod>
 </html>

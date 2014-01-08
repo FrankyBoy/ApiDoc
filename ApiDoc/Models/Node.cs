@@ -8,7 +8,7 @@ namespace ApiDoc.Models
     {
         public virtual string Name { get; set; }
         
-        [UIHint("tinymce_full"), AllowHtml]
+        [AllowHtml]
         public string Description { get; set; }
 
         // structural info

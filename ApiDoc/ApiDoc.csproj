@@ -177,6 +177,7 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\init.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\Prettify\lang-apollo.js" />
@@ -406,7 +407,6 @@
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\readme.md" />
     <Content Include="Scripts\tinymce\langs\readme.md" />
-    <Content Include="Views\Shared\EditorTemplates\tinymce_full.cshtml" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
     <Content Include="Views\Shared\Breadcrumb.cshtml" />
     <Content Include="Views\Wiki\Chunks\CreateLeaf.cshtml" />
