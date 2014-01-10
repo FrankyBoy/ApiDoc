@@ -18,6 +18,9 @@ BEGIN
     SET NOCOUNT ON;
     SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
+    IF @name = ''
+		set @name = null
+    
     SET @result = 
 		(SELECT TOP(1) fID
 			FROM tab_Leafes

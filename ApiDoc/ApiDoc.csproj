@@ -176,6 +176,7 @@
       <LastGenOutput>ApiDocDb.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Properties\PublishProfiles\FSPackage.pubxml" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\init.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
