@@ -4,9 +4,19 @@
 @if(Model.Id != 0)
 {
     var reference = new {path = ViewBag.Structure.Path};
-    if (!Model.Deleted)
+    if (Request.Params["revision"] != null)
     {
-        <a href="?" class="itemAction" id="delete" onclick="$('#deleteConfirmation').show(); return false;"></a>
+        @Html.ActionLink("Revert", "Edit", "Wiki",
+            new{reference.path, revision = Request.Params["revision"]},
+            new {@class="itemAction", id="revert", title="Revert to this revision"})
+    }
+    else if (Model.Deleted)
+    {
+        // TODO: JRA-3
+    }
+    else
+    {
+        <a href="?" class="itemAction" id="delete" onclick="$('#deleteConfirmation').show(); return false;" title="Delete">Delete</a>
         <div id="deleteConfirmation">
             <div>
             <p>Please make sure you really want to delete @Model.Name and provide a reason for doing so:</p>
@@ -18,8 +28,8 @@
             }
             </div>
         </div>
-        @Html.ActionLink("Edit", "Edit", "Wiki", reference, new {@class="itemAction", id="edit"})
+        @Html.ActionLink("Edit", "Edit", "Wiki", reference, new {@class="itemAction", id="edit", title="Edit"})
     }
     
-    @Html.ActionLink("Revisions", "History", "Wiki", reference, new { @class = "itemAction", id = "history" })
+    @Html.ActionLink("Revisions", "History", "Wiki", reference, new { @class = "itemAction", id = "history", title="History" })
 }
