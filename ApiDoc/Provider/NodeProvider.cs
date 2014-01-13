@@ -75,6 +75,7 @@ namespace ApiDoc.Provider
             if (path != null)
             {
                 var chunks = path.Split('/');
+                chunks = chunks.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                 try
                 {
                     for (var i = 0; i < chunks.Length; i++)

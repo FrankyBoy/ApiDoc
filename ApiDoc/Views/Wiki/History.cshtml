@@ -71,6 +71,11 @@
 
         @foreach (Node item in ViewBag.History)
         {
+            var structure = ((NodeStructure) ViewBag.Structure);
+            var last = structure.Nodes.Last();
+            var stump = new NodeStructure{ Nodes = structure.Nodes.Where(x => x != last).ToList() };
+            var baseUrl = stump.Path;
+            
             <tr>
                 <td>@Html.RadioButtonFor(m => m.Rev2, item.RevisionNumber)</td>
                 <td>@Html.RadioButtonFor(m => m.Rev1, item.RevisionNumber)</td>
@@ -80,7 +85,8 @@
                 <td>@item.ChangeNote</td>
                 <td>@item.Name</td>
                 <td>@item.Deleted</td>
-                <td>@Html.ActionLink("View this revision", "Display", new{path = ViewBag.Structure.Path, revision = item.RevisionNumber})</td>
+                <td>@Html.ActionLink("View this revision", "Display",
+                    new{path = baseUrl + @item.GetWikiUrlString(), revision = item.RevisionNumber})</td>
             </tr>
         }
     </table>

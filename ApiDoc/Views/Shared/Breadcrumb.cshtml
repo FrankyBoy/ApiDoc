@@ -10,8 +10,12 @@
     {
         var item = Model[i];
         path = path + item.GetWikiUrlString();
+        
 
         if (i + 1 == Model.Count) {
+            if (Request.Params["revision"] != null){
+                path = path + "?revision=" + Request.Params["revision"];
+            }
             <b><a href="@path">@item.Title</a></b>
         }else {
             <a href="@path">@item.Title</a>
