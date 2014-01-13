@@ -123,6 +123,10 @@ td, th {
     background-image: url(images/Trashcan_Sprite.png);
 }
 
+#revert {
+    background-image: url(images/Revert_Sprite.png);
+}
+
 #deleteConfirmation {
     display: none;
     position: fixed;
