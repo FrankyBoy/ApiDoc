@@ -2,7 +2,10 @@
 
 @{
     Node mdl = ViewBag.Structure.Last();
-    mdl.ChangeNote = "";
+    mdl.ChangeNote = Request.Params["revision"] != null
+        ? string.Format("revert to revision {0}", Request.Params["revision"])
+        : "";
+
     ViewBag.Title = "Edit " + mdl.Title;
 }
 

@@ -13,10 +13,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/17/2013 18:14:41</publishTime>
     </File>
     <File Include="bin/ApiDoc.dll">
-      <publishTime>01/13/2014 17:45:55</publishTime>
+      <publishTime>01/14/2014 10:38:51</publishTime>
     </File>
     <File Include="bin/ApiDoc.pdb">
-      <publishTime>01/13/2014 17:45:55</publishTime>
+      <publishTime>01/14/2014 10:38:51</publishTime>
     </File>
     <File Include="bin/Autofac.dll">
       <publishTime>12/17/2013 18:52:35</publishTime>
@@ -67,10 +67,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/17/2013 18:14:41</publishTime>
     </File>
     <File Include="Content/images/Clock_Sprite.png">
-      <publishTime>01/07/2014 09:06:13</publishTime>
+      <publishTime>01/13/2014 19:05:18</publishTime>
     </File>
     <File Include="Content/images/Cogs_Sprite.png">
       <publishTime>12/18/2013 14:05:38</publishTime>
+    </File>
+    <File Include="Content/images/Revert_Sprite.png">
+      <publishTime>01/13/2014 19:02:15</publishTime>
     </File>
     <File Include="Content/images/Trashcan_Sprite.png">
       <publishTime>12/18/2013 14:05:10</publishTime>
@@ -91,7 +94,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/07/2014 09:06:13</publishTime>
     </File>
     <File Include="Content/Site.css">
-      <publishTime>01/07/2014 17:00:19</publishTime>
+      <publishTime>01/13/2014 19:03:28</publishTime>
     </File>
     <File Include="DataAccess/ApiDocDb.dbml">
       <publishTime>01/07/2014 09:06:13</publishTime>
@@ -715,7 +718,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/07/2014 09:06:13</publishTime>
     </File>
     <File Include="Views/Shared/Breadcrumb.cshtml">
-      <publishTime>01/07/2014 17:06:15</publishTime>
+      <publishTime>01/13/2014 18:22:56</publishTime>
     </File>
     <File Include="Views/Shared/EditorTemplates/Branch.cshtml">
       <publishTime>01/08/2014 16:14:18</publishTime>
@@ -763,7 +766,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/07/2014 16:55:31</publishTime>
     </File>
     <File Include="Views/Wiki/History.cshtml">
-      <publishTime>01/07/2014 16:55:36</publishTime>
+      <publishTime>01/13/2014 18:20:39</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
       <publishTime>12/17/2013 18:14:22</publishTime>
