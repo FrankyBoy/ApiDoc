@@ -106,7 +106,7 @@ namespace ApiDoc.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Error", ex);
+                    ModelState.AddModelError("Error", ex.Message);
                 }
             }
 
