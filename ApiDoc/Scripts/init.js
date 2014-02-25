@@ -1,4 +1,4 @@
-﻿function init(){ 
+﻿function initTinyMCE(){ 
     tinyMCE.init({
 
         // General options

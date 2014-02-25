@@ -12,7 +12,7 @@
         @Scripts.Render("~/bundles/jquery")
         <script src="~/Scripts/init.js"></script>
     </head>
-    <body onload="init()">
+    <body onload="initTinyMCE()">
         <div id="body">
         @Html.ValidationSummary()
         @{ Html.RenderPartial("Breadcrumb", (IList<Node>) ViewBag.Structure.Nodes);}

@@ -1,21 +1,27 @@
 ﻿@model ApiDoc.Models.Leaf
 
+
 <section>
-<h1>Authentication</h1>
-<p>
-    @if (Model.RequiresAuthorization)
-    {
-        Write("Requires Authorization");
-    }
-    else if (Model.RequiresAuthentication)
-    {
-        Write("Requires Authentication");
-    }
-    else
-    {
-        Write("None");
-    }
-</p>
+    <h1>Description</h1>
+    @Html.Raw(Model.Description)
+</section>
+
+<section>
+    <h1>Authentication</h1>
+    <p>
+        @if (Model.RequiresAuthorization)
+        {
+            Write("Requires Authorization");
+        }
+        else if (Model.RequiresAuthentication)
+        {
+            Write("Requires Authentication");
+        }
+        else
+        {
+            Write("None");
+        }
+    </p>
 </section>
 
 <section>
@@ -26,9 +32,4 @@
 <section>
 <h1>ResponseData</h1>
 <pre class="prettyprint">@{ Write(Model.SampleResponse ?? "-- None --"); }</pre>
-</section>
-
-<section>
-<h1>Description</h1>
-@Html.Raw(Model.Description)
 </section>

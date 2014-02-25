@@ -14,7 +14,7 @@
         <tr><td>New</td><td>@rev2.RevisionNumber</td><td>@rev2.ChangeDate</td><td>@rev2.Author</td></tr>
     </table>
     
-    <table>
+    <table >
         <tr>
             <td></td>
             <th>Old</th>
@@ -46,10 +46,39 @@
         </tr>
         <tr>
             <th>Description</th>
-            <td>@rev1.Description</td>
+            <td style="white-space: pre-line">@rev1.Description</td>
             <td>@Html.Raw(ViewBag.Comparison.Description)</td>
         </tr>
-        @* TODO: add extended properties of Leaf once we have them *@
+        @if (rev1 is Leaf)
+        {
+            var leaf1 = rev1 as Leaf;
+            
+            <tr>
+                <th>HttpVerb</th>
+                <td>@leaf1.HttpVerb</td>
+                <td>@Html.Raw(ViewBag.Comparison.HttpVerb)</td>
+            </tr>
+            <tr>
+                <th>RequiresAuthentication</th>
+                <td>@leaf1.RequiresAuthentication</td>
+                <td>@Html.Raw(ViewBag.Comparison.RequiresAuthentication)</td>
+            </tr>
+            <tr>
+                <th>RequiresAuthorization</th>
+                <td>@leaf1.RequiresAuthorization</td>
+                <td>@Html.Raw(ViewBag.Comparison.RequiresAuthorization)</td>
+            </tr>
+            <tr>
+                <th>Request</th>
+                <td style="white-space: pre-wrap; overflow-x: scroll">@leaf1.SampleRequest</td>
+                <td style="white-space: pre-wrap; overflow-x: scroll">@Html.Raw(ViewBag.Comparison.SampleRequest)</td>
+            </tr>
+            <tr>
+                <th>Response</th>
+                <td style="white-space: pre-wrap; overflow-x: scroll">@leaf1.SampleResponse</td>
+                <td style="white-space: pre-wrap; overflow-x: scroll">@Html.Raw(ViewBag.Comparison.SampleResponse)</td>
+            </tr>
+        }
     </table>
 }
 

@@ -1549,7 +1549,7 @@ namespace ApiDoc.Utility.External
             foreach (Diff aDiff in diffs)
             {
                 string text = aDiff.Text.Replace("&", "&amp;").Replace("<", "&lt;")
-                  .Replace(">", "&gt;").Replace("\n", "&para;<br>");
+                  .Replace(">", "&gt;");
                 switch (aDiff.Operation)
                 {
                     case Operation.INSERT:
